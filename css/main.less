@@ -1,0 +1,205 @@
+@font-face {
+	font-family: ProximaNova;
+	src: url("fonts/ProximaNova-Reg.otf") format("opentype");
+}
+body{
+	font-family: 'ProximaNova', serif;
+}
+.nav{
+	height: 50px;
+	left: 0;
+	right: 0;
+	top: 0;
+	position: absolute;
+	.bg{
+		height: 100%;
+		width: 100%;
+		background: #518dca;
+	}
+	.logomark{
+		position: absolute;
+		background: url('../img/Weebly-Logo.png');
+		left: 30px;
+		top: 7px;
+		height: 39px;
+		width: 39px;
+	}
+	.publish{
+		position: absolute;
+		right: 3px;
+		top: 3px;
+		background: #a3be5f;
+		width: 175px;
+		height: 37px;
+		border-radius: 7px;
+		text-align: center;
+		color: white;
+		line-height: 37px;
+		text-transform: uppercase;
+		&:hover{
+			cursor: pointer;
+		}
+	}
+}
+.sidebar{
+	position: absolute;
+	left: 0;
+	top: 50px;
+	bottom: 0;
+	width: 235px;
+	background: #4b5155;
+	/*overflow: scroll;*/
+	.item{
+		width: 235px;
+		background: #2c3e50;
+		position: relative;
+		.divider{
+			background: #4f657b;
+			height: 35px;
+			text-transform: uppercase;
+			line-height: 35px;
+			text-align: center;
+			color: #9cb3ca;
+		}
+		&.templates .content{
+			height: 100%;
+			.button{
+				border-radius: 5px;
+				height: 30px;
+				width: 150px;
+				margin: 10px 30px;
+				line-height: 30px;
+				color: white;
+				background: #4f657b;
+				padding: 5px 5px 5px 20px;
+				text-transform: uppercase;
+				.icon{
+					float: right;
+					position: relative;
+					top: 2px;
+				}
+				&.selected{
+					background: #518dca;
+				}
+				&.delete{
+					background: #d86a65;
+				}
+				&.add-page{
+					background: transparent;
+					color: #4f657b;
+				}
+				&:hover{
+					cursor: pointer;
+				}
+			}
+		}
+		&.elements .content{
+			height: 100%;
+			background: black;
+			ul { 
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+			}
+			li {
+				width: 85px;
+				background: #34485c;
+				height: 85px;
+				border: none;
+				float: left;
+				position: relative;
+				padding: 15px;
+				margin: 2px;
+			}
+			li:nth-child(even){
+				margin-right: 0px;
+			}
+			li:nth-child(odd){
+				margin-left: 0px;
+			}
+			.element {
+				padding: 16px;
+				.image{
+					width: 48px;
+					height: 48px;
+					background: url('../img/Element-Icons.png');
+					background-size: 200px;
+				}
+				.title-icon{
+					background-position: -6px -6px;
+				}
+				.text-icon{
+					background-position: -53px -6px;
+				}
+				.img-icon{
+					background-position: -99px -6px;
+				}
+				.nav-icon{
+					background-position: -146px -6px;
+				}
+				.label{
+					width: 48px;
+					padding: 5px 0px;
+					color: #4f657b;
+					text-transform: uppercase;
+					text-align: center;
+				}
+			}
+		}
+	}
+}
+.editor{
+	position: absolute;
+	left: 235px;
+	top: 50px;
+	right: 0px;
+	bottom: 0px;
+	background: white;
+}
+.icon{
+	background: url('../img/Add-Delete-Edit-Icons.png');
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	position: relative;
+	background-size: 100px 100px;
+	vertical-align: middle;
+	&.add{
+		background-position: -13px;
+	}
+	&.edit{
+		background-position: -39px;
+	}
+	&.delete{
+		background-position: -64px;
+	}
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) {
+
+	.icon{
+		background: url('../img/Add-Delete-Edit-Icons@2x.png');
+		display: inline-block;
+		width: 24px;
+		height: 24px;
+		position: relative;
+		background-size: 100px 100px;
+		vertical-align: middle;
+		&.add{
+			background-position: -13px;
+		}
+		&.edit{
+			background-position: -39px;
+		}
+		&.delete{
+			background-position: -64px;
+		}
+	}
+}
+.clearfix{
+	clear: both;
+}
