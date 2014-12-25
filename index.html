@@ -20,7 +20,7 @@
         <div class="pages">
           <ul>
             <li>
-              <div class="page selected">Page
+              <div class="page selected"><span class="name">Page</span>
                 <span class="icon delete"></span>
                 <span class="icon edit"></span>
               </div>
@@ -29,10 +29,15 @@
               <div class="page delete">Page</div>
             </li>
             <li>
-              <div class="page">Page</div>
+              <div class="page">
+                <span class="name">Page</span>
+                <span class="icon delete"></span>
+                <span class="icon edit"></span>
+              </div>
             </li>
             <li>
-              <div class="page add-page">add new page
+              <div class="add-page">
+                <input type="text" class="input" placeholder="add new page">
                 <span class="icon add"></span>
               </div>
             </li>
@@ -92,8 +97,31 @@
       </div>
     </div>
   </div>
-  <div class="editor"></div>
+  <div class="editor">
+    <div class="navigation">
+      <ul>
+        <li>
+          <div class="page">
+            <span class="name">Page</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="heading-image">
+      <div class="placeholder">
+        <div class="image"></div>
+        <div class="label">add image +</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="title">
+        Add title here
+      </div>
+      <div class="body"></div>
+    </div>
+  </div>
   <script type="text/javascript" src="js/libs/jquery-min.js"></script>
+  <script type="text/javascript" src="js/libs/jquery-ui.min.js"></script>
   <script type="text/javascript" src="js/libs/less-min.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
 </body>
