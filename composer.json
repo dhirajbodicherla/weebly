@@ -1,5 +1,9 @@
 {
     "require": {
-        "slim/slim": "2.*"
+        "slim/slim": "2.*",
+        "slim/views": "0.1.*",
+        "twig/twig": "1.*",
+        "facebook/php-sdk-v4" : "4.0.*",
+        "google/apiclient": "1.0.*@beta"
     }
 }

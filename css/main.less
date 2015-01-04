@@ -4,6 +4,8 @@
 }
 body{
   font-family: 'ProximaNova', serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 .nav{
   height: 50px;
@@ -49,8 +51,6 @@ body{
   width: 252px;
   background: #4b5155;
   /*overflow: scroll;*/
-  -webkit-user-select: none;
-  -moz-user-select: none;
   .item{
     width: 235px;
     background: #2c3e50;
@@ -132,25 +132,6 @@ body{
         width: 48px;
         height: 68px;
         padding: 10px 0px 0px 17px;
-        .image{
-          z-index: 100;
-          width: 48px;
-          height: 48px;
-          background: url('../img/Element-Icons.png');
-          background-size: 200px;
-        }
-        .title-icon{
-          background-position: -6px -6px;
-        }
-        .text-icon{
-          background-position: -53px -6px;
-        }
-        .img-icon{
-          background-position: -99px -6px;
-        }
-        .nav-icon{
-          background-position: -146px -6px;
-        }
         .label{
           width: 48px;
           padding: 10px 0px 0px 0px;
@@ -239,9 +220,10 @@ body{
   left: 235px;
   top: 50px;
   right: 0px;
-  bottom: 0px;
+  /*bottom: 0px;*/
+  height: 100%;
   background: #ffffff;
-  overflow: scroll;
+  /*overflow: scroll;*/
   border-radius: 4px;
   padding: 10px 50px;
 
@@ -255,6 +237,7 @@ body{
   }
   .heading-image{
     background: #eff2f5;
+    padding: 60px;
     .placeholder{
       text-align: center;
       .image{
@@ -270,6 +253,40 @@ body{
       }
     }
   }
+  .content{
+    margin-top: 50px;
+    border: 1px solid red;
+    .title{
+      color: #4f657b;
+      font-size: 24px;
+    }
+    .body{
+      position: relative;
+      .text{
+        color: #4f657b;
+        display: inline-block;
+      }
+    }
+  }
+}
+.image{
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  background: url('../img/Element-Icons.png');
+  background-size: 200px;
+}
+.title-icon{
+  background-position: -6px -6px;
+}
+.text-icon{
+  background-position: -53px -6px;
+}
+.img-icon{
+  background-position: -99px -6px;
+}
+.nav-icon{
+  background-position: -146px -6px;
 }
 .icon{
   background: url('../img/Add-Delete-Edit-Icons.png');

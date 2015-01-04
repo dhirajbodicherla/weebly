@@ -1,25 +1,57 @@
 $('.checkbox').click(function(){
-	$(this).toggleClass('checked');
+    $(this).toggleClass('checked');
 });
 
-// $('.image').draggable({
-// 	helper: "clone",
-// 	revert: function(dropped) {
-//      var dropped = dropped && dropped[0].id == "droppable";
-//      return !dropped;
-//   }
-// });
+$('.image').draggable({
+    scroll: true,
+    helper: "clone",
+    // helper: function(){
+    //     return $(this).clone();
+    // },
+    addClasses: false,
+    revert: 'invalid',
+    containment: 'document'
+});
 
-// $(".editor").droppable({
-//     accept: ".image",
-//     drop: function (event, ui) {
-//         $(this).append($(ui.draggable).clone());
-//     },
-//     over: function (event, elem) {
-//         $(this).addClass("over");
-//         console.log("over");
-//     },
-//     out: function (event, elem) {
-//         $(this).removeClass("over");
-//     }
-// });
+$(".editor .content .body").droppable({
+    accept: ".image",
+    drop: function (event, ui) {
+        
+        handleDrop($(ui.draggable).data('type'), $(this), ui);
+
+        // $(this).append($(ui.helper).clone());
+        $('.temp').remove();
+
+    },
+    over: function (event, ui) {
+        var d = 0, dd = 0;
+        var clone = $(ui.helper).clone();
+        clone.addClass('temp');
+        clone.css('top', ui.position.top - $(ui.draggable).offset().top);
+        clone.css('left', ui.position.left - $(ui.draggable).offset().left);
+
+        d = ui.position.top - $(ui.draggable).offset().top;
+        dd = ui.position.left - $(ui.draggable).offset().left;
+        // console.log(d, ui.position.top, $(ui.draggable).offset().top, ui);
+        console.log(clone);
+        $(this).append(clone);
+    },
+    out: function (event, ui) {
+        console.log('out');
+        $('.temp').remove();
+        $(this).removeClass("over");
+    }
+});
+
+function handleDrop(type, container, ui){
+    if(type === 1){
+        
+    }else if(type === 2){
+
+    }else if(type === 3){
+
+    }else{
+
+    }
+    container.append($(ui.helper).clone());
+}
