@@ -2,49 +2,77 @@
   <head>
     <meta charset='utf-8' />
     <style type="text/css">
-    	#customBtn {
+    	.login{
+    		display: block;
+    		margin: 10px 0px;
+    	}
+    	.login-btn {
 	      display: inline-block;
 	      background: #dd4b39;
 	      color: white;
-	      width: 165px;
+	      width: 180px;
 	      border-radius: 5px;
 	      white-space: nowrap;
 	    }
-	    #customBtn:hover {
+	    .login-btn:hover {
 	      background: #e74b37;
 	      cursor: hand;
 	    }
 	    span.icon {
-	      background: url('./img/btn_red_32.png') transparent 5px 50% no-repeat;
 	      display: inline-block;
 	      vertical-align: middle;
 	      width: 35px;
 	      height: 35px;
-	      border-right: #bb3f30 1px solid;
+	      border-right: 1px solid rgba(0,0,0,0.2);
 	    }
 	    span.buttonText {
-	      display: inline-block;
-	      vertical-align: middle;
-	      padding-left: 35px;
-	      padding-right: 35px;
-	      font-size: 14px;
-	      font-weight: bold;
-	      /* Use the Roboto font that is loaded in the <head> */
-	      font-family: 'Roboto',arial,sans-serif;
+	    	vertical-align: middle;
+	    	font-size: 13px;
+	    	font-family: 'Roboto',arial,sans-serif;
+	    	text-align: center;
+	    }
+	    .google span.icon{
+	    	background: url('./img/btn_red_32.png') transparent 5px 50% no-repeat;
+	    }
+	    .facebook span.icon{
+	    	background: url('./img/facebook.png') transparent 5px 50% no-repeat;
+	    }
+	    .facebook .login-btn{
+	    	background: #3B5998;
+	    }
+	    .bg{
+	    	background: url('https://c4.staticflickr.com/8/7541/15097656793_b47dc9afd7_b.jpg') no-repeat center;
+	    	position: absolute;
+	    	top: 0;
+	    	left: 0;
+	    	right: 0;
+	    	bottom: 0;
+	    	background-size: cover;
+	    	z-index: -10;
+	    }
+	    .login-container{
+	    	/*text-align: center;*/
+	    }
+	    .login-wrapper{
+	    	
 	    }
     </style>
   </head>
   <body>
-  <div class="login-container">
-	  <a class="login" href={{authURL}}>
-	  	<div id="gSignInWrapper">
-		  <div id="customBtn" class="customGPlusSignIn">
-		    <span class="icon"></span>
-		    <span class="buttonText">Google</span>
-		  </div>
-		</div>
-	  </a>
-  </div>
-  <script src="https://apis.google.com/js/client:platform.js?onload=render" async defer></script>
+  	<div class="bg"></div>
+	  <div class="login-container">
+		  <a class="login google" href={{googleAuthURL}}&cred_type=google>
+			  <div class="login-btn" class="">
+			    <span class="icon"></span>
+			    <span class="buttonText">Sign in with Google</span>
+			  </div>
+		  </a>
+		  <a class="login facebook" href={{facebookAuthURL}}&cred_type=facebook>
+			  <div class="login-btn" class="">
+			    <span class="icon"></span>
+			    <span class="buttonText">Sign in with Facebook</span>
+			  </div>
+		  </a>
+	  </div>
   </body>
 </html>

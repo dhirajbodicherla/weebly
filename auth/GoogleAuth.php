@@ -17,8 +17,8 @@ class GoogleAuth{
     self::$client->setRedirectUri(self::$redirect_uri);
     self::$client->addScope("https://www.googleapis.com/auth/plus.me");
 
-    if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-      self::$client->setAccessToken($_SESSION['access_token']);
+    if (isset($_SESSION['g_access_token']) && $_SESSION['g_access_token']) {
+      self::$client->setAccessToken($_SESSION['g_access_token']);
       self::$isAuthenticated = true;
     }else{
       self::$isAuthenticated = false;
@@ -27,7 +27,7 @@ class GoogleAuth{
 
   }
 
-  static function isAuthorized($cookie){
+  static function isAuthorized(){
     return self::$isAuthenticated;
   }
 
@@ -44,7 +44,7 @@ class GoogleAuth{
     self::$client->setAccessToken($token);
   }
 
-  static function authURL(){
+  static function getAuthURL(){
     return self::$client->createAuthUrl();
   }
 
