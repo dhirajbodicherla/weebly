@@ -1,11 +1,15 @@
 <?php
 
 session_cache_limiter(false);
+date_default_timezone_set('utc');
 session_start();
 
 require './vendor/autoload.php';
 require_once('./auth/GoogleAuth.php');
 require_once('./auth/FacebookAuth.php');
+
+// GoogleAuth::refresh();
+// FacebookAuth::refresh();
 
 GoogleAuth::init();
 FacebookAuth::init();
@@ -47,7 +51,7 @@ $app->run();
 
 function checkCurrentUser(){
 	$app = \Slim\Slim::getInstance();
-	if(!FacebookAuth::isAuthorized()){
+	if(FacebookAuth::isAuthorized() == 'false' AND GoogleAuth::isAuthorized() == 'false'){
 		$app->render('./login.php', 
 					array(
 						'googleAuthURL'=> GoogleAuth::getAuthURL(),
@@ -60,21 +64,33 @@ function checkCurrentUser(){
 }
 
 function home(){
+	
+	if(GoogleAuth::isAuthorized()){
+		$me = GoogleAuth::getMe();
+		$me->id;
+	}else if(FacebookAuth::isAuthorized()){
+		$me = FacebookAuth::getMe();
+		$me->getProperty('id');
+	}else{
+
+	}
+
 	$app = \Slim\Slim::getInstance();
 	$app->render('./home.html');
 }
 
 function verify(){
 	$app = \Slim\Slim::getInstance();
-	$type = $app->request->params('cred_type');
+	$type = $app->request->params('state');
 	if($type == 'google'){
 		$code = $app->request->params('code');
 		GoogleAuth::authenticate($code);
 		$_SESSION['g_access_token'] = GoogleAuth::getAccessToken();
-	}else{
+	}else if($type == 'facebook'){
 		$code = $app->request->params('code');
-		FacebookAuth::authenticate($code);
 		$_SESSION['fb_access_token'] = FacebookAuth::getAccessToken();
+		FacebookAuth::authenticate($_SESSION['fb_access_token']);
+		// $_SESSION['fb_access_token'] = FacebookAuth::getSession();
 	}
 	$app->redirect('/');
 }

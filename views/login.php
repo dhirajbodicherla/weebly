@@ -61,13 +61,13 @@
   <body>
   	<div class="bg"></div>
 	  <div class="login-container">
-		  <a class="login google" href={{googleAuthURL}}&cred_type=google>
+		  <a class="login google" href={{googleAuthURL}}&state=google>
 			  <div class="login-btn" class="">
 			    <span class="icon"></span>
 			    <span class="buttonText">Sign in with Google</span>
 			  </div>
 		  </a>
-		  <a class="login facebook" href={{facebookAuthURL}}&cred_type=facebook>
+		  <a class="login facebook" href={{facebookAuthURL}}&state=facebook>
 			  <div class="login-btn" class="">
 			    <span class="icon"></span>
 			    <span class="buttonText">Sign in with Facebook</span>

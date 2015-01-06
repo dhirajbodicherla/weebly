@@ -82,7 +82,7 @@ class __TwigTemplate_5d5b7266d4cb59e060f481306d01fb96b20be589ee55836dd02b1b81869
 \t\t  <a class=\"login google\" href=";
         // line 64
         echo twig_escape_filter($this->env, (isset($context["googleAuthURL"]) ? $context["googleAuthURL"] : null), "html", null, true);
-        echo "&cred_type=google>
+        echo "&state=google>
 \t\t\t  <div class=\"login-btn\" class=\"\">
 \t\t\t    <span class=\"icon\"></span>
 \t\t\t    <span class=\"buttonText\">Sign in with Google</span>
@@ -91,7 +91,7 @@ class __TwigTemplate_5d5b7266d4cb59e060f481306d01fb96b20be589ee55836dd02b1b81869
 \t\t  <a class=\"login facebook\" href=";
         // line 70
         echo twig_escape_filter($this->env, (isset($context["facebookAuthURL"]) ? $context["facebookAuthURL"] : null), "html", null, true);
-        echo "&cred_type=facebook>
+        echo "&state=facebook>
 \t\t\t  <div class=\"login-btn\" class=\"\">
 \t\t\t    <span class=\"icon\"></span>
 \t\t\t    <span class=\"buttonText\">Sign in with Facebook</span>

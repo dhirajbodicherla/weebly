@@ -7,7 +7,9 @@ class GoogleAuth{
   private static $redirect_uri = 'http://localhost:8989/verify';
   private static $client;
   public static $access_token;
-  public static $isAuthenticated = false;
+  private static $session_name = 'g_access_token';
+  private static $plus;
+  public static $isAuthenticated = 'false';
 
   public static function init(){
 
@@ -15,16 +17,12 @@ class GoogleAuth{
     self::$client->setClientId(self::$client_id);
     self::$client->setClientSecret(self::$client_secret);
     self::$client->setRedirectUri(self::$redirect_uri);
-    self::$client->addScope("https://www.googleapis.com/auth/plus.me");
+    self::$client->addScope(array('https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/userinfo.email','https://www.googleapis.com/auth/userinfo.profile'));
 
-    if (isset($_SESSION['g_access_token']) && $_SESSION['g_access_token']) {
-      self::$client->setAccessToken($_SESSION['g_access_token']);
-      self::$isAuthenticated = true;
-    }else{
-      self::$isAuthenticated = false;
+    if (isset($_SESSION[self::$session_name]) && $_SESSION[self::$session_name]) {
+      self::$client->setAccessToken($_SESSION[self::$session_name]);
+      self::$isAuthenticated = 'true';
     }
-
-
   }
 
   static function isAuthorized(){
@@ -50,6 +48,15 @@ class GoogleAuth{
 
   static function getClientId(){
     return self::$client_id;
+  }
+
+  public static function refresh(){
+    unset($_SESSION[self::$session_name]);
+  }
+
+  public static function getMe(){
+    self::$plus = new Google_Service_Plus(self::$client);
+    return self::$plus->people->get('me');
   }
 
 }
