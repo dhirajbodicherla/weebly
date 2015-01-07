@@ -50,6 +50,7 @@ $app->run();
 
 
 function checkCurrentUser(){
+	/*
 	$app = \Slim\Slim::getInstance();
 	if(FacebookAuth::isAuthorized() == 'false' AND GoogleAuth::isAuthorized() == 'false'){
 		$app->render('./login.php', 
@@ -61,10 +62,11 @@ function checkCurrentUser(){
 					);
 		$app->stop();
 	}
+	*/
 }
 
 function home(){
-	
+	/*
 	if(GoogleAuth::isAuthorized()){
 		$me = GoogleAuth::getMe();
 		$me->id;
@@ -74,7 +76,7 @@ function home(){
 	}else{
 
 	}
-
+	*/
 	$app = \Slim\Slim::getInstance();
 	$app->render('./home.html');
 }

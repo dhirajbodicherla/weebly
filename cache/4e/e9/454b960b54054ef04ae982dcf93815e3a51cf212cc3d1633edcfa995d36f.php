@@ -23,7 +23,7 @@ class __TwigTemplate_4ee9454b960b54054ef04ae982dcf93815e3a51cf212cc3d1633edcfa99
   <link rel=\"stylesheet\" type=\"text/less\" href=\"css/main.less\">
 </head>
 <body>
-  <div class=\"nav\">
+ <!--  <div class=\"nav\">
     <div class=\"bg\"></div>
     <div class=\"logomark\"></div>
     <div class=\"publish\">Save & Publish</div>
@@ -125,22 +125,7 @@ class __TwigTemplate_4ee9454b960b54054ef04ae982dcf93815e3a51cf212cc3d1633edcfa99
         </li>
       </ul>
     </div>
-    <!-- <div class=\"heading-image\">
-      <div class=\"placeholder\">
-        <div class=\"image\"></div>
-        <div class=\"label\">add image +</div>
-      </div>
-    </div> -->
     <div class=\"content\">
-      <!-- <div class=\"title\">
-        Add title here
-      </div>
-      <div class=\"body\">
-        <div class=\"text\">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-        </div>
-        <div id=\"dd\"></div>
-      </div> -->
       <table>
         <tr>
           <td>
@@ -155,10 +140,14 @@ class __TwigTemplate_4ee9454b960b54054ef04ae982dcf93815e3a51cf212cc3d1633edcfa99
         </tr>
       </table>
     </div>
-  </div>
+  </div> -->
   <script type=\"text/javascript\" src=\"js/libs/jquery-min.js\"></script>
   <script type=\"text/javascript\" src=\"js/libs/jquery-ui.min.js\"></script>
   <script type=\"text/javascript\" src=\"js/libs/less-min.js\"></script>
+  <!-- <script type=\"text/javascript\" src=\"http://fb.me/react-0.12.2.min.js\"></script> -->
+  <script type=\"text/javascript\" src=\"http://fb.me/react-0.12.2.js\"></script>
+  <script type=\"text/javascript\" src=\"http://fb.me/JSXTransformer-0.12.2.js\"></script>
+  <script type=\"text/jsx\" src=\"js/application.js\"></script>
   <script type=\"text/javascript\" src=\"js/main.js\"></script>
 </body>
 </html>";
