@@ -18,6 +18,7 @@ class GoogleAuth{
     self::$client->setClientSecret(self::$client_secret);
     self::$client->setRedirectUri(self::$redirect_uri);
     self::$client->addScope(array('https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/userinfo.email','https://www.googleapis.com/auth/userinfo.profile'));
+    self::$client->setAccessType('offline');
 
     if (isset($_SESSION[self::$session_name]) && $_SESSION[self::$session_name]) {
       self::$client->setAccessToken($_SESSION[self::$session_name]);
