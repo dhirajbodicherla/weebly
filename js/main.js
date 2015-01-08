@@ -62,29 +62,29 @@ $('.editor ul').sortable({
   // helper: 'clone'
 });
 
-function handleDrop(type, container, ui){
-    var ed = $('<div class="'+type+' editor-element"></div>');
-    var ctrl = $('<div class="controls"><div class="left-handle"></div><div class="right-handle"></div><div class="bottom-handle"></div><div class="delete"></div></div>');
-    ed.append(ctrl);
-    if(type === 1){
-      var p = $('<p class="placeholder">Start typing here</p>');
-      ed.addClass('editor-element-title');
-      ed.append(p);  
-    }else if(type === 2){
-      var p = $('<p class="placeholder">Start typing here</p>');
-      ed.addClass('editor-element-text');
-      ed.append(p);
-    }else if(type === 3){
-      var img = $('<div class="image"></div>');
-      var lab = $('<div class="label">add image +</div>');
-      var p = $('<div class="image-element"></div>');
-      p.append(img).append(lab);
-      ed.addClass('editor-element-image');
-      ed.append(p);
-    }else{
-      var nav = $('<p>Nav</p>');
-      ed.addClass('editor-element-nav');
-      ed.append(nav);
-    }
-    return ed;
-}
+// function handleDrop(type, container, ui){
+//     var ed = $('<div class="'+type+' editor-element"></div>');
+//     var ctrl = $('<div class="controls"><div class="left-handle"></div><div class="right-handle"></div><div class="bottom-handle"></div><div class="delete"></div></div>');
+//     ed.append(ctrl);
+//     if(type === 1){
+//       var p = $('<p class="placeholder">Start typing here</p>');
+//       ed.addClass('editor-element-title');
+//       ed.append(p);  
+//     }else if(type === 2){
+//       var p = $('<p class="placeholder">Start typing here</p>');
+//       ed.addClass('editor-element-text');
+//       ed.append(p);
+//     }else if(type === 3){
+//       var img = $('<div class="image"></div>');
+//       var lab = $('<div class="label">add image +</div>');
+//       var p = $('<div class="image-element"></div>');
+//       p.append(img).append(lab);
+//       ed.addClass('editor-element-image');
+//       ed.append(p);
+//     }else{
+//       var nav = $('<p>Nav</p>');
+//       ed.addClass('editor-element-nav');
+//       ed.append(nav);
+//     }
+//     return ed;
+// }

@@ -11,10 +11,13 @@ var Navigation = React.createClass({
 });
 
 var SideBarTemplatesPages = React.createClass({
+	deletePage: function(){
+		this.props.onDelete(this);
+	},
 	render: function(){
 		return (
-			<div className="page selected"><span className="name">Page</span>
-			  <span className="icon delete"></span>
+			<div className="page selected"><span className="name">{this.props.pageName}</span>
+			  <span className="icon delete" onClick={this.deletePage}></span>
 			  <span className="icon edit"></span>
 			</div>
 		);
@@ -22,7 +25,34 @@ var SideBarTemplatesPages = React.createClass({
 })
 
 var SideBarTemplates = React.createClass({
+	getInitialState: function(){
+		return {pages: [{name: 'Home', id: GUID()}]};
+	},
+	formSubmit: function(e){
+		e.preventDefault();
+		this.addPage();
+	},
+	deletePage: function(child){
+		var pages = this.state.pages;
+		var position = pages.indexOf(pages.filter(function(v,i){ return v.id === child.props.pageID })[0]);
+		this.state.pages.splice(position, 1);
+		this.forceUpdate();
+	},
+	addPage: function(){
+
+		var pageName = this.refs.input.getDOMNode().value;
+		if(!pageName) return;
+
+		this.state.pages.push({name: pageName, id: GUID()});
+		this.refs.input.getDOMNode().value = '';
+		this.forceUpdate();
+		
+		// <li></li>
+		// <SideBarTemplatesPages pageName="Page" pageID="1"/>
+
+	},
 	render: function(){
+		var self = this;
 		return (
 			<div className="templates item">
 				<div className="divider">
@@ -31,11 +61,15 @@ var SideBarTemplates = React.createClass({
 				<div className="content">
 					<div className="pages">
 						<ul>
-							<li><SideBarTemplatesPages /></li>
+							{this.state.pages.map(function(page){
+								return <li><SideBarTemplatesPages onDelete={self.deletePage} pageName={page.name} pageID={page.id} p={page}/></li>
+							})}
 						</ul>
 						<div className="add-page">
-						  <input type="text" className="input" placeholder="add new page" />
-						  <span className="icon add"></span>
+							<form onSubmit={this.formSubmit}>
+							  <input type="text" className="input" placeholder="add new page" ref="input"/>
+							  <span className="icon add" onClick={this.addPage}></span>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -46,7 +80,6 @@ var SideBarTemplates = React.createClass({
 
 var SideBarElementsIcons = React.createClass({
 	componentDidMount: function(){
-		console.log(this.refs.d);
 		$(this.refs.d.getDOMNode()).draggable({
 		  connectToSortable: ".editor ul",
 		  helper: "clone",
@@ -56,7 +89,7 @@ var SideBarElementsIcons = React.createClass({
 		    // $('.editor .content').toggleClass('editing');
 		  },
 		  stop: function(event, ui){
-		    console.log('stopped dragging');
+		    // console.log('stopped dragging');
 		    $(ui.helper).hide();
 		    // $('.editor .content').toggleClass('editing');
 		  }
@@ -136,17 +169,56 @@ var SideBar = React.createClass({
 });
 
 var Editor = React.createClass({
+
+	handleDrop: function(type, container, ui){
+	    var ed = $('<div class="'+type+' editor-element"></div>');
+	    var ctrl = $('<div class="controls"><div class="left-handle"></div><div class="right-handle"></div><div class="bottom-handle"></div><div class="delete"></div></div>');
+	    ed.append(ctrl);
+	    if(type === 1){
+	      var p = $('<p class="placeholder">Start typing here</p>');
+	      ed.addClass('editor-element-title');
+	      ed.append(p);  
+	    }else if(type === 2){
+	      var p = $('<p class="placeholder">Start typing here</p>');
+	      ed.addClass('editor-element-text');
+	      ed.append(p);
+	    }else if(type === 3){
+	      var img = $('<div class="image"></div>');
+	      var lab = $('<div class="label">add image +</div>');
+	      var p = $('<div class="image-element"></div>');
+	      p.append(img).append(lab);
+	      ed.addClass('editor-element-image');
+	      ed.append(p);
+	    }else{
+	      var nav = $('<p>Nav</p>');
+	      ed.addClass('editor-element-nav');
+	      ed.append(nav);
+	    }
+	    return ed;
+	},
 	componentDidMount: function(){
-		$(this.refs.e.getDOMNode()).sortable({
+		var self = this;
+
+		$(this.refs.e.getDOMNode()).on('mouseenter', '.delete', function(e){
+		  $(this).siblings().hide();
+		  $(this).parents('.editor-element').addClass('delete');
+		}).on('mouseleave', '.delete', function(e){
+		  $(this).siblings().show();
+		  $(this).parents('.editor-element').removeClass('delete');
+		}).on('click', '.delete', function(e){
+		  $(this).parents('.editor-element').remove();
+		});
+
+		$(this.refs.g.getDOMNode()).sortable({
 		  revert: 50,
 		  placeholder: "portlet-placeholder ui-corner-all",
 		  update: function(event, ui){
-		    console.log('update');
+		    // console.log('update');
 		  },
 		  over: function(event, ui){
 		    $('.editor .content').addClass('editing');
-		    console.log(ui.sender);
-		    console.log(ui.placeholder);
+		    // console.log(ui.sender);
+		    // console.log(ui.placeholder);
 		  },
 		  out: function(){
 		    $('.editor .content').removeClass('editing');
@@ -161,7 +233,7 @@ var Editor = React.createClass({
 		  stop: function(event, ui){
 		    if ($(ui.item).hasClass('ui-draggable')) {
 		      var li = $('<li></li>');
-		      li.append(handleDrop($(ui.item).data('type'), $(this), ui));
+		      li.append(self.handleDrop($(ui.item).data('type'), $(this), ui));
 		      $(ui.item).replaceWith(li);
 		    }
 		    // console.log('stop');
@@ -177,9 +249,9 @@ var Editor = React.createClass({
 	},
 	render: function(){
 		return (
-			<div className="editor">
+			<div className="editor" ref="e">
 			  <div className="navigation">
-			  	<ul ref="e">
+			  	<ul>
 			  	  <li>
 			  	    <div className="page">
 			  	      <span className="name">Page</span>
@@ -191,7 +263,7 @@ var Editor = React.createClass({
 			  	<table>
 			  	  <tr>
 			  	    <td>
-			  	      <ul ref="e">
+			  	      <ul ref="g">
 			  	      	<li>
 			  	      		<div className="text">
                   		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
@@ -208,9 +280,6 @@ var Editor = React.createClass({
 });
 
 var Application = React.createClass({
-	// componentDidMount: function(){
-	// 	console.log(SideBar);
-	// },
 	render: function(){
 		return (
 			<div>
@@ -223,3 +292,7 @@ var Application = React.createClass({
 });
 
 React.render(<Application />, document.body);
+
+function GUID(){
+	return Math.random().toString(36).substring(7);
+}

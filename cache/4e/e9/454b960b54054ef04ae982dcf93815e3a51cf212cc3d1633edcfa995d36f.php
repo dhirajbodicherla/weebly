@@ -148,7 +148,7 @@ class __TwigTemplate_4ee9454b960b54054ef04ae982dcf93815e3a51cf212cc3d1633edcfa99
   <script type=\"text/javascript\" src=\"http://fb.me/react-0.12.2.js\"></script>
   <script type=\"text/javascript\" src=\"http://fb.me/JSXTransformer-0.12.2.js\"></script>
   <script type=\"text/jsx\" src=\"js/application.js\"></script>
-  <script type=\"text/javascript\" src=\"js/main.js\"></script>
+  <!-- <script type=\"text/javascript\" src=\"js/main.js\"></script> -->
 </body>
 </html>";
     }
