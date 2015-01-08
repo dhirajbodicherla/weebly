@@ -23,7 +23,7 @@ class __TwigTemplate_4ee9454b960b54054ef04ae982dcf93815e3a51cf212cc3d1633edcfa99
   <link rel=\"stylesheet\" type=\"text/less\" href=\"css/main.less\">
 </head>
 <body>
- <!--  <div class=\"nav\">
+  <!-- <div class=\"nav\">
     <div class=\"bg\"></div>
     <div class=\"logomark\"></div>
     <div class=\"publish\">Save & Publish</div>

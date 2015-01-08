@@ -1,7 +1,3 @@
-$('.checkbox').click(function(){
-    $(this).toggleClass('checked');
-});
-
 $('.editor').on('mouseenter', '.delete', function(e){
   $(this).siblings().hide();
   $(this).parents('.editor-element').addClass('delete');

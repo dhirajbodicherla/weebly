@@ -45,11 +45,28 @@ var SideBarTemplates = React.createClass({
 });
 
 var SideBarElementsIcons = React.createClass({
+	componentDidMount: function(){
+		console.log(this.refs.d);
+		$(this.refs.d.getDOMNode()).draggable({
+		  connectToSortable: ".editor ul",
+		  helper: "clone",
+		  revert: "invalid",
+		  revertDuration: 200,
+		  start: function(){
+		    // $('.editor .content').toggleClass('editing');
+		  },
+		  stop: function(event, ui){
+		    console.log('stopped dragging');
+		    $(ui.helper).hide();
+		    // $('.editor .content').toggleClass('editing');
+		  }
+		});
+	},
 	render: function(){
 		return (
 			<div className="element">
-			  <div className={this.props.typeName + " image"} data-type={this.props.typeID}></div>
-			  <div className="label">Title</div>
+			  <div className={this.props.typeName + " image"} ref="d" data-type={this.props.typeID}></div>
+			  <div className="label">{this.props.typeDisplay}</div>
 			</div>
 		);
 	}
@@ -66,7 +83,7 @@ var SideBarElements = React.createClass({
 					<ul>
 						<li><SideBarElementsIcons typeID="1" typeName="title-icon" typeDisplay="Title" /></li>
 						<li><SideBarElementsIcons typeID="2" typeName="text-icon" typeDisplay="Text" /></li>
-						<li><SideBarElementsIcons typeID="3" typeName="image-icon" typeDisplay="Image" /></li>
+						<li><SideBarElementsIcons typeID="3" typeName="img-icon" typeDisplay="Image" /></li>
 						<li><SideBarElementsIcons typeID="4" typeName="nav-icon" typeDisplay="Nav" /></li>
 					</ul>
 					<div className="clearfix"></div>
@@ -119,11 +136,50 @@ var SideBar = React.createClass({
 });
 
 var Editor = React.createClass({
+	componentDidMount: function(){
+		$(this.refs.e.getDOMNode()).sortable({
+		  revert: 50,
+		  placeholder: "portlet-placeholder ui-corner-all",
+		  update: function(event, ui){
+		    console.log('update');
+		  },
+		  over: function(event, ui){
+		    $('.editor .content').addClass('editing');
+		    console.log(ui.sender);
+		    console.log(ui.placeholder);
+		  },
+		  out: function(){
+		    $('.editor .content').removeClass('editing');
+		  },
+		  receive: function (event, ui) {
+		    
+		    // handleDrop($(ui.draggable).data('type'), $(this), ui);
+		      // $(this).append($(ui.helper).clone());
+		      // $('.temp').remove();
+		      // return false;
+		  },
+		  stop: function(event, ui){
+		    if ($(ui.item).hasClass('ui-draggable')) {
+		      var li = $('<li></li>');
+		      li.append(handleDrop($(ui.item).data('type'), $(this), ui));
+		      $(ui.item).replaceWith(li);
+		    }
+		    // console.log('stop');
+		    // return false;
+		  },
+		  start: function(event, ui){
+		    // console.log('start');
+		  }
+		  // containment: 'parent',
+		  // tolerance: 'pointer',
+		  // helper: 'clone'
+		});
+	},
 	render: function(){
 		return (
 			<div className="editor">
 			  <div className="navigation">
-			  	<ul>
+			  	<ul ref="e">
 			  	  <li>
 			  	    <div className="page">
 			  	      <span className="name">Page</span>
@@ -135,7 +191,12 @@ var Editor = React.createClass({
 			  	<table>
 			  	  <tr>
 			  	    <td>
-			  	      <ul>
+			  	      <ul ref="e">
+			  	      	<li>
+			  	      		<div className="text">
+                  		Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                		</div>
+			  	      	</li>
 			  	      </ul>
 			  	    </td>
 			  	  </tr>
@@ -147,6 +208,9 @@ var Editor = React.createClass({
 });
 
 var Application = React.createClass({
+	// componentDidMount: function(){
+	// 	console.log(SideBar);
+	// },
 	render: function(){
 		return (
 			<div>
