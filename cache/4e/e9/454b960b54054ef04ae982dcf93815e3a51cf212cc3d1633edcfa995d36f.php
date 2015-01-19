@@ -23,6 +23,24 @@ class __TwigTemplate_4ee9454b960b54054ef04ae982dcf93815e3a51cf212cc3d1633edcfa99
   <link rel=\"stylesheet\" type=\"text/less\" href=\"css/main.less\">
 </head>
 <body>
+  <!-- <ul id=\"answers\">
+      <li class=\"image\">Item 1 (+)</li>
+      <li class=\"image\">Item 2 (+)</li>
+      <li class=\"image\">Item 3 (+)</li>
+      <li class=\"image\">Item 4 (+)</li>
+  </ul>
+  <div id=\"sortableArea\">
+      <ul class=\"sort\">
+          <li class=\"sortableItem\">SortbleItem 1</li>
+          <li class=\"sortableItem\">SortbleItem 2a
+              <ul class=\"sort\">
+                  <li class=\"sortableItem\">SortbleItem 2</li>
+              </ul>
+          </li>
+          <li class=\"sortableItem\">SortbleItem 3</li>
+      </ul>
+  </div> -->
+  <div id=\"body\"></div>
   <!-- <div class=\"nav\">
     <div class=\"bg\"></div>
     <div class=\"logomark\"></div>
@@ -145,8 +163,10 @@ class __TwigTemplate_4ee9454b960b54054ef04ae982dcf93815e3a51cf212cc3d1633edcfa99
   <script type=\"text/javascript\" src=\"js/libs/jquery-ui.min.js\"></script>
   <script type=\"text/javascript\" src=\"js/libs/less-min.js\"></script>
   <!-- <script type=\"text/javascript\" src=\"http://fb.me/react-0.12.2.min.js\"></script> -->
-  <script type=\"text/javascript\" src=\"http://fb.me/react-0.12.2.js\"></script>
-  <script type=\"text/javascript\" src=\"http://fb.me/JSXTransformer-0.12.2.js\"></script>
+  <!-- <script type=\"text/javascript\" src=\"http://fb.me/react-0.12.2.js\"></script>
+  <script type=\"text/javascript\" src=\"http://fb.me/JSXTransformer-0.12.2.js\"></script> -->
+  <script type=\"text/javascript\" src=\"js/libs/react.js\"></script>
+  <script type=\"text/javascript\" src=\"js/libs/JSXTransformer.js\"></script>
   <script type=\"text/jsx\" src=\"js/application.js\"></script>
   <!-- <script type=\"text/javascript\" src=\"js/main.js\"></script> -->
 </body>

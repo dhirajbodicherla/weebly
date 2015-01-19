@@ -7,6 +7,13 @@ body{
   -webkit-user-select: none;
   -moz-user-select: none;
 }
+#body{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
 .nav{
   height: 50px;
   left: 0;
@@ -85,6 +92,7 @@ body{
         text-transform: uppercase;
         background: transparent;
         border:1px solid #4f657b;
+        position: relative;
         .icon{
           float: right;
           position: relative;
@@ -96,8 +104,11 @@ body{
           outline: none;
           color: white;
           font-size: 14px;
-          width: 81%;
+          width: 75%;
           text-transform: uppercase;
+          position: absolute;
+          left: 15px;
+          top: 13px;
         }
       }
     }
@@ -194,11 +205,23 @@ body{
   height: 34px;
   width: 150px;
   line-height: 34px;
-  color: white;
-  background: #4f657b;
+  color: #4f657b;
+  
   padding: 5px 5px 5px 20px;
   margin-bottom: 9px; 
   text-transform: uppercase;
+  position: relative;
+  border: 1px solid #4f657b;
+  &.selected{
+    background: #4f657b;
+    color: white;
+  }
+  .name{
+    position: absolute;
+    right: 63px;
+    left: 15px;
+    overflow: auto;
+  }
   .icon{
     float: right;
     position: relative;
@@ -236,6 +259,15 @@ body{
       padding: 0px;
       margin: 0;
       list-style-type: none;
+    }
+    li{
+      display: inline-block;
+      padding: 0px 10px;
+    }
+    .page{
+      .name{
+        right: 15px;
+      }
     }
   }
   /*.heading-image{
@@ -391,9 +423,11 @@ body{
     background-position: -13px;
   }
   &.edit{
+    right: 10px;
     background-position: -39px;
   }
   &.delete{
+    right: 5px;
     background-position: -64px;
   }
 }
@@ -438,8 +472,14 @@ only screen and (                min-resolution: 2dppx) {
   color: gray;
 }
 .editor-element-text{
-  min-height: 150px;
+  min-height: 50px;
 }
 .editor-element-image{
   padding: 40px;
+}
+.sort li{
+  padding: 15px 0px;
+}
+.sort .sort li{
+  display: inline-block;
 }
