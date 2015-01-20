@@ -291,16 +291,13 @@ body{
         display: inline-block;
       }
     }
-    table{
-      width: 100%;
-    }
     ul{
       list-style-type: none;
       padding: 0;
       margin: 0;
     }
     li{
-      margin: 10px 0px;
+      /*margin: 10px 0px;*/
     }
     li .editor-element:hover .controls{
       opacity: 1;
@@ -322,6 +319,7 @@ body{
   .image-element{
     background: #eff2f5;
     text-align: center;
+    padding: 15px;
     .image{
       background: url('../img/Image-Placeholder.png');
       width: 106px;
@@ -460,26 +458,83 @@ only screen and (                min-resolution: 2dppx) {
 .clearfix{
   clear: both;
 }
-
-.portlet-placeholder {
+/*
+.editor-element-placeholder {
   border: 1px dashed #8fc7ff;
   margin: 0 1em 1em 0;
   width: 100px;
   height: 100px;
   display: inline-block;
 }
+*/
 .placeholder{
   color: gray;
 }
 .editor-element-text{
   min-height: 50px;
+  .input{
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;    
+    box-sizing: border-box;
+    font-size: 20px;
+    line-height: 45px;
+    border: transparent;
+    &:focus{
+      outline: none;
+    }
+  }
 }
-.editor-element-image{
-  padding: 40px;
+
+.sort {
+  position: relative;
+  padding: 15px;
+}
+.content > .sort > li{
+  margin: 25px !important;
 }
 .sort li{
-  padding: 15px 0px;
+  /*padding: 15px 0px;*/
 }
-.sort .sort li{
+.editor-element-placeholder{
   display: inline-block;
+}
+.sort > .editor-element-placeholder{
+  border-top: 2px dashed #8fc7ff;
+  border-left: none;
+  width: 96%;
+  height: 1px;
+  margin: 2px 0px;
+  display: inline-block;
+}
+.sort .sort > .editor-element-placeholder{
+  border-top: none;
+  border-left: 2px dashed #8fc7ff;
+  width: 1px;
+  margin: 0px 2px;
+  display: inline-block;
+}
+.horizontal{
+  /*margin: 40px 0px !important;*/
+}
+/*
+.sort .sort:empty{
+  min-height: 100px;
+  border: 1px solid;
+  text-align: center;
+  text-transform: uppercase;
+  color: #4f657b;
+  vertical-align: middle;
+  border-radius: 3px;
+  border: 1px solid #4f657b
+}
+.sort .sort:empty:after{
+  content: "Drag an element";
+  position: relative;
+  top: 36px;
+}
+*/
+.sort .sort li{
+  display: inline-block !important;
+  vertical-align: top;
 }
