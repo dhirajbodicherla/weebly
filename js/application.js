@@ -409,7 +409,6 @@ var EditorContent = React.createClass({
   },
 
   onElementUpdate: function(elementID, parentID, el){
-    // console.log('onElementUpdate');
     var elements = this.state.elements;
     if(parentID != null){
       elements[parentID][elementID] = el;
@@ -452,10 +451,13 @@ var EditorContent = React.createClass({
     }
   },
   componentDidMount: function(){
+    this.enableSorting();
+  },
+  enableSorting: function(){
     var self = this;
     var stateElements = this.state.elements;
 
-    $(this.getDOMNode()).find('.sort').sortable({
+    $('.sort').sortable({
       forceHelperSize: true,
       forcePlaceholderSize: true,
       revert: 50,
@@ -486,12 +488,12 @@ var EditorContent = React.createClass({
         }
       },
       stop: function(event, ui){
+        var position = ui.item.index();
+        var category = ui.item.closest('ul').data('parent-id');
+        var elements = self.state.elements;
+
         if(ui.item.hasClass('image')){
 
-          var position = ui.item.index();
-          var category = ui.item.closest('ul').data('parent-id');
-          var elements = self.state.elements;
-       
           var el = {
             type: ui.item.data('type'),
             props: {
@@ -510,25 +512,44 @@ var EditorContent = React.createClass({
           self.setState({
             shouldUpdate: true,
             elements: elements
+          }, function(){
+            self.enableSorting();
+          });
+
+        }else if(ui.item.hasClass('sort-item')){
+          var targetPosition = position;
+          var targetParent = category;
+          var sourcePosition = ui.item.data('element-id');
+          var sourceParent = ui.item.data('parent-id');
+
+          console.log(elements);
+
+          elements[targetParent].splice(targetPosition, 0, elements[sourceParent].splice(sourcePosition, 1)[0]);
+          
+          console.log(elements);
+
+          self.setState({
+            shouldUpdate: true,
+            elements: elements
+          }, function(){
+            self.enableSorting();
           });
         }
       }
     });
-
   },
   render: function(){
     var self = this;
-    
     var elements = $.map(this.state.elements,function(item, index1){
       return (
         <li className="sort-item">
-          <ul className="sort horizontal" data-id="2" data-parent-id={index1}>
+          <ul className="sort horizontal" data-id="2" data-parent-id={index1} data-length={item.length}>
             {item.map(function(el, index2){
               var style = {
                 width: Math.floor(96/item.length) + '%'
               };
               return (
-                <li className="sort-item" style={style} data-element-id={index2}>
+                <li className="sort-item" style={style} data-element-id={index2} data-parent-id={index1}>
                   {self.renderElement(el)}
                 </li>
               );  
@@ -540,7 +561,7 @@ var EditorContent = React.createClass({
 
     return (
       <div className="content">
-        <ul className="sort vertical" data-id="1">
+        <ul className="sort vertical" data-id="1" data-length={elements.length}>
           {elements}
         </ul>
       </div>
