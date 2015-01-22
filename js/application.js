@@ -276,7 +276,13 @@ var TitleElement = React.createClass({
 
 var TextElement = React.createClass({
   getInitialState: function(){
+    console.log('TextElement ', this.props.el);
     return {el: this.props.el};
+  },
+  componentWillReceiveProps: function(){
+    // console.log('TextElement getting props', this.state.el);
+    // this.forceUpdate();
+    
   },
   componentDidMount: function(){
     var self = this;
@@ -298,7 +304,7 @@ var TextElement = React.createClass({
 
   saveContent: function(e){
     var el = this.state.el;
-    el.content = e.target.value;
+    el.props.content = e.target.value;
     // this.setState({el: el});
     this.props.onUpdate(this.elementID, this.parentID, this.state.el);
   },
@@ -314,7 +320,7 @@ var TextElement = React.createClass({
         </div>
         <textarea type="text" className="input"
                   placeholder="Start typing here" 
-                  defaultValue={this.state.el.content}
+                  defaultValue={this.state.el.props.content}
                   onKeyUp={this.saveContent}>
         </textarea>
       </div>
@@ -405,6 +411,13 @@ var EditorContent = React.createClass({
     };
   },
   shouldComponentUpdate: function(nextProps, nextState){
+    /*
+    for(var el in nextState){
+      if(nextState[el].length == 0){
+        delete nextState[el];
+      }
+    }
+    */
     return nextState.shouldUpdate;
   },
 
@@ -415,6 +428,7 @@ var EditorContent = React.createClass({
     }else{
       elements[elementID] = el;
     }
+
     this.setState({
       shouldUpdate: false,
       elements: elements
@@ -453,11 +467,12 @@ var EditorContent = React.createClass({
   componentDidMount: function(){
     this.enableSorting();
   },
+  
   enableSorting: function(){
     var self = this;
     var stateElements = this.state.elements;
 
-    $('.sort').sortable({
+    this.sort = $('.sort').sortable({
       forceHelperSize: true,
       forcePlaceholderSize: true,
       revert: 50,
@@ -522,11 +537,11 @@ var EditorContent = React.createClass({
           var sourcePosition = ui.item.data('element-id');
           var sourceParent = ui.item.data('parent-id');
 
-          console.log(elements);
-
           elements[targetParent].splice(targetPosition, 0, elements[sourceParent].splice(sourcePosition, 1)[0]);
-          
-          console.log(elements);
+
+          ui.item.remove();
+
+          self.sort.sortable('cancel');
 
           self.setState({
             shouldUpdate: true,
@@ -540,18 +555,18 @@ var EditorContent = React.createClass({
   },
   render: function(){
     var self = this;
+    var el = this.state.elements;
+    
     var elements = $.map(this.state.elements,function(item, index1){
       return (
         <li className="sort-item">
-          <ul className="sort horizontal" data-id="2" data-parent-id={index1} data-length={item.length}>
+          <ul className="sort horizontal" data-id="2" data-parent-id={index1} data-length={item.length} key={index1}>
             {item.map(function(el, index2){
               var style = {
                 width: Math.floor(96/item.length) + '%'
               };
               return (
-                <li className="sort-item" style={style} data-element-id={index2} data-parent-id={index1}>
-                  {self.renderElement(el)}
-                </li>
+                <Itt render={self.renderElement} style={style} index1={index1} index2={index2} el={el} key={index2}/>
               );  
             })}
           </ul>
@@ -565,6 +580,17 @@ var EditorContent = React.createClass({
           {elements}
         </ul>
       </div>
+    );
+  }
+});
+
+var Itt = React.createClass({
+  render: function(){
+    console.log('Itt', this.props.el);
+    return (
+      <li className="sort-item" style={this.props.style} data-element-id={this.props.index2} data-parent-id={this.props.index1}>
+        {this.props.render(this.props.el)}
+      </li>
     );
   }
 })
