@@ -1,10 +1,10 @@
-var Navigation = React.createClass({
+var Header = React.createClass({
   render: function(){
     return (
-      <div className="nav">
+      <div id="header">
         <div className="bg"></div>
-        <div className="logomark"></div>
-        <div className="publish">Save & Publish</div>
+        <div id="logomark"></div>
+        <div id="publish-btn">Save & Publish</div>
       </div>
     );
   }
@@ -38,15 +38,7 @@ var SideBarTemplatesPages = React.createClass({
 
 var SideBarTemplates = React.createClass({
   getInitialState: function(){
-    var page = [{
-      pageName: 'Home', 
-      pageID: GUID(),
-      isSelected: true
-    }];
-    return {
-      pages: page,
-      selectedPage: page[0].pageID
-    };
+    return {pages: this.props.pages};
   },
   componentDidMount: function(){
     this.props.onPageUpdate(this.state.pages);
@@ -89,7 +81,7 @@ var SideBarTemplates = React.createClass({
   render: function(){
     var self = this;
     return (
-      <div className="templates item">
+      <div className="item" id="templates">
         <div className="divider">
           Templates
         </div>
@@ -107,7 +99,7 @@ var SideBarTemplates = React.createClass({
                   );
               })}
             </ul>
-            <div className="add-page">
+            <div id="add-page">
               <form onSubmit={this.formSubmit}>
                 <input type="text" className="input" placeholder="add new page" ref="input"/>
                 <span className="icon add" onClick={this.addPage}></span>
@@ -134,7 +126,7 @@ var SideBarElementsIcons = React.createClass({
 var SideBarElements = React.createClass({
   componentDidMount: function(){
     var self = this;
-    $('.elements .element .image').draggable({
+    $('#elements .element .image').draggable({
       connectToSortable: ".sort",
       helper: function(){
         return React.renderToString(React.createElement('div', {className: $(this).attr('class')}, null));
@@ -145,16 +137,24 @@ var SideBarElements = React.createClass({
   },
   render: function(){
     return (
-      <div className="elements item">
+      <div className="item" id="elements">
         <div className="divider">
           Elements
         </div>
         <div className="content">
           <ul>
-            <li><SideBarElementsIcons typeID="1" typeName="title-icon" typeDisplay="Title" /></li>
-            <li><SideBarElementsIcons typeID="2" typeName="text-icon" typeDisplay="Text" /></li>
-            <li><SideBarElementsIcons typeID="3" typeName="img-icon" typeDisplay="Image" /></li>
-            <li><SideBarElementsIcons typeID="4" typeName="nav-icon" typeDisplay="Nav" /></li>
+            <li className="sidebar-element">
+              <SideBarElementsIcons typeID="1" typeName="title-icon" typeDisplay="Title" />
+            </li>
+            <li className="sidebar-element">
+              <SideBarElementsIcons typeID="2" typeName="text-icon" typeDisplay="Text" />
+            </li>
+            <li className="sidebar-element">
+              <SideBarElementsIcons typeID="3" typeName="img-icon" typeDisplay="Image" />
+            </li>
+            <li className="sidebar-element">
+              <SideBarElementsIcons typeID="4" typeName="nav-icon" typeDisplay="Nav" />
+            </li>
           </ul>
           <div className="clearfix"></div>
         </div>
@@ -173,13 +173,13 @@ var SideBarSettings = React.createClass({
   render: function(){
     var checkboxState = this.state.isChecked ? 'checked' : '';
     return (
-      <div className="settings item">
+      <div className="item" id="settings">
         <div className="divider">
           Settings
         </div>
         <div className="content">
           <ul>
-            <li>
+            <li className="settings-item-container">
               <div className="settings-item site-grid">
                 site grid
                 <span className={checkboxState + " checkbox"} onClick={this.toggleCheckBox}></span>
@@ -198,9 +198,8 @@ var SideBar = React.createClass({
   },
   render: function(){
     return (
-      <div className="sidebar">
-        <div className="bg"></div>
-        <SideBarTemplates onPageUpdate={this.onPageUpdate}/>
+      <div id="sidebar">
+        <SideBarTemplates onPageUpdate={this.onPageUpdate} pages={this.props.pages}/>
         <SideBarElements />
         <SideBarSettings />
       </div>
@@ -217,12 +216,12 @@ var EditorPageNavigation = React.createClass({
   render: function(){
     var pages = this.props.pages || [];
     return (
-      <div className="navigation">
+      <div id="page-navigation">
         <ul>
           {pages.map(function(page){
             return (
-              <li>
-                <div className="page">
+              <li className="page-container">
+                <div className={(page.isSelected == true? 'selected' : '') + " page"}>
                   <span className="name">{page.pageName}</span>
                 </div>
               </li>
@@ -262,7 +261,7 @@ var TitleElement = React.createClass({
   },
   render: function(){
     return (
-      <div className='editor-element editor-element-title'>
+      <div className="editor-element editor-element-title">
         <div className="controls">
           <div className="left-handle"></div>
           <div className="right-handle"></div>
@@ -312,7 +311,7 @@ var TextElement = React.createClass({
 
   render: function(){
     return (
-      <div className='editor-element editor-element-text'>
+      <div className="editor-element editor-element-text">
         <div className="controls">
           <div className="left-handle"></div>
           <div className="right-handle"></div>
@@ -348,7 +347,7 @@ var ImageElement = React.createClass({
   },
   render: function(){
     return (
-      <div className='editor-element editor-element-image'>
+      <div className="editor-element editor-element-image">
         <div className="controls">
           <div className="left-handle"></div>
           <div className="right-handle"></div>
@@ -383,7 +382,7 @@ var NavElement = React.createClass({
   },
   render: function(){
     return (
-      <div className='editor-element editor-element-nav'>
+      <div className="editor-element editor-element-nav">
         <div className="controls">
           <div className="left-handle"></div>
           <div className="right-handle"></div>
@@ -398,18 +397,7 @@ var NavElement = React.createClass({
 
 var EditorContent = React.createClass({
   getInitialState: function() {
-    return {
-      elements: [
-        [
-          {
-            type: '3',
-            props: {
-              content: ''
-            }
-          }
-        ]
-      ]
-    };
+    return this.props.elements;
   },
   shouldComponentUpdate: function(nextProps, nextState){
     for(var el in nextState){
@@ -471,12 +459,12 @@ var EditorContent = React.createClass({
     var self = this;
     var stateElements = this.state.elements;
 
-    this.sort = $('.sort').sortable({
+    this.sort = $(".sort").sortable({
       forceHelperSize: true,
       forcePlaceholderSize: true,
       revert: 50,
       scrollSensitivity: 1,
-      connectWith: '.sort',
+      connectWith: ".sort",
       cursorAt: { left: 5 },
       dropOnEmpty: true,
       placeholder: "editor-element-placeholder",
@@ -552,8 +540,7 @@ var EditorContent = React.createClass({
   },
   render: function(){
     var self = this;
-    var el = this.state.elements;
-    
+  
     var elements = $.map(this.state.elements,function(item, index1){
       return (
         <li className="sort-item">
@@ -572,7 +559,7 @@ var EditorContent = React.createClass({
     });
 
     return (
-      <div className="content">
+      <div className="page-content">
         <ul className="sort vertical" data-id="1" data-length={elements.length} key={elements.length}>
           {elements}
         </ul>
@@ -592,31 +579,57 @@ var ListItem = React.createClass({
 })
 
 var Editor = React.createClass({
-  
+
+  getInitialState: function(){
+    return this.props.pages[0];
+  },
+
   updatePageNavigation: function(pages){
     this.refs.editorNavigation.updatePageNavigation(pages);
   },
 
   render: function(){
     return (
-      <div className="editor">
-        <EditorPageNavigation ref="editorNavigation"/>
-        <EditorContent />
+      <div id="editor">
+        <EditorPageNavigation ref="editorNavigation" pages={this.props.pages}/>
+        <EditorContent elements={this.props.pages[0].pageContent}/>
       </div>
     );
   }
 });
 
 var Application = React.createClass({
+  getInitialState: function(){
+    var pid = GUID();
+    return {
+      app: {
+        pages: [{
+            pageName: 'Home',
+            pageID: pid,
+            isSelected: true,
+            pageContent: {
+                elements: [
+                    [{
+                        type: '2',
+                        props: {
+                            content: ''
+                        }
+                    }]
+                ]
+            }
+        }]
+      }
+    };
+  },
   onPageUpdate: function(pages){
     this.refs.editor.updatePageNavigation(pages);
   },
   render: function(){
     return (
       <div>
-        <Navigation />
-        <SideBar onPageUpdate={this.onPageUpdate}/>
-        <Editor ref="editor"/>
+        <Header />
+        <SideBar onPageUpdate={this.onPageUpdate} pages={this.state.app.pages}/>
+        <Editor ref="editor" pages={this.state.app.pages}/>
       </div>
     );
   }

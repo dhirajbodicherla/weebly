@@ -1,15 +1,15 @@
 {
   "name": "jquery-ui.min",
   "_cacheHeaders": {
-    "ETag": "\"54499a48-3a7cc\"",
+    "ETag": "\"54499a48-3a2ea\"",
     "Last-Modified": "Fri, 24 Oct 2014 00:16:08 GMT",
-    "Content-Length": "239564",
+    "Content-Length": "238314",
     "Content-Type": "application/x-javascript"
   },
   "_release": "e-tag:54499a48-",
   "main": "index.js",
-  "_source": "https://code.jquery.com/ui/1.11.2/jquery-ui.min.js",
+  "_source": "https://code.jquery.com/ui/1.11.1/jquery-ui.min.js",
   "_target": "*",
-  "_originalSource": "https://code.jquery.com/ui/1.11.2/jquery-ui.min.js",
+  "_originalSource": "https://code.jquery.com/ui/1.11.1/jquery-ui.min.js",
   "_direct": true
 }
