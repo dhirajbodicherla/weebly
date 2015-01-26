@@ -2,7 +2,7 @@
 
 @section('content')
 
-	{{ HTML::style('css/login.less', array('rel' => 'stylesheet/less', 'media' => 'screen')) }}
+	{{ HTML::style('css/login.css', array('media' => 'screen')) }}
 
 	<div class="bg">
 		<div class="login-container">
