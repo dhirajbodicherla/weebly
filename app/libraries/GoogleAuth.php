@@ -7,7 +7,7 @@ class GoogleAuth{
 
   private static $client_id = '361242644615-4k1p4cqlcv43d2mdgq5m4fgj7rt28h34.apps.googleusercontent.com';
   private static $client_secret = 'GcMxBwLBuA1iamr4pIRHb4ob';
-  private static $redirect_uri = 'http://localhost:3636/verify';
+  private static $redirect_uri = 'http://thawing-meadow-4550.herokuapp.com/verify';
   private static $client;
   private static $session_name = 'g_access_token';
   private static $plus;
