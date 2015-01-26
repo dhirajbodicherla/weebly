@@ -1,5 +1,5 @@
 <?php
-
+/*
 $dbURL = "mysql://bba92a558c31fe:16f91893@us-cdbr-iron-east-01.cleardb.net/heroku_f15843a5a5bc707?reconnect=true";
 
 print_r(getenv($dbURL));
@@ -12,6 +12,7 @@ $host = $url["host"];
 $username = $url["user"];
 $password = $url["pass"];
 $database = substr($url["path"], 1);
+*/
 
 return array(
 
@@ -67,10 +68,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => $host,
-			'database'  => $database,
-			'username'  => $username,
-			'password'  => $password,
+			'host'      => 'us-cdbr-iron-east-01.cleardb.net',
+			'database'  => 'heroku_f15843a5a5bc707',
+			'username'  => 'bba92a558c31fe',
+			'password'  => '16f91893',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
