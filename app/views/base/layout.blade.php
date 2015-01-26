@@ -12,6 +12,7 @@
   	<![endif]-->
 </head>
 <body>
+<?php echo gethostname(); ?>
 	@yield('content')
 
   {{ HTML::script('js/libs/jquery-min.js') }}
