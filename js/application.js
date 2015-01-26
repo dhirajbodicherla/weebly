@@ -141,12 +141,6 @@ var SideBarElements = React.createClass({
       },
       revert: "invalid",
       revertDuration: 200,
-      start: function(){
-        // $('.editor .content').toggleClass('editing');
-      },
-      stop: function(event, ui){
-        // $('.editor .content').toggleClass('editing');
-      }
     });
   },
   render: function(){
@@ -241,6 +235,15 @@ var EditorPageNavigation = React.createClass({
 });
 
 var TitleElement = React.createClass({
+  getInitialState: function(){
+    return {el: this.props.el};
+  },
+  saveContent: function(e){
+    var el = this.state.el;
+    el.props.content = e.target.value;
+    // this.setState({el: el});
+    this.props.onUpdate(this.elementID, this.parentID, this.state.el);
+  },
   componentDidMount: function(){
     var self = this;
     var node = $(this.getDOMNode());
@@ -267,7 +270,11 @@ var TitleElement = React.createClass({
           <div className="delete"></div>
         </div>
         <p className="placeholder">
-          {(this.props.content == '') ? "Start typing here" : this.props.content}
+          <textarea type="text" className="input"
+                  placeholder="Start typing here" 
+                  defaultValue={this.state.el.props.content}
+                  onKeyUp={this.saveContent}>
+          </textarea>
         </p>
       </div>
     );
@@ -276,13 +283,7 @@ var TitleElement = React.createClass({
 
 var TextElement = React.createClass({
   getInitialState: function(){
-    console.log('TextElement ', this.props.el);
     return {el: this.props.el};
-  },
-  componentWillReceiveProps: function(){
-    // console.log('TextElement getting props', this.state.el);
-    // this.forceUpdate();
-    
   },
   componentDidMount: function(){
     var self = this;
@@ -411,13 +412,11 @@ var EditorContent = React.createClass({
     };
   },
   shouldComponentUpdate: function(nextProps, nextState){
-    /*
     for(var el in nextState){
       if(nextState[el].length == 0){
         delete nextState[el];
       }
     }
-    */
     return nextState.shouldUpdate;
   },
 
@@ -476,18 +475,11 @@ var EditorContent = React.createClass({
       forceHelperSize: true,
       forcePlaceholderSize: true,
       revert: 50,
-      // scroll: false,
       scrollSensitivity: 1,
       connectWith: '.sort',
       cursorAt: { left: 5 },
       dropOnEmpty: true,
       placeholder: "editor-element-placeholder",
-      over: function(event, ui){
-        // $('.editor .content').addClass('editing');
-      },
-      out: function(){
-        // $('.editor .content').removeClass('editing');
-      },
       placeholder: {
         element: function(currentItem) {
           var parent = $(this).closest('ul'), height = '1px';
@@ -523,6 +515,7 @@ var EditorContent = React.createClass({
           }
           
           ui.item.remove();
+          // self.sort.sortable('cancel');
 
           self.setState({
             shouldUpdate: true,
@@ -537,10 +530,14 @@ var EditorContent = React.createClass({
           var sourcePosition = ui.item.data('element-id');
           var sourceParent = ui.item.data('parent-id');
 
-          elements[targetParent].splice(targetPosition, 0, elements[sourceParent].splice(sourcePosition, 1)[0]);
-
+          if(targetParent == undefined){
+            targetParent = 0;
+            elements.splice(targetParent, 0, [elements[sourceParent].splice(sourcePosition, 1)[0]]);
+          }else{
+            elements[targetParent].splice(targetPosition, 0, elements[sourceParent].splice(sourcePosition, 1)[0]);
+          }
+          
           ui.item.remove();
-
           self.sort.sortable('cancel');
 
           self.setState({
@@ -560,13 +557,13 @@ var EditorContent = React.createClass({
     var elements = $.map(this.state.elements,function(item, index1){
       return (
         <li className="sort-item">
-          <ul className="sort horizontal" data-id="2" data-parent-id={index1} data-length={item.length} key={index1}>
+          <ul className="sort horizontal" data-id="2" data-parent-id={index1} data-length={item.length}>
             {item.map(function(el, index2){
               var style = {
                 width: Math.floor(96/item.length) + '%'
               };
               return (
-                <Itt render={self.renderElement} style={style} index1={index1} index2={index2} el={el} key={index2}/>
+                <ListItem render={self.renderElement} style={style} index1={index1} index2={index2} el={el} />
               );  
             })}
           </ul>
@@ -576,7 +573,7 @@ var EditorContent = React.createClass({
 
     return (
       <div className="content">
-        <ul className="sort vertical" data-id="1" data-length={elements.length}>
+        <ul className="sort vertical" data-id="1" data-length={elements.length} key={elements.length}>
           {elements}
         </ul>
       </div>
@@ -584,9 +581,8 @@ var EditorContent = React.createClass({
   }
 });
 
-var Itt = React.createClass({
+var ListItem = React.createClass({
   render: function(){
-    console.log('Itt', this.props.el);
     return (
       <li className="sort-item" style={this.props.style} data-element-id={this.props.index2} data-parent-id={this.props.index1}>
         {this.props.render(this.props.el)}
@@ -626,7 +622,7 @@ var Application = React.createClass({
   }
 });
 
-React.render(<Application />, document.getElementById("body"));
+React.render(<Application />, document.getElementById("main"));
 
 function GUID(){
   return Math.random().toString(36).substring(7);
