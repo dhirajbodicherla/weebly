@@ -19,7 +19,7 @@ return array(
 
 	'google_client_secret' => 'GcMxBwLBuA1iamr4pIRHb4ob',
 
-	'google_redirect_uri' => 'http://thawing-meadow-4550.herokuapp.com/verify',
+	'google_redirect_uri' => 'http://mini-weebly-app.herokuapp.com/verify',
 
 
 );

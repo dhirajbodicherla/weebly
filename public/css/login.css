@@ -29,6 +29,7 @@ span.buttonText {
 }
 .google span.icon {
   background: url('../img/btn_red_32.png') transparent 5px 50% no-repeat;
+  margin-left: -25px;
 }
 .facebook span.icon {
   background: url('../img/facebook.png') transparent 5px 50% no-repeat;
@@ -46,8 +47,14 @@ span.buttonText {
   background-size: cover;
   z-index: -10;
 }
+.login-wrapper{
+  display: table;
+  height: 100%;
+  width: 100%;
+}
 .login-container {
-  width: 180px;
-  padding: 10px;
-  margin: 0 auto;
+  text-align: center;
+  vertical-align:middle;
+  display: table-cell;
+  width: 396px;
 }
