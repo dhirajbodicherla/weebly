@@ -2,7 +2,7 @@
 
 $dbURL = "mysql://bba92a558c31fe:16f91893@us-cdbr-iron-east-01.cleardb.net/heroku_f15843a5a5bc707?reconnect=true";
 
-$url = parse_url(getenv($dbURL));
+$url = parse_url($dbURL);
 
 $host = $url["host"];
 $username = $url["user"];
