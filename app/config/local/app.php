@@ -15,4 +15,10 @@ return array(
 
 	'debug' => true,
 
+	'google_client_id' => '361242644615-opt7huakt63l64s0v8d0q9d5g1le5qqv.apps.googleusercontent.com',
+
+	'google_client_secret' => 'ii_Siof3CsvvDYP5LPCQ6NH9',
+
+	'google_redirect_uri' => 'http://localhost:8888/weebly_backend_output/public/verify',
+
 );

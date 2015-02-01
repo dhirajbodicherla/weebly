@@ -35,4 +35,8 @@ class HomeController extends BaseController {
 						->with('view', 'home.newPage');
 	}
 
+	public function showHome(){
+		return View::make('home.home');
+	}
+
 }

@@ -2,12 +2,13 @@
 
 namespace ExtAuth;
 use Session;
+use Config;
 
 class GoogleAuth{
 
-  private static $client_id = '361242644615-4k1p4cqlcv43d2mdgq5m4fgj7rt28h34.apps.googleusercontent.com';
-  private static $client_secret = 'GcMxBwLBuA1iamr4pIRHb4ob';
-  private static $redirect_uri = 'http://thawing-meadow-4550.herokuapp.com/verify';
+  private static $client_id;
+  private static $client_secret;
+  private static $redirect_uri;
   private static $client;
   private static $session_name = 'g_access_token';
   private static $plus;
@@ -16,6 +17,10 @@ class GoogleAuth{
   public static $isAuthenticated = 'false';
 
   public static function init(){
+
+    self::$client_secret = Config::get('app.google_client_secret');
+    self::$client_id = Config::get('app.google_client_id');
+    self::$redirect_uri = Config::get('app.google_redirect_uri');
 
     self::$client = new \Google_Client();
     self::$client->setClientId(self::$client_id);

@@ -12,9 +12,11 @@
   	<![endif]-->
 </head>
 <body>
+	{{ HTML::script('js/libs/jquery-min.js') }}
+	
 	@yield('content')
 
-  {{ HTML::script('js/libs/jquery-min.js') }}
+	{{ HTML::script('js/libs/less-min.js') }}
   	
   <!-- <script type="text/javascript" src="js/libs/jquery-ui.min.js"></script> -->
 	<!-- <script type="text/javascript" src="http://fb.me/react-0.12.2.min.js"></script> -->
