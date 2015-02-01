@@ -12,8 +12,6 @@
   	<![endif]-->
 </head>
 <body>
-
-	{{ App::environment() }}
 	{{ HTML::script('js/libs/jquery-min.js') }}
 	
 	@yield('content')
