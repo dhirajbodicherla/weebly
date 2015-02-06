@@ -1,4 +1,3 @@
-
 var Header = React.createClass({
   render: function(){
     return (
@@ -25,8 +24,6 @@ var SideBarTemplatesPages = React.createClass({
     this.props.onClick(this);
   },
   editPage: function(){
-    // $(this.refs.input.getDOMNode()).show().focus();
-    // $(this.refs.label.getDOMNode()).hide();
     $(this.refs.label.getDOMNode()).attr('contenteditable', 'true').focus();
   },
   submitHandler: function(e){
@@ -38,9 +35,9 @@ var SideBarTemplatesPages = React.createClass({
   },
   saveContent: function(){
     $(this.refs.label.getDOMNode()).removeAttr('contenteditable');
-    console.log("have to save now");
   },
   render: function(){
+    console.log('tiny render');
     // <input className="input-name" defaultValue={this.props.page.pageName} ref="input" onKeyUp={this.submitHandler}></input>
     var isSelected = this.props.page.isSelected ? 'selected' : '';
     return (
@@ -152,7 +149,6 @@ var SideBarElements = React.createClass({
     $('#elements .element .image').draggable({
       connectToSortable: ".sort",
       helper: function(){
-        console.log('HELPER is here from draggable')
         return React.renderToString(React.createElement('div', {className: $(this).attr('class')}, null));
       },
       revert: "invalid",
@@ -282,7 +278,6 @@ var TitleElement = React.createClass({
   saveContent: function(e){
     var el = this.state.el;
     el.props.content = e.target.value;
-    // this.setState({el: el});
     this.props.onUpdate(this.elementID, this.parentID, this.state.el);
   },
   render: function(){
@@ -383,6 +378,7 @@ var EditorContent = React.createClass({
 
   onElementUpdate: function(elementID, parentID, el){
     var elements = this.state.elements;
+    console.log(parentID, elementID);
     if(parentID != null){
       elements[parentID][elementID] = el;
     }else{
@@ -429,7 +425,6 @@ var EditorContent = React.createClass({
   },
   componentDidUpdate: function(){
     this.enableSorting();
-    // console.log('componentDidUpdate. Enabled sorted again');
   },
   enableSorting: function(){
     var self = this;
@@ -446,10 +441,6 @@ var EditorContent = React.createClass({
       // tolerance: "pointer",
       placeholder: {
         element: function(currentItem) {
-          console.log('i am placeholdering it AGAIN', currentItem);
-          // var el = $("<li class='editor-element-placeholder'></li>");
-          // console.log(el[0]);
-          // return el[0];
           var parent = $(this).closest('ul'), height = '1px';
           if(parent.data('parent-id') != null){
             height = parent.height() + 'px';
@@ -463,19 +454,14 @@ var EditorContent = React.createClass({
         }
       },
       start: function(event, ui){
-        console.log('Im MOVING');
-        if(!ui.item.hasClass('image'))
-          ui.item.addClass('sort-item-moving');
+        ui.item.addClass('sort-item-moving');
       },
       stop: function(event, ui){
-        console.log(ui);
         var position = ui.item.index();
         var category = ui.item.closest('ul').data('parent-id');
         var elements = self.state.elements;
 
         ui.item.removeClass('sort-item-moving');
-
-        console.log('stop ', ui.item.attr('class'));
 
         if(ui.item.hasClass('image')){
 
@@ -494,7 +480,6 @@ var EditorContent = React.createClass({
           }
           
           ui.item.remove();
-          // self.sort.sortable('cancel');
 
           self.setState({
             shouldUpdate: true,
@@ -510,17 +495,14 @@ var EditorContent = React.createClass({
           var sourceParent = ui.item.data('parent-id');
 
           if(targetParent == undefined){
-            console.log('undefined');
             targetParent = 0;
             elements.splice(targetParent, 0, [elements[sourceParent].splice(sourcePosition, 1)[0]]);
           }else{
             elements[targetParent].splice(targetPosition, 0, elements[sourceParent].splice(sourcePosition, 1)[0]);
           }
 
-          // console.log(elements);
-          ui.item.find('.image').remove();
-          ui.item.remove();
           self.sort.sortable('cancel');
+          ui.item.parents('ul.vertical').find('.ui-draggable').remove();
           
           self.setState({
             shouldUpdate: true,
@@ -531,10 +513,6 @@ var EditorContent = React.createClass({
         }else{
           self.sort.sortable('cancel');
         }
-        // console.log('receive ', ui.item.attr('class'));
-      },
-      receive: function(event, ui){
-        
       }
     });
   },
@@ -545,12 +523,11 @@ var EditorContent = React.createClass({
         <li className="sort-item">
           <ul className="sort horizontal" data-id="2" data-parent-id={index1} data-length={item.length}>
             {item.map(function(el, index2){
-              {console.log(el.id);}
               var style = {
                 width: Math.floor(95/item.length) + '%'
               };
               return (
-                <ListItem render={self.renderElement} style={style} index1={index1} index2={index2} el={el} />
+                <ListItem render={self.renderElement} style={style} index1={index1} index2={index2} el={el} key={el.id}/>
               );  
             })}
           </ul>
@@ -602,36 +579,11 @@ var Editor = React.createClass({
 });
 
 var Application = React.createClass({
-  getInitialState: function(){
-    var pid = GUID();
-    return {
-      app: {
-        pages: [{
-            pageName: 'Home',
-            pageID: pid,
-            isSelected: true,
-            pageContent: {
-                elements: [
-                    [{
-                        type: '2',
-                        id: GUID(),
-                        props: {
-                            content: ''
-                        }
-                    }]
-                ]
-            }
-        }]
-      }
-    };
-  },
-
   onPageUpdate: function(pages){
     this.refs.editor.updatePageNavigation(pages);
   },
 
   handleResize: function(e) {
-    // this.setState({windowWidth: window.innerWidth});
     if(window.innerWidth < 850){
       $(this.refs.editor.getDOMNode()).addClass('overlap');
     }else{
@@ -650,15 +602,40 @@ var Application = React.createClass({
   render: function(){
     return (
       <div>
-        <Header {...this.state}/>
-        <SideBar onPageUpdate={this.onPageUpdate} pages={this.state.app.pages}/>
-        <Editor ref="editor" pages={this.state.app.pages}/>
+        <Header />
+        <SideBar 
+          onPageUpdate={this.onPageUpdate} 
+          pages={this.props.data.app.pages}/>
+        <Editor 
+          ref="editor" 
+          pages={this.props.data.app.pages}/>
       </div>
     );
   }
 });
 
-React.render(<Application />, document.getElementById("main"));
+var data = {
+  app: {
+    pages: [{
+        pageName: 'Home',
+        pageID: GUID(),
+        isSelected: true,
+        pageContent: {
+            elements: [
+                [{
+                    type: '2',
+                    id: GUID(),
+                    props: {
+                        content: ''
+                    }
+                }]
+            ]
+        }
+    }]
+  }
+};
+
+React.render(<Application data={data}/>, document.getElementById("main"));
 
 function GUID(){
   return Math.random().toString(36).substring(7);

@@ -1,6 +1,5 @@
 module.exports = function(grunt) {
 
-  // 1. All configuration goes here 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
@@ -118,7 +117,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-react');
 
-  // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
   grunt.registerTask('default', ['concat', 'uglify', 'sprite', 'less', 'processhtml']);
   grunt.registerTask('dev', ['processhtml:dev']);
   grunt.registerTask('dist', ['react', 'concat', 'uglify', 'sprite', 'less:dist', 'processhtml:dist']);

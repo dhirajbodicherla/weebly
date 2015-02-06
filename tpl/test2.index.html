@@ -107,26 +107,12 @@
         border: 1px solid yellow;
       }
       .horizontal > div.image{
-        /*width: 40px;
-        height: 20px;*/
-        top: 0;
-        bottom: 0;
-        /*position: absolute;*/
-        border: transparent;
-        height: 100%;
-        width: 2px;
-        border-left: 2px dashed blue;
+        width: 40px;
+        height: 20px;
       }
       .vertical > div.image{
-        /*height: 40px;
-        width: 20px;*/
-        /*position: absolute;*/
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 2px;
-        border: transparent;
-        border-top: 2px dashed blue;
+        height: 40px;
+        width: 20px;
       }
     </style>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
@@ -162,19 +148,25 @@
     });
     var Element = React.createClass({
       getInitialState: function(){
-        return {data: this.props.state};
+        return {data: this.props.data};
       },
       render: function(){
-        var val = this.state.data;
+        var item = this.state.data;
+        var isDeleted = item.isDeleted;
         return(
-          <li data-value={val} >{val}</li>
+          <li data-location={this.props.location}>
+          {(isDeleted === false) ? 
+            <div data-value={item.val}>{item.val}</div> : 
+            null
+          }
+          </li>
         );
       },
       componentWillUnMount: function(){
         console.log('unmounte');
       }
     });
-    var App = React.createClass({
+    var Target = React.createClass({
       getInitialState: function(){
         return {
           'app': {
@@ -182,72 +174,84 @@
           }
         };
       },
-      onclick: function(){
-        /*
-        var dat = this.state.app.data;
-        var val = this.refs.input.getDOMNode().value;
-
-        // dat.splice(0, 0, val);
-        // dat[val] = val + 1000 + '33';
-        // dat.unshift(val);
-        $('span:nth-child('+val+')').remove();
-
-        this.setState({'app': {
-          'data': dat
-        }});
-        */
-        var self = this;
-        var dat = self.state.app.data;
-        var temp = dat[1];
-        dat[1] = dat[0];
-        dat[0] = temp;
-        console.log(dat);
-        self.setState({
-          'app':{
-            'data': dat
-          }
-        });
+      renderElement: function(data){
+        return (
+          <Element data={data} />
+        );
+      },
+      componentDidUpdate: function(){
+        this.enableSorting();
       },
       componentDidMount: function(){
         window.a = this;
         window.state = this.state;
+        this.enableSorting();
+      },
+      enableSorting: function(){
         var self = this;
         self.sort = $(this.getDOMNode()).find('.col2').sortable({
           connectWith: ".col2",
+          start: function(){
+            // ui.item.hide();
+          },
           stop: function(event, ui){
-            // var dat = self.state.app.data;
-            // var temp = dat[1];
-            // dat[1] = dat[0];
-            // dat[0] = temp;
-            // self.sort.sortable('cancel');
-            // console.log(dat);
-            // self.setState({
-            //   'app':{
-            //     'data': dat
-            //   }
-            // });
+            dat = self.state.app.data;
             if (ui.item.hasClass('image')) {
               if (ui.item.closest('ul').hasClass('vertical')) {
-                var item = $('<li><ul class="horizontal col2"><li class="item"> Item 2 </li> </ul> </li>');
-                ui.item.replaceWith(item);
+                var index = ui.item.index();
+                var container = 0;
+                var el = {
+                  val: Math.random(0,1000),
+                  isDeleted: false
+                }
+                dat.splice(index, 0, [el]);
+                ui.item.remove();
               } else {
-                var item = $('<li> Item </li>');
-                ui.item.replaceWith(item);
+                var index = ui.item.index();
+                var container = ui.item.closest('li').index();
+                var el = {
+                  val: Math.random(0,1000),
+                  isDeleted: false
+                }
+                dat[container].splice(index, 0, el);
+                ui.item.remove();
               }
+              self.setState({
+                'app': {
+                  'data': dat
+                }
+              });
             }else{
-              
+              if (ui.item.closest('ul').hasClass('vertical')) {
+                var index = ui.item.index();
+                window.ui = ui;
+                var location = ui.item.data('location').split('-');
+                var el = {
+                  val: Math.random(0,1000),
+                  isDeleted: false
+                }
+                dat[location[0]][location[1]].isDeleted = true;
+                dat.splice(index, 0, [el]);
+              }else{
+                var index = ui.item.index();
+              }
+              self.sort.sortable('cancel');
+              ui.item.parents('ul.vertical').find('.ui-draggable').remove();
+
+              self.setState({
+                'app': {
+                  'data': dat
+                }
+              });
             }
           }
         });
       },
       render: function(){
-        console.log('rendering');
-        // <input type="text" ref="input" placeholder="Enter a value"/>
-        // <input type="button" value="Add value" onClick={this.onclick} />
         var self = this;
+       
         return(
           <div>
-            <Source />
             <div className="target">
               <ul className="col2 vertical">
                 {this.state.app.data.map(function(page, i){
@@ -256,7 +260,7 @@
                       <ul className="col2 horizontal">
                         {page.map(function(v, i2){
                           return(
-                            <Element state={v} key={i+i2}/>
+                            <Element data={v} key={Math.random(0,1111)} location={i+'-'+i2}/>
                           );
                         })}
                       </ul>
@@ -270,8 +274,17 @@
       }
     });
 
-    var data =  [[1],[2]];
-    // var data2 =  [1,2,3];
+    var data =  [[{val:1, isDeleted: false}],[{val:2, isDeleted: false}]];
+    var App = React.createClass({
+      render: function(){
+        return(
+          <div>
+            <Source />
+            <Target data={this.props.data}/>
+          </div>
+        )
+      }
+    })
 
     React.render(<App data={data} />, document.getElementById("main"));      
 
