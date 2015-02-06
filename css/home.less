@@ -1,10 +1,17 @@
-@font-face {
-  font-family: ProximaNova;
-  src: url("fonts/ProximaNova-Reg.otf") format("opentype");
-}
+@import 'sprites.css';
 @blue: #518dca;
 @gray: #4f657b;
 @lightgrayfordarkbg: #97aabc;
+@font-face {
+  font-family: ProximaNova;
+  src: url("../../../fonts/ProximaNova-Reg.otf") format("opentype");
+
+  font-family: 'ProximaNova';
+  src: url('../../../fonts/ProximaNova-Reg.eot');
+  src: local('Graublau Web Regular'), local('Graublau Web'),
+         url('../../../fonts/ProximaNova-Reg.otf') format('opentype');
+  
+}
 body{
   font-family: 'ProximaNova', serif;
   -webkit-user-select: none;
@@ -30,7 +37,6 @@ body{
   }
   #logomark{
     position: absolute;
-    background: url('../img/Weebly-Logo.png');
     left: 30px;
     top: 7px;
     height: 39px;
@@ -156,19 +162,17 @@ body{
       line-height: 54px;*/
     }
     .checkbox{
-      background: url('../img/Toggle-Switch.png');
       width: 62px;
-      height: 30px;
-      background-size: 62px 94px;
-      background-position: 0px 63px;
+      height: 29px;
+      background-position: -276px -175px;
       float: right;
       margin-top: 10px;
       &:hover{
-        /*background-position: 0px -3px;*/
+        background-position: -276px -200px;
         cursor: pointer;
       }
       &.checked{
-        background-position: 0px 36px;
+        background-position: -276px -225px;
       }
     }
   }
@@ -231,11 +235,21 @@ body{
   top: 50px;
   right: 0px;
   /*bottom: 0px;*/
-  height: 100%;
+  min-height: 250px;
   background: #ffffff;
   /*overflow: scroll;*/
   border-radius: 4px;
   padding: 10px 50px;
+  /*min-width: 600px;*/
+
+  &.overlap{
+    left: 50px;
+    -webkit-transition: all 0.7s ease-out;
+       -moz-transition: all 0.7s ease-out;
+        -ms-transition: all 0.7s ease-out;
+         -o-transition: all 0.7s ease-out;
+            transition: all 0.7s ease-out;
+  }
 
   #page-navigation {
     margin-top: 30px;
@@ -289,11 +303,14 @@ body{
       text-align: center;
       /*padding: 5px 0px;*/
       margin: 5px 0;
+      border: 1px solid transparent;
     }
     .horizontal > .sort-item{
       display: inline-block !important;
       vertical-align: top;
       height: 150px;
+      margin: 10px 0;
+      border: 1px solid transparent;
     }
     .sort-item-moving{
       opacity: 0.4;
@@ -314,6 +331,8 @@ body{
   margin-top: 1px;
   height: 100%;
   transition: all 0.3s;
+  box-sizing: border-box;
+  padding: 2px;
   &.delete{
     border: 1px solid #ef7a74 !important;
   }
@@ -326,13 +345,17 @@ body{
   .image-element{
     background: #eff2f5;
     text-align: center;
-    padding: 12px;
-    .image{
-      background: url('../img/Image-Placeholder.png');
+    height: 100%;
+    box-sizing: border-box;
+    .image-placeholder{
+      /*background: url('../img/Image-Placeholder.png');
       width: 106px;
-      height: 106px;
+      height: 106px;*/
       margin: 0 auto;
-      background-position: -15px -15px;
+      background-position: -7px -440px;
+      width: 125px;
+      height: 125px;
+      /*background-position: -15px -15px;*/
     }
     .label{
       text-transform: uppercase;
@@ -505,12 +528,36 @@ body{
   display: inline-block;
 }
 .vertical > .editor-element-placeholder + .sort-item{
-  margin-top: 5px;
-  margin-bottom: 5px;
+  -moz-transition: all 0.3s ease-out;  /* FF4+ */
+  -o-transition: all 0.3s ease-out;  /* Opera 10.5+ */
+  -webkit-transition: all 0.3s ease-out;  /* Saf3.2+, Chrome */
+  -ms-transition: all 0.3s ease-out;  /* IE10 */
+  transition: all 0.3s ease-out;  
+  margin-bottom: 10px !important;
+}
+.vertical > .sort-item + .editor-element-placeholder{
+  -moz-transition: all 0.3s ease-out;  /* FF4+ */
+  -o-transition: all 0.3s ease-out;  /* Opera 10.5+ */
+  -webkit-transition: all 0.3s ease-out;  /* Saf3.2+, Chrome */
+  -ms-transition: all 0.3s ease-out;  /* IE10 */
+  transition: all 0.3s ease-out;  
+  margin-top: 10px !important;
 }
 .horizontal > .editor-element-placeholder + .sort-item{
-  margin-left: 5px;
-  margin-right: 5px;
+  -moz-transition: all 0.3s ease-out;  /* FF4+ */
+  -o-transition: all 0.3s ease-out;  /* Opera 10.5+ */
+  -webkit-transition: all 0.3s ease-out;  /* Saf3.2+, Chrome */
+  -ms-transition: all 0.3s ease-out;  /* IE10 */
+  transition: all 0.3s ease-out;  
+  margin-left: 10px !important;
+}
+.horizontal > .sort-item + .editor-element-placeholder{
+  -moz-transition: all 0.3s ease-out;  /* FF4+ */
+  -o-transition: all 0.3s ease-out;  /* Opera 10.5+ */
+  -webkit-transition: all 0.3s ease-out;  /* Saf3.2+, Chrome */
+  -ms-transition: all 0.3s ease-out;  /* IE10 */
+  transition: all 0.3s ease-out;  
+  margin-right: 10px !important;
 }
 /*
 Note: For empty editor canvas (Work in progress)

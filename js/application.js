@@ -1,16 +1,16 @@
 
-var Header = React.createClass({
+var Header = React.createClass({displayName: "Header",
   render: function(){
     return (
-      <div id="header">
-        <div className="bg"></div>
-        <div id="logomark"></div>
-      </div>
+      React.createElement("div", {id: "header"}, 
+        React.createElement("div", {className: "bg"}), 
+        React.createElement("div", {id: "logomark", className: "icon-Weebly-Logo"})
+      )
     );
   }
 });
 
-var SideBarTemplatesPages = React.createClass({
+var SideBarTemplatesPages = React.createClass({displayName: "SideBarTemplatesPages",
   backToNormal: function(){
     $(this.refs.pageButton.getDOMNode()).removeClass('delete');
   },
@@ -44,16 +44,16 @@ var SideBarTemplatesPages = React.createClass({
     // <input className="input-name" defaultValue={this.props.page.pageName} ref="input" onKeyUp={this.submitHandler}></input>
     var isSelected = this.props.page.isSelected ? 'selected' : '';
     return (
-      <div className={isSelected + " page" } ref="pageButton" onClick={this.onPageButtonClick}>
-        <span className="name input-name" ref="label" onBlur={this.saveContent} onKeyDown={this.submitHandler}>{this.props.page.pageName}</span>
-        <span className="icon delete" onClick={this.deletePage} onMouseOver={this.beforeDelete} onMouseOut={this.backToNormal}></span>
-        <span className="icon edit" onClick={this.editPage}></span>
-      </div>
+      React.createElement("div", {className: isSelected + " page", ref: "pageButton", onClick: this.onPageButtonClick}, 
+        React.createElement("span", {className: "name input-name", ref: "label", onBlur: this.saveContent, onKeyDown: this.submitHandler}, this.props.page.pageName), 
+        React.createElement("span", {className: "icon delete", onClick: this.deletePage, onMouseOver: this.beforeDelete, onMouseOut: this.backToNormal}), 
+        React.createElement("span", {className: "icon edit", onClick: this.editPage})
+      )
     );
   }
 })
 
-var SideBarTemplates = React.createClass({
+var SideBarTemplates = React.createClass({displayName: "SideBarTemplates",
   getInitialState: function(){
     return {pages: this.props.pages};
   },
@@ -104,49 +104,49 @@ var SideBarTemplates = React.createClass({
   render: function(){
     var self = this;
     return (
-      <div className="item" id="templates">
-        <div className="divider">
-          Templates
-        </div>
-        <div className="content">
-          <div className="pages">
-            <ul>
-              {this.state.pages.map(function(page, i){
+      React.createElement("div", {className: "item", id: "templates"}, 
+        React.createElement("div", {className: "divider"}, 
+          "Templates"
+        ), 
+        React.createElement("div", {className: "content"}, 
+          React.createElement("div", {className: "pages"}, 
+            React.createElement("ul", null, 
+              this.state.pages.map(function(page, i){
                 return (
-                  <li key={i}>
-                    <SideBarTemplatesPages 
-                      onClick={self.togglePageButton}
-                      onDelete={self.deletePage} 
-                      page={page} />
-                    </li>
+                  React.createElement("li", {key: i}, 
+                    React.createElement(SideBarTemplatesPages, {
+                      onClick: self.togglePageButton, 
+                      onDelete: self.deletePage, 
+                      page: page})
+                    )
                   );
-              })}
-            </ul>
-            <div id="add-page">
-              <form onSubmit={this.formSubmit} onMouseOut={this.onMouseOut} onMouseOver={this.onMouseOver}>
-                <input type="text" className="input" placeholder="add new page" ref="input" onFocus={this.onMouseOver} onBlur={this.onMouseOut}/>
-                <span className="icon add" onClick={this.addPage} ref="addButton"></span>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+              })
+            ), 
+            React.createElement("div", {id: "add-page"}, 
+              React.createElement("form", {onSubmit: this.formSubmit, onMouseOut: this.onMouseOut, onMouseOver: this.onMouseOver}, 
+                React.createElement("input", {type: "text", className: "input", placeholder: "add new page", ref: "input", onFocus: this.onMouseOver, onBlur: this.onMouseOut}), 
+                React.createElement("span", {className: "icon add", onClick: this.addPage, ref: "addButton"})
+              )
+            )
+          )
+        )
+      )
     );
   }
 });
 
-var SideBarElementsIcons = React.createClass({
+var SideBarElementsIcons = React.createClass({displayName: "SideBarElementsIcons",
   render: function(){
     return (
-      <div className="element">
-        <div className={this.props.typeName + " image"} data-type={this.props.typeID}></div>
-        <div className="label">{this.props.typeDisplay}</div>
-      </div>
+      React.createElement("div", {className: "element"}, 
+        React.createElement("div", {className: this.props.typeName + " image", "data-type": this.props.typeID}), 
+        React.createElement("div", {className: "label"}, this.props.typeDisplay)
+      )
     );
   }
 })
 
-var SideBarElements = React.createClass({
+var SideBarElements = React.createClass({displayName: "SideBarElements",
   componentDidMount: function(){
     var self = this;
     $('#elements .element .image').draggable({
@@ -160,33 +160,33 @@ var SideBarElements = React.createClass({
   },
   render: function(){
     return (
-      <div className="item" id="elements">
-        <div className="divider">
-          Elements
-        </div>
-        <div className="content">
-          <ul>
-            <li className="sidebar-element">
-              <SideBarElementsIcons typeID="1" typeName="title-icon" typeDisplay="Title" />
-            </li>
-            <li className="sidebar-element">
-              <SideBarElementsIcons typeID="2" typeName="text-icon" typeDisplay="Text" />
-            </li>
-            <li className="sidebar-element">
-              <SideBarElementsIcons typeID="3" typeName="img-icon" typeDisplay="Image" />
-            </li>
-            <li className="sidebar-element">
-              <SideBarElementsIcons typeID="4" typeName="nav-icon" typeDisplay="Nav" />
-            </li>
-          </ul>
-          <div className="clearfix"></div>
-        </div>
-      </div>
+      React.createElement("div", {className: "item", id: "elements"}, 
+        React.createElement("div", {className: "divider"}, 
+          "Elements"
+        ), 
+        React.createElement("div", {className: "content"}, 
+          React.createElement("ul", null, 
+            React.createElement("li", {className: "sidebar-element"}, 
+              React.createElement(SideBarElementsIcons, {typeID: "1", typeName: "title-icon", typeDisplay: "Title"})
+            ), 
+            React.createElement("li", {className: "sidebar-element"}, 
+              React.createElement(SideBarElementsIcons, {typeID: "2", typeName: "text-icon", typeDisplay: "Text"})
+            ), 
+            React.createElement("li", {className: "sidebar-element"}, 
+              React.createElement(SideBarElementsIcons, {typeID: "3", typeName: "img-icon", typeDisplay: "Image"})
+            ), 
+            React.createElement("li", {className: "sidebar-element"}, 
+              React.createElement(SideBarElementsIcons, {typeID: "4", typeName: "nav-icon", typeDisplay: "Nav"})
+            )
+          ), 
+          React.createElement("div", {className: "clearfix"})
+        )
+      )
     );
   }
 });
 
-var SideBarSettings = React.createClass({
+var SideBarSettings = React.createClass({displayName: "SideBarSettings",
   getInitialState: function() {
     return {isChecked: false};
   },
@@ -196,41 +196,41 @@ var SideBarSettings = React.createClass({
   render: function(){
     var checkboxState = this.state.isChecked ? 'checked' : '';
     return (
-      <div className="item" id="settings">
-        <div className="divider">
-          Settings
-        </div>
-        <div className="content">
-          <ul>
-            <li className="settings-item-container">
-              <div className="settings-item site-grid">
-                site grid
-                <span className={checkboxState + " checkbox"} onClick={this.toggleCheckBox}></span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
+      React.createElement("div", {className: "item", id: "settings"}, 
+        React.createElement("div", {className: "divider"}, 
+          "Settings"
+        ), 
+        React.createElement("div", {className: "content"}, 
+          React.createElement("ul", null, 
+            React.createElement("li", {className: "settings-item-container"}, 
+              React.createElement("div", {className: "settings-item site-grid"}, 
+                "site grid", 
+                React.createElement("span", {className: checkboxState + " checkbox", onClick: this.toggleCheckBox})
+              )
+            )
+          )
+        )
+      )
     );
   }
 });
 
-var SideBar = React.createClass({
+var SideBar = React.createClass({displayName: "SideBar",
   onPageUpdate: function(pages){
     this.props.onPageUpdate(pages);
   },
   render: function(){
     return (
-      <div id="sidebar">
-        <SideBarTemplates onPageUpdate={this.onPageUpdate} pages={this.props.pages}/>
-        <SideBarElements />
-        <SideBarSettings />
-      </div>
+      React.createElement("div", {id: "sidebar"}, 
+        React.createElement(SideBarTemplates, {onPageUpdate: this.onPageUpdate, pages: this.props.pages}), 
+        React.createElement(SideBarElements, null), 
+        React.createElement(SideBarSettings, null)
+      )
     );
   }
 });
 
-var EditorPageNavigation = React.createClass({
+var EditorPageNavigation = React.createClass({displayName: "EditorPageNavigation",
 
   updatePageNavigation: function(pages){
     this.props.pages = pages;
@@ -239,19 +239,19 @@ var EditorPageNavigation = React.createClass({
   render: function(){
     var pages = this.props.pages || [];
     return (
-      <div id="page-navigation">
-        <ul>
-          {pages.map(function(page){
+      React.createElement("div", {id: "page-navigation"}, 
+        React.createElement("ul", null, 
+          pages.map(function(page){
             return (
-              <li className="page-container">
-                <div className={(page.isSelected == true? 'selected' : '') + " page"}>
-                  <span className="name">{page.pageName}</span>
-                </div>
-              </li>
+              React.createElement("li", {className: "page-container"}, 
+                React.createElement("div", {className: (page.isSelected == true? 'selected' : '') + " page"}, 
+                  React.createElement("span", {className: "name"}, page.pageName)
+                )
+              )
             );
-          })}
-        </ul>
-      </div>
+          })
+        )
+      )
     );
   }
 });
@@ -273,7 +273,7 @@ var ElementEventsMixin = {
   }
 };
 
-var TitleElement = React.createClass({
+var TitleElement = React.createClass({displayName: "TitleElement",
   mixins: [ElementEventsMixin],
   getInitialState: function(){
     return {el: this.props.el};
@@ -286,24 +286,24 @@ var TitleElement = React.createClass({
   },
   render: function(){
     return (
-      <div className="editor-element editor-element-title">
-        <div className="controls">
-          <div className="editor-element-handle left-handle"></div>
-          <div className="editor-element-handle right-handle"></div>
-          <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete"></div>
-        </div>
-        <textarea type="text" className="input"
-                placeholder="Start typing here" 
-                defaultValue={this.state.el.props.content}
-                onKeyUp={this.saveContent}>
-        </textarea>
-      </div>
+      React.createElement("div", {className: "editor-element editor-element-title"}, 
+        React.createElement("div", {className: "controls"}, 
+          React.createElement("div", {className: "editor-element-handle left-handle"}), 
+          React.createElement("div", {className: "editor-element-handle right-handle"}), 
+          React.createElement("div", {className: "editor-element-handle bottom-handle"}), 
+          React.createElement("div", {className: "delete"})
+        ), 
+        React.createElement("textarea", {type: "text", className: "input", 
+                placeholder: "Start typing here", 
+                defaultValue: this.state.el.props.content, 
+                onKeyUp: this.saveContent}
+        )
+      )
     );
   }
 });
 
-var TextElement = React.createClass({
+var TextElement = React.createClass({displayName: "TextElement",
   mixins: [ElementEventsMixin],
   getInitialState: function(){
     return {el: this.props.el};
@@ -317,61 +317,61 @@ var TextElement = React.createClass({
 
   render: function(){
     return (
-      <div className="editor-element editor-element-text">
-        <div className="controls">
-          <div className="editor-element-handle left-handle"></div>
-          <div className="editor-element-handle right-handle"></div>
-          <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete" onMouseOver={this.deleteMouseOver} onMouseOut={this.deleteMouseOut} onClick={this.deleteOnClick}></div>
-        </div>
-        <textarea type="text" className="input"
-                  placeholder="Start typing here" 
-                  defaultValue={this.state.el.props.content}
-                  onKeyUp={this.saveContent}>
-        </textarea>
-      </div>
+      React.createElement("div", {className: "editor-element editor-element-text"}, 
+        React.createElement("div", {className: "controls"}, 
+          React.createElement("div", {className: "editor-element-handle left-handle"}), 
+          React.createElement("div", {className: "editor-element-handle right-handle"}), 
+          React.createElement("div", {className: "editor-element-handle bottom-handle"}), 
+          React.createElement("div", {className: "delete", onMouseOver: this.deleteMouseOver, onMouseOut: this.deleteMouseOut, onClick: this.deleteOnClick})
+        ), 
+        React.createElement("textarea", {type: "text", className: "input", 
+                  placeholder: "Start typing here", 
+                  defaultValue: this.state.el.props.content, 
+                  onKeyUp: this.saveContent}
+        )
+      )
     );
   }
 });
 
-var ImageElement = React.createClass({
+var ImageElement = React.createClass({displayName: "ImageElement",
   mixins: [ElementEventsMixin],
   render: function(){
     return (
-      <div className="editor-element editor-element-image">
-        <div className="controls">
-          <div className="editor-element-handle left-handle"></div>
-          <div className="editor-element-handle right-handle"></div>
-          <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete"></div>
-        </div>
-        <div className="image-element">
-          <div className="image"></div>
-          <div className="label">add image +</div>
-        </div>
-      </div>
+      React.createElement("div", {className: "editor-element editor-element-image"}, 
+        React.createElement("div", {className: "controls"}, 
+          React.createElement("div", {className: "editor-element-handle left-handle"}), 
+          React.createElement("div", {className: "editor-element-handle right-handle"}), 
+          React.createElement("div", {className: "editor-element-handle bottom-handle"}), 
+          React.createElement("div", {className: "delete"})
+        ), 
+        React.createElement("div", {className: "image-element"}, 
+          React.createElement("div", {className: "image"}), 
+          React.createElement("div", {className: "label"}, "add image +")
+        )
+      )
     );
   }
 });
 
-var NavElement = React.createClass({
+var NavElement = React.createClass({displayName: "NavElement",
   mixins: [ElementEventsMixin],
   render: function(){
     return (
-      <div className="editor-element editor-element-nav">
-        <div className="controls">
-          <div className="editor-element-handle left-handle"></div>
-          <div className="editor-element-handle right-handle"></div>
-          <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete"></div>
-        </div>
-        <p className="placeholder">Nav</p>
-      </div>
+      React.createElement("div", {className: "editor-element editor-element-nav"}, 
+        React.createElement("div", {className: "controls"}, 
+          React.createElement("div", {className: "editor-element-handle left-handle"}), 
+          React.createElement("div", {className: "editor-element-handle right-handle"}), 
+          React.createElement("div", {className: "editor-element-handle bottom-handle"}), 
+          React.createElement("div", {className: "delete"})
+        ), 
+        React.createElement("p", {className: "placeholder"}, "Nav")
+      )
     );
   }
 });
 
-var EditorContent = React.createClass({
+var EditorContent = React.createClass({displayName: "EditorContent",
   getInitialState: function() {
     return this.props.elements;
   },
@@ -414,13 +414,13 @@ var EditorContent = React.createClass({
     var elType = el.type;
     var content = el.props.content;
     if(elType == 1){
-      return (<TitleElement el={el} onUpdate={this.onElementUpdate} onDelete={this.onElementDelete}/>);
+      return (React.createElement(TitleElement, {el: el, onUpdate: this.onElementUpdate, onDelete: this.onElementDelete}));
     }else if(elType == 2){
-      return (<TextElement el={el} onUpdate={this.onElementUpdate} onDelete={this.onElementDelete}/>);
+      return (React.createElement(TextElement, {el: el, onUpdate: this.onElementUpdate, onDelete: this.onElementDelete}));
     }else if(elType == 3){
-      return (<ImageElement onUpdate={this.onElementUpdate} onDelete={this.onElementDelete}/>);
+      return (React.createElement(ImageElement, {onUpdate: this.onElementUpdate, onDelete: this.onElementDelete}));
     }else{
-      return (<NavElement onUpdate={this.onElementUpdate} onDelete={this.onElementDelete}/>);
+      return (React.createElement(NavElement, {onUpdate: this.onElementUpdate, onDelete: this.onElementDelete}));
     }
   },
   componentDidMount: function(){
@@ -513,44 +513,44 @@ var EditorContent = React.createClass({
     var self = this;  
     var elements = $.map(this.state.elements,function(item, index1){
       return (
-        <li className="sort-item">
-          <ul className="sort horizontal" data-id="2" data-parent-id={index1} data-length={item.length}>
-            {item.map(function(el, index2){
+        React.createElement("li", {className: "sort-item"}, 
+          React.createElement("ul", {className: "sort horizontal", "data-id": "2", "data-parent-id": index1, "data-length": item.length}, 
+            item.map(function(el, index2){
               var style = {
                 width: Math.floor(95/item.length) + '%'
               };
               return (
-                <ListItem render={self.renderElement} style={style} index1={index1} index2={index2} el={el} />
+                React.createElement(ListItem, {render: self.renderElement, style: style, index1: index1, index2: index2, el: el})
               );  
-            })}
-          </ul>
-        </li>
+            })
+          )
+        )
       );
     });
 
 
 
     return (
-      <div className="page-content">
-        <ul className="sort vertical" data-id="1" data-length={elements.length} key={elements.length}>
-          {elements}
-        </ul>
-      </div>
+      React.createElement("div", {className: "page-content"}, 
+        React.createElement("ul", {className: "sort vertical", "data-id": "1", "data-length": elements.length, key: elements.length}, 
+          elements
+        )
+      )
     );
   }
 });
 
-var ListItem = React.createClass({
+var ListItem = React.createClass({displayName: "ListItem",
   render: function(){
     return (
-      <li className="sort-item" style={this.props.style} data-element-id={this.props.index2} data-parent-id={this.props.index1}>
-        {this.props.render(this.props.el)}
-      </li>
+      React.createElement("li", {className: "sort-item", style: this.props.style, "data-element-id": this.props.index2, "data-parent-id": this.props.index1}, 
+        this.props.render(this.props.el)
+      )
     );
   }
 })
 
-var Editor = React.createClass({
+var Editor = React.createClass({displayName: "Editor",
 
   getInitialState: function(){
     return this.props.pages[0];
@@ -562,15 +562,15 @@ var Editor = React.createClass({
 
   render: function(){
     return (
-      <div id="editor">
-        <EditorPageNavigation ref="editorNavigation" pages={this.props.pages}/>
-        <EditorContent elements={this.props.pages[0].pageContent}/>
-      </div>
+      React.createElement("div", {id: "editor"}, 
+        React.createElement(EditorPageNavigation, {ref: "editorNavigation", pages: this.props.pages}), 
+        React.createElement(EditorContent, {elements: this.props.pages[0].pageContent})
+      )
     );
   }
 });
 
-var Application = React.createClass({
+var Application = React.createClass({displayName: "Application",
   getInitialState: function(){
     var pid = GUID();
     return {
@@ -598,16 +598,16 @@ var Application = React.createClass({
   },
   render: function(){
     return (
-      <div>
-        <Header {...this.state}/>
-        <SideBar onPageUpdate={this.onPageUpdate} pages={this.state.app.pages}/>
-        <Editor ref="editor" pages={this.state.app.pages}/>
-      </div>
+      React.createElement("div", null, 
+        React.createElement(Header, React.__spread({},  this.state)), 
+        React.createElement(SideBar, {onPageUpdate: this.onPageUpdate, pages: this.state.app.pages}), 
+        React.createElement(Editor, {ref: "editor", pages: this.state.app.pages})
+      )
     );
   }
 });
 
-React.render(<Application />, document.getElementById("main"));
+React.render(React.createElement(Application, null), document.getElementById("main"));
 
 function GUID(){
   return Math.random().toString(36).substring(7);

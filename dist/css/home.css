@@ -1,0 +1,556 @@
+@import 'sprites.css';
+@font-face {
+  font-family: ProximaNova;
+  src: url("../../../fonts/ProximaNova-Reg.otf") format("opentype");
+  font-family: 'ProximaNova';
+  src: url('../../../fonts/ProximaNova-Reg.eot');
+  src: local('Graublau Web Regular'), local('Graublau Web'), url('../../../fonts/ProximaNova-Reg.otf') format('opentype');
+}
+body {
+  font-family: 'ProximaNova', serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+#main {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+#header {
+  height: 50px;
+  left: 0;
+  right: 0;
+  top: 0;
+  position: absolute;
+}
+#header .bg {
+  height: 100%;
+  width: 100%;
+  background: red;
+}
+#header #logomark {
+  position: absolute;
+  background: url('../img/Weebly-Logo.png');
+  left: 30px;
+  top: 7px;
+  height: 39px;
+  width: 39px;
+}
+#sidebar {
+  position: absolute;
+  left: 0;
+  top: 50px;
+  bottom: 0;
+  width: 252px;
+  background: #4b5155;
+}
+#sidebar .item {
+  width: 235px;
+  background: #2c3e50;
+  position: relative;
+}
+#sidebar .item .divider {
+  background: #4f657b;
+  height: 35px;
+  text-transform: uppercase;
+  line-height: 35px;
+  text-align: center;
+  color: #9cb3ca;
+}
+#sidebar .item:last-child {
+  padding-bottom: 250px;
+}
+#sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+#templates .content {
+  height: 100%;
+}
+#templates .content .pages {
+  padding: 26px 32px;
+}
+#templates .content #add-page {
+  border-radius: 5px;
+  height: 34px;
+  width: 150px;
+  line-height: 34px;
+  color: white;
+  background: #4f657b;
+  padding: 5px 5px 5px 20px;
+  margin-bottom: 9px;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid #4f657b;
+  position: relative;
+}
+#templates .content #add-page .icon {
+  float: right;
+  position: relative;
+  top: 5px;
+}
+#templates .content #add-page .input {
+  border: transparent;
+  background: transparent;
+  color: white;
+  font-size: 14px;
+  width: 75%;
+  text-transform: uppercase;
+  position: absolute;
+  left: 15px;
+  top: 13px;
+}
+#elements .content {
+  height: 100%;
+  background: #21313f;
+}
+#elements .content .sidebar-element {
+  width: 85px;
+  background: #34485c;
+  height: 85px;
+  border: none;
+  float: left;
+  position: relative;
+  padding: 15px;
+  margin: 2px;
+  border-top: none;
+}
+#elements .content .sidebar-element:hover {
+  background: #3a4f64;
+  cursor: move;
+}
+#elements .content .sidebar-element:nth-child(even) {
+  margin-right: 0px;
+}
+#elements .content .sidebar-element:nth-child(odd) {
+  margin-left: 0px;
+}
+#elements .content .element {
+  width: 48px;
+  height: 68px;
+  padding: 10px 0px 0px 17px;
+}
+#elements .content .element .label {
+  width: 48px;
+  padding: 10px 0px 0px 0px;
+  color: #4f657b;
+  text-transform: uppercase;
+  text-align: center;
+}
+#settings .content .settings-item-container {
+  border-bottom: 2px solid #21313f;
+}
+#settings .content .settings-item {
+  height: 54px;
+  color: #4f657b;
+  text-transform: uppercase;
+  line-height: 54px;
+  padding: 0px 32px;
+}
+#settings .content .settings-item .label {
+  /*color: @gray;
+      text-transform: uppercase;
+      line-height: 54px;*/
+}
+#settings .content .settings-item .checkbox {
+  background: url('../img/Toggle-Switch.png');
+  width: 62px;
+  height: 30px;
+  background-size: 62px 94px;
+  background-position: 0px 63px;
+  float: right;
+  margin-top: 10px;
+}
+#settings .content .settings-item .checkbox:hover {
+  /*background-position: 0px -3px;*/
+  cursor: pointer;
+}
+#settings .content .settings-item .checkbox.checked {
+  background-position: 0px 36px;
+}
+#templates .page {
+  border-radius: 5px;
+  height: 34px;
+  width: 150px;
+  line-height: 34px;
+  color: #ffffff;
+  padding: 5px 5px 5px 20px;
+  margin-bottom: 9px;
+  text-transform: uppercase;
+  position: relative;
+  border: 1px solid #4f657b;
+  background: #4f657b;
+  -o-transition: background 0.2s ease-in;
+  -ms-transition: background 0.2s ease-in;
+  -moz-transition: background 0.2s ease-in;
+  -webkit-transition: background 0.2s ease-in;
+  /* ...and now override with proper CSS property */
+  transition: background 0.2s ease-in;
+  /*&.selected{
+    background: @gray;
+    color: white;
+  }*/
+}
+#templates .page .name {
+  position: absolute;
+  right: 63px;
+  left: 15px;
+  overflow: auto;
+  letter-spacing: 0.1px;
+  white-space: nowrap;
+}
+#templates .page .icon {
+  float: right;
+  position: relative;
+  top: 5px;
+  display: none;
+}
+#templates .page:hover {
+  background: #4f657b;
+}
+#templates .page:hover .icon {
+  display: block;
+}
+#templates .page.selected {
+  background: red;
+}
+#templates .page.delete {
+  background: #d86a65;
+}
+#editor {
+  position: absolute;
+  left: 235px;
+  top: 50px;
+  right: 0px;
+  /*bottom: 0px;*/
+  height: 100%;
+  background: #ffffff;
+  /*overflow: scroll;*/
+  border-radius: 4px;
+  padding: 10px 50px;
+}
+#editor #page-navigation {
+  margin-top: 30px;
+}
+#editor #page-navigation ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+#editor #page-navigation .page-container {
+  display: inline-block;
+  padding: 0px 10px;
+}
+#editor #page-navigation .page {
+  border-radius: 5px;
+  height: 34px;
+  width: 150px;
+  line-height: 34px;
+  color: #97aabc;
+  padding: 5px 5px 5px 20px;
+  margin-bottom: 9px;
+  text-transform: uppercase;
+  position: relative;
+  background: #4f657b;
+}
+#editor #page-navigation .page:hover {
+  cursor: pointer;
+}
+#editor #page-navigation .page.selected {
+  background: #96a9bb;
+  color: white;
+}
+#editor #page-navigation .page .name {
+  right: 15px;
+}
+#editor .page-content {
+  margin-top: 50px;
+  border-radius: 2px;
+}
+#editor .page-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+#editor .page-content .vertical {
+  padding: 25px 0px !important;
+}
+#editor .page-content .vertical > .sort-item {
+  text-align: center;
+  /*padding: 5px 0px;*/
+  margin: 5px 0;
+}
+#editor .page-content .horizontal > .sort-item {
+  display: inline-block !important;
+  vertical-align: top;
+  height: 150px;
+}
+#editor .page-content .sort-item-moving {
+  opacity: 0.4;
+}
+#editor .page-content .sort-item .editor-element:hover .controls {
+  opacity: 1;
+}
+#editor .page-content .sort-item .editor-element:hover {
+  border: 1px solid #8fc7ff;
+}
+.editor-element {
+  position: relative;
+  border-radius: 5px;
+  padding: 1px;
+  border: 1px solid transparent;
+  margin-top: 1px;
+  height: 100%;
+  transition: all 0.3s;
+}
+.editor-element.delete {
+  border: 1px solid #ef7a74 !important;
+}
+.editor-element .editor-element-title .input {
+  font-size: 22px;
+}
+.editor-element .image-element {
+  background: #eff2f5;
+  text-align: center;
+  padding: 12px;
+}
+.editor-element .image-element .image {
+  background: url('../img/Image-Placeholder.png');
+  width: 106px;
+  height: 106px;
+  margin: 0 auto;
+  background-position: -15px -15px;
+}
+.editor-element .image-element .label {
+  text-transform: uppercase;
+  color: #c0ccd8;
+}
+.editor-element .border {
+  display: none;
+}
+.editor-element .controls {
+  opacity: 0;
+  transition: all 0.3s;
+}
+.editor-element .controls .editor-element-handle:hover {
+  cursor: move;
+}
+.editor-element .controls .left-handle {
+  background: url('../img/Resize-Bar.png');
+  position: absolute;
+  left: -8px;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+  width: 16px;
+  height: 47px;
+  background-position: 0px -2px;
+}
+.editor-element .controls .right-handle {
+  background: url('../img/Resize-Bar.png');
+  position: absolute;
+  right: -8px;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+  width: 16px;
+  height: 47px;
+  background-position: 0px -2px;
+}
+.editor-element .controls .bottom-handle {
+  background: url('../img/Resize-Bar.png');
+  position: absolute;
+  margin: auto;
+  bottom: -24px;
+  left: 0;
+  right: 0;
+  width: 16px;
+  height: 47px;
+  background-position: 0px -2px;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  -moz-tranform: rotate(90deg);
+}
+.editor-element .controls .delete {
+  background: url('../img/Delete-Element.png');
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  width: 44px;
+  height: 43px;
+  background-position: -7px -6px;
+}
+.editor-element .controls .delete:hover {
+  cursor: pointer;
+  background-position: -50px -6px;
+}
+/* 
+  Note: image and icons are outside because they are dragged throughout the page 
+*/
+.image {
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  background: url('../img/Element-Icons.png');
+  background-size: 200px;
+}
+.title-icon {
+  background-position: -6px -6px;
+}
+.text-icon {
+  background-position: -53px -6px;
+}
+.img-icon {
+  background-position: -99px -6px;
+}
+.nav-icon {
+  background-position: -146px -6px;
+}
+.icon {
+  background: url('../img/Add-Delete-Edit-Icons.png');
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  background-size: 100px 100px;
+  vertical-align: middle;
+}
+.icon.add {
+  background-position: -13px -13px;
+}
+.icon.add:hover {
+  background-position: -13px -37px;
+}
+.icon.add.hover {
+  background-position: -13px -37px;
+}
+.icon.edit {
+  right: 10px;
+  background-position: -39px;
+}
+.icon.delete {
+  right: 5px;
+  background-position: -64px;
+}
+.editor-element-text {
+  min-height: 50px;
+  margin-top: 3px;
+}
+.editor-element-text .input {
+  width: 100%;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 20px;
+  line-height: 45px;
+  border: transparent;
+}
+.editor-element-title {
+  min-height: 50px;
+  margin-top: 3px;
+}
+.editor-element-title .input {
+  width: 100%;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 20px;
+  line-height: 45px;
+  border: transparent;
+}
+/* Dashed line placeholder */
+.editor-element-placeholder {
+  display: inline-block;
+}
+.vertical > .editor-element-placeholder {
+  border-top: 2px dashed #8fc7ff;
+  border-left: none;
+  /*width: 100%;
+  height: 1px;
+  margin: 2px 0px;*/
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  display: inline-block;
+}
+.horizontal > .editor-element-placeholder {
+  border-top: none;
+  border-left: 2px dashed #8fc7ff;
+  width: 1px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: 0px 2px;
+  display: inline-block;
+}
+.vertical > .editor-element-placeholder + .sort-item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.horizontal > .editor-element-placeholder + .sort-item {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+/*
+Note: For empty editor canvas (Work in progress)
+
+.vertical[data-length="1"] .horizontal[data-length="0"]{
+  min-height: 100px;
+  border: 1px solid;
+  text-align: center;
+  text-transform: uppercase;
+  color: @gray;
+  vertical-align: middle;
+  border-radius: 3px;
+  border: 1px solid @gray;
+}
+.vertical[data-length="1"] .horizontal[data-length="0"]:after{
+  content: "Drag an element";
+  position: relative;
+  top: 36px;
+}
+*/
+/*
+  Note: General stuff
+*/
+.clearfix {
+  clear: both;
+}
+textarea {
+  resize: none;
+}
+/*
+Note: Only for hi-res images
+*/
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  .icon {
+    background: url('../img/Add-Delete-Edit-Icons@2x.png');
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    background-size: 100px 100px;
+    vertical-align: middle;
+  }
+  .icon.add {
+    background-position: -13px;
+  }
+  .icon.edit {
+    background-position: -39px;
+  }
+  .icon.delete {
+    background-position: -64px;
+  }
+}
+input:focus,
+textarea:focus,
+.input-name:focus {
+  outline: none;
+}
