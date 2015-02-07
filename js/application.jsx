@@ -37,8 +37,6 @@ var SideBarTemplatesPages = React.createClass({
     $(this.refs.label.getDOMNode()).removeAttr('contenteditable');
   },
   render: function(){
-    console.log('tiny render');
-    // <input className="input-name" defaultValue={this.props.page.pageName} ref="input" onKeyUp={this.submitHandler}></input>
     var isSelected = this.props.page.isSelected ? 'selected' : '';
     return (
       <div className={isSelected + " page" } ref="pageButton" onClick={this.onPageButtonClick}>
@@ -263,9 +261,11 @@ var ElementEventsMixin = {
     $(this.getDOMNode()).closest('.editor-element').removeClass('delete');
   },
   deleteOnClick: function(e){
-    var node = $(e.currentTarget);
-    var elementID = node.closest('li').data('element-id');
-    var parentID = node.closest('ul').data('parent-id');
+    var node = $(this.getDOMNode()).closest('li.sort-item');
+    var location = node.data('location').split('-');
+    var elementID = location[1];
+    var parentID = location[0];
+    console.log(parentID, elementID);
     this.props.onDelete(elementID, parentID);
   }
 };
@@ -276,9 +276,13 @@ var TitleElement = React.createClass({
     return {el: this.props.el};
   },
   saveContent: function(e){
+    var node = $(this.getDOMNode()).closest('li.sort-item');
+    var location = node.data('location').split('-');
+    var elementID = location[1];
+    var parentID = location[0];
     var el = this.state.el;
     el.props.content = e.target.value;
-    this.props.onUpdate(this.elementID, this.parentID, this.state.el);
+    this.props.onUpdate(elementID, parentID, this.state.el);
   },
   render: function(){
     return (
@@ -307,8 +311,13 @@ var TextElement = React.createClass({
   saveContent: function(e){
     var el = this.state.el;
     el.props.content = e.target.value;
+    var node = $(this.getDOMNode()).closest('li.sort-item');
+    var location = node.data('location').split('-');
+    var elementID = location[1];
+    var parentID = location[0];
+
     // this.setState({el: el});
-    this.props.onUpdate(this.elementID, this.parentID, this.state.el);
+    this.props.onUpdate(elementID, parentID, this.state.el);
   },
 
   render: function(){
@@ -378,13 +387,8 @@ var EditorContent = React.createClass({
 
   onElementUpdate: function(elementID, parentID, el){
     var elements = this.state.elements;
-    console.log(parentID, elementID);
-    if(parentID != null){
-      elements[parentID][elementID] = el;
-    }else{
-      elements[elementID] = el;
-    }
-
+    elements[parentID][elementID] = el;
+    
     this.setState({
       shouldUpdate: false,
       elements: elements
@@ -395,12 +399,10 @@ var EditorContent = React.createClass({
   onElementDelete: function(elementID, parentID){
 
     var elements = this.state.elements;
-    if(parentID != null){
-      elements[parentID].splice(elementID, 1);
-    }else{
-      elements.splice(elementID, 1);
-    }
+    elements[parentID].splice(elementID, 1);
 
+    console.log(elements);
+    
     this.setState({
       shouldUpdate: true,
       elements: elements
@@ -473,11 +475,17 @@ var EditorContent = React.createClass({
             }
           };
 
-          if(category != null){
-            elements[category].splice(position, 0, el); 
-          }else{
+          if(ui.item.closest('ul').hasClass('vertical')){
             elements.splice(position, 0, [el]);
+          }else{
+            elements[category].splice(position, 0, el); 
           }
+
+          // if(category != null){
+            
+          // }else{
+            
+          // }
           
           ui.item.remove();
 
@@ -489,13 +497,13 @@ var EditorContent = React.createClass({
           });
 
         }else if(ui.item.hasClass('sort-item')){
-          var targetPosition = position;
-          var targetParent = category;
-          var sourcePosition = ui.item.data('element-id');
-          var sourceParent = ui.item.data('parent-id');
+          var targetPosition = ui.item.index();
+          var targetParent = ui.item.closest('ul.horizontal').parent('li').index();
+          var location = ui.item.data('location').split('-');
+          var sourcePosition = location[1];
+          var sourceParent = location[0];
 
-          if(targetParent == undefined){
-            targetParent = 0;
+          if(ui.item.closest('ul').hasClass('vertical')){
             elements.splice(targetParent, 0, [elements[sourceParent].splice(sourcePosition, 1)[0]]);
           }else{
             elements[targetParent].splice(targetPosition, 0, elements[sourceParent].splice(sourcePosition, 1)[0]);
@@ -503,6 +511,8 @@ var EditorContent = React.createClass({
 
           self.sort.sortable('cancel');
           ui.item.parents('ul.vertical').find('.ui-draggable').remove();
+
+          console.log(elements);
           
           self.setState({
             shouldUpdate: true,
@@ -551,7 +561,8 @@ var ListItem = React.createClass({
       <li className="sort-item" 
           style={this.props.style} 
           data-element-id={this.props.index2} 
-          data-parent-id={this.props.index1}>
+          data-parent-id={this.props.index1}
+          data-location={this.props.index1 + '-' + this.props.index2}>
         {this.props.render(this.props.el)}
       </li>
     );
