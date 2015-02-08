@@ -10,6 +10,9 @@ var Header = React.createClass({
 });
 
 var SideBarTemplatesPage = React.createClass({
+  getInitialState: function(){
+    return {page: this.props.page};
+  },
   backToNormal: function(){
     $(this.refs.pageButton.getDOMNode()).removeClass('delete');
   },
@@ -21,11 +24,11 @@ var SideBarTemplatesPage = React.createClass({
     e.stopPropagation();
   },
   onPageButtonClick: function(){
-    this.props.page.isSelected = true;
+    this.state.page.isSelected = true;
     this.props.onClick(this);
   },
   editPage: function(e){
-    $(this.refs.label.getDOMNode()).attr('contenteditable', 'true').addClass('editing').focus();
+    $(this.refs.label.getDOMNode()).text(this.state.page.pageName).attr('contenteditable', 'true').addClass('editing').focus();
     e.stopPropagation();
   },
   preventSelection: function(e){
@@ -36,26 +39,35 @@ var SideBarTemplatesPage = React.createClass({
     if(e.keyCode === 13){
       e.preventDefault();
       this.saveContent();
-      return;
+      e.stopPropagation();
     }
   },
   saveContent: function(){
     $(this.refs.label.getDOMNode()).removeAttr('contenteditable').removeClass('editing');
-    this.props.page.pageName = this.refs.label.getDOMNode().innerText;
-    this.props.onPageUpdate(this);
+    var page = this.state.page;
+    var self = this;
+    page.pageName = this.refs.label.getDOMNode().innerText
+    this.setState({
+      page: page
+    }, function(){
+      self.props.onPageUpdate(self);
+    });
   },
   render: function(){
-    var isSelected = this.props.page.isSelected ? 'selected' : '';
+    var isSelected = this.state.page.isSelected ? 'selected' : '';
+    var pageName = this.state.page.pageName;
+    pageName = pageName.length > 6 ? pageName.substring(0, 6) + '...' : pageName;
     return (
       <div className={isSelected + " page" } 
             ref="pageButton" 
-            onClick={this.onPageButtonClick}>
+            onClick={this.onPageButtonClick}
+            title={this.state.page.pageName}>
         <span className="name input-name" 
               ref="label" 
               onClick={this.preventSelection}
-              onBlur={this.saveContent} 
-              onKeyDown={this.submitHandler}>
-              {this.props.page.pageName}
+              onKeyDown={this.submitHandler}
+              key={GUID()}>
+              {pageName}
         </span>
         <span className="icon delete" 
               onClick={this.deletePage} 
@@ -624,10 +636,14 @@ var EditorPageNavigation = React.createClass({
       <div id="page-navigation">
         <ul>
           {pages.map(function(page, i){
+            var pageName = page.pageName.length > 9 ? page.pageName.substring(0,9) + '...' : page.pageName;
             return (
-              <li className="page-container" onClick={self.onPageSelect.bind(this, page, i)} key={i}>
+              <li className="page-container" 
+                  onClick={self.onPageSelect.bind(this, page, i)} 
+                  key={i}
+                  title={page.pageName}>
                 <div className={(page.isSelected == true? 'selected' : '') + " page"}>
-                  <span className="name">{page.pageName}</span>
+                  <span className="name">{pageName}</span>
                 </div>
               </li>
             );

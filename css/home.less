@@ -5,12 +5,6 @@
 @font-face {
   font-family: ProximaNova;
   src: url("../fonts/ProximaNova-Reg.otf") format("opentype");
-
-  font-family: 'ProximaNova';
-  src: url('/fonts/ProximaNova-Reg.eot');
-  src: local('Graublau Web Regular'), local('Graublau Web'),
-         url('./fonts/ProximaNova-Reg.otf') format('opentype');
-  
 }
 body{
   font-family: 'ProximaNova', serif;
@@ -128,18 +122,18 @@ body{
     }
   }
   .sidebar-element:nth-child(even){
-    margin-right: 0px;
+    margin-right: 0;
   }
   .sidebar-element:nth-child(odd){
-    margin-left: 0px;
+    margin-left: 0;
   }
   .element {
     width: 48px;
     height: 68px;
-    padding: 10px 0px 0px 17px;
+    padding: 10px 0 0 17px;
     .label{
       width: 48px;
-      padding: 10px 0px 0px 0px;
+      padding: 10px 0 0 0;
       color: @gray;
       text-transform: uppercase;
       text-align: center;
@@ -155,7 +149,7 @@ body{
     color: @gray;
     text-transform: uppercase;
     line-height: 54px;
-    padding: 0px 32px;
+    padding: 0 32px;
     .label{
       /*color: @gray;
       text-transform: uppercase;
@@ -233,8 +227,8 @@ body{
   position: absolute;
   left: 235px;
   top: 50px;
-  right: 0px;
-  /*bottom: 0px;*/
+  right: 0;
+  bottom: 0;
   min-height: 250px;
   background: #ffffff;
   /*overflow: scroll;*/
@@ -260,7 +254,7 @@ body{
     }
     .page-container{
       display: inline-block;
-      padding: 0px 10px;
+      padding: 0 10px;
     }
     .page{
       border-radius: 5px;
@@ -297,11 +291,11 @@ body{
       position: relative;
     }
     .vertical{
-      padding: 25px 0px !important;
+      padding: 25px 0 !important;
     }
     .vertical > .sort-item{
       text-align: center;
-      /*padding: 5px 0px;*/
+      /*padding: 5px 0;*/
       margin: 5px 0;
       border: 1px solid transparent;
     }
@@ -381,7 +375,7 @@ body{
       margin: auto;
       width: 16px;
       height: 47px;
-      background-position: 0px -2px;
+      background-position: 0 -2px;
     }
     .right-handle{
       background: url('../img/Resize-Bar.png');
@@ -392,7 +386,7 @@ body{
       margin: auto;
       width: 16px;
       height: 47px;
-      background-position: 0px -2px;
+      background-position: 0 -2px;
     }
     .bottom-handle{
       background: url('../img/Resize-Bar.png');
@@ -403,7 +397,7 @@ body{
       right: 0;
       width: 16px;
       height: 47px;
-      background-position: 0px -2px;
+      background-position: 0 -2px;
       -webkit-transform: rotate(90deg);
       transform: rotate(90deg);
       -moz-tranform: rotate(90deg);
@@ -510,7 +504,7 @@ body{
   border-left: none;
   /*width: 100%;
   height: 1px;
-  margin: 2px 0px;*/
+  margin: 2px 0;*/
   position: absolute;
   left: 0;
   right: 0;
@@ -524,7 +518,7 @@ body{
   position: absolute;
   top: 0;
   bottom: 0;
-  margin: 0px 2px;
+  margin: 0 2px;
   display: inline-block;
 }
 .vertical > .editor-element-placeholder + .sort-item{
