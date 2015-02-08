@@ -9,51 +9,70 @@ var Header = React.createClass({
   }
 });
 
-var SideBarTemplatesPages = React.createClass({
+var SideBarTemplatesPage = React.createClass({
   backToNormal: function(){
     $(this.refs.pageButton.getDOMNode()).removeClass('delete');
   },
   beforeDelete: function(){
     $(this.refs.pageButton.getDOMNode()).addClass('delete');    
   },
-  deletePage: function(){
+  deletePage: function(e){
     this.props.onDelete(this);
+    e.stopPropagation();
   },
   onPageButtonClick: function(){
     this.props.page.isSelected = true;
     this.props.onClick(this);
   },
-  editPage: function(){
-    $(this.refs.label.getDOMNode()).attr('contenteditable', 'true').focus();
+  editPage: function(e){
+    $(this.refs.label.getDOMNode()).attr('contenteditable', 'true').addClass('editing').focus();
+    e.stopPropagation();
+  },
+  preventSelection: function(e){
+    if($(this.refs.label.getDOMNode()).hasClass('editing'))
+      e.stopPropagation();
   },
   submitHandler: function(e){
-    if(e.keyCode == 13){
+    if(e.keyCode === 13){
       e.preventDefault();
       this.saveContent();
       return;
     }
   },
   saveContent: function(){
-    $(this.refs.label.getDOMNode()).removeAttr('contenteditable');
+    $(this.refs.label.getDOMNode()).removeAttr('contenteditable').removeClass('editing');
+    this.props.page.pageName = this.refs.label.getDOMNode().innerText;
+    this.props.onPageUpdate(this);
   },
   render: function(){
     var isSelected = this.props.page.isSelected ? 'selected' : '';
     return (
-      <div className={isSelected + " page" } ref="pageButton" onClick={this.onPageButtonClick}>
-        <span className="name input-name" ref="label" onBlur={this.saveContent} onKeyDown={this.submitHandler}>{this.props.page.pageName}</span>
-        <span className="icon delete" onClick={this.deletePage} onMouseOver={this.beforeDelete} onMouseOut={this.backToNormal}></span>
-        <span className="icon edit" onClick={this.editPage}></span>
+      <div className={isSelected + " page" } 
+            ref="pageButton" 
+            onClick={this.onPageButtonClick}>
+        <span className="name input-name" 
+              ref="label" 
+              onClick={this.preventSelection}
+              onBlur={this.saveContent} 
+              onKeyDown={this.submitHandler}>
+              {this.props.page.pageName}
+        </span>
+        <span className="icon delete" 
+              onClick={this.deletePage} 
+              onMouseOver={this.beforeDelete} 
+              onMouseOut={this.backToNormal}>
+        </span>
+        <span className="icon edit" 
+              onClick={this.editPage}>
+        </span>
       </div>
     );
   }
-})
+});
 
 var SideBarTemplates = React.createClass({
-  getInitialState: function(){
-    return {pages: this.props.pages};
-  },
   componentDidMount: function(){
-    this.props.onPageUpdate(this.state.pages);
+    this.props.onPageUpdate(this.props.pages);
   },
   formSubmit: function(e){
     e.preventDefault();
@@ -65,36 +84,51 @@ var SideBarTemplates = React.createClass({
   onMouseOver: function(){
     $(this.refs.addButton.getDOMNode()).addClass('hover');
   },
-  deletePage: function(child){
-    var pages = this.state.pages;
-    var position = pages.indexOf(pages.filter(function(v,i){ return v.pageID == child.props.page.pageID })[0]);
-    this.state.pages.splice(position, 1);
-    this.forceUpdate();
-    this.props.onPageUpdate(this.state.pages);
-  },
-  togglePageButton: function(child){
-    var self = this;
-    this.state.pages.forEach(function(page, i){
-      self.state.pages[i].isSelected = false;
-      if(page.pageID == child.props.page.pageID){
-        self.state.pages[i].isSelected = true;
-      }
-    });
-    this.setState({selectedPage: child.props.page.pageID});
-    this.props.onPageUpdate(this.state.pages);
-    // call navigator
-    // this.forceUpdate();
-  },
   addPage: function(){
 
     var pageName = this.refs.input.getDOMNode().value;
     if(!pageName) return;
 
-    this.state.pages.push({pageName: pageName, pageID: GUID(), isSelected: false});
+    this.props.pages.push({
+      pageName: pageName, 
+      pageID: GUID(), 
+      isSelected: false,
+      pageContent: {elements: []}
+    });
     this.refs.input.getDOMNode().value = '';
     this.forceUpdate();
-    this.props.onPageUpdate(this.state.pages);
+    this.props.onPageUpdate(this.props.pages);
   
+  },
+  deletePage: function(child, e){
+    var pages = this.props.pages;
+    var position = pages.indexOf(pages.filter(function(v,i){ return v.pageID == child.props.page.pageID })[0]);
+    this.props.pages.splice(position, 1);
+
+    this.forceUpdate();
+    this.props.onPageUpdate(this.props.pages);
+
+  },
+  togglePageButton: function(child){
+    var self = this;
+    this.props.pages.forEach(function(page, i){
+      self.props.pages[i].isSelected = false;
+      if(page.pageID == child.props.page.pageID){
+        self.props.pages[i].isSelected = true;
+      }
+    });
+    this.setState({selectedPage: child.props.page.pageID});
+    this.props.onPageUpdate(this.props.pages);
+    
+  },
+  pageUpdate: function(child){
+    var self = this;
+    this.props.pages.forEach(function(page, i){
+      if(page.pageID == child.props.page.pageID){
+        self.props.pages[i] = child.props.page;
+      }
+    });
+    this.props.onPageUpdate(this.props.pages);
   },
   render: function(){
     var self = this;
@@ -106,21 +140,32 @@ var SideBarTemplates = React.createClass({
         <div className="content">
           <div className="pages">
             <ul>
-              {this.state.pages.map(function(page, i){
+              {this.props.pages.map(function(page, i){
                 return (
                   <li key={i}>
-                    <SideBarTemplatesPages 
+                    <SideBarTemplatesPage 
                       onClick={self.togglePageButton}
                       onDelete={self.deletePage} 
-                      page={page} />
+                      page={page}
+                      onPageUpdate={self.pageUpdate}/>
                     </li>
                   );
               })}
             </ul>
             <div id="add-page">
-              <form onSubmit={this.formSubmit} onMouseOut={this.onMouseOut} onMouseOver={this.onMouseOver}>
-                <input type="text" className="input" placeholder="add new page" ref="input" onFocus={this.onMouseOver} onBlur={this.onMouseOut}/>
-                <span className="icon add" onClick={this.addPage} ref="addButton"></span>
+              <form onSubmit={this.formSubmit} 
+                    onMouseOut={this.onMouseOut} 
+                    onMouseOver={this.onMouseOver}>
+                <input type="text" 
+                      className="input" 
+                      placeholder="add new page" 
+                      ref="input" 
+                      onFocus={this.onMouseOver} 
+                      onBlur={this.onMouseOut}/>
+                <span className="icon add" 
+                      onClick={this.addPage} 
+                      ref="addButton">
+                </span>
               </form>
             </div>
           </div>
@@ -217,35 +262,10 @@ var SideBar = React.createClass({
   render: function(){
     return (
       <div id="sidebar">
-        <SideBarTemplates onPageUpdate={this.onPageUpdate} pages={this.props.pages}/>
+        <SideBarTemplates onPageUpdate={this.onPageUpdate} 
+                          pages={this.props.pages}/>
         <SideBarElements />
         <SideBarSettings />
-      </div>
-    );
-  }
-});
-
-var EditorPageNavigation = React.createClass({
-
-  updatePageNavigation: function(pages){
-    this.props.pages = pages;
-    this.forceUpdate();
-  },
-  render: function(){
-    var pages = this.props.pages || [];
-    return (
-      <div id="page-navigation">
-        <ul>
-          {pages.map(function(page){
-            return (
-              <li className="page-container">
-                <div className={(page.isSelected == true? 'selected' : '') + " page"}>
-                  <span className="name">{page.pageName}</span>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
       </div>
     );
   }
@@ -265,7 +285,7 @@ var ElementEventsMixin = {
     var location = node.data('location').split('-');
     var elementID = location[1];
     var parentID = location[0];
-    console.log(parentID, elementID);
+    
     this.props.onDelete(elementID, parentID);
   }
 };
@@ -380,6 +400,11 @@ var EditorContent = React.createClass({
   getInitialState: function() {
     return this.props.elements;
   },
+
+  componentWillReceiveProps: function(){
+    console.log('will recieve props');
+  },
+
   shouldComponentUpdate: function(nextProps, nextState){
     nextState.elements = nextState.elements.filter(function(value, index, arr){ return value.length > 0; });
     return nextState.shouldUpdate;
@@ -400,8 +425,6 @@ var EditorContent = React.createClass({
 
     var elements = this.state.elements;
     elements[parentID].splice(elementID, 1);
-
-    console.log(elements);
     
     this.setState({
       shouldUpdate: true,
@@ -440,7 +463,6 @@ var EditorContent = React.createClass({
       distance: 0.01,
       scroll: true,
       connectWith: ".sort",
-      // tolerance: "pointer",
       placeholder: {
         element: function(currentItem) {
           var parent = $(this).closest('ul'), height = '1px';
@@ -480,13 +502,7 @@ var EditorContent = React.createClass({
           }else{
             elements[category].splice(position, 0, el); 
           }
-
-          // if(category != null){
-            
-          // }else{
-            
-          // }
-          
+      
           ui.item.remove();
 
           self.setState({
@@ -511,8 +527,6 @@ var EditorContent = React.createClass({
 
           self.sort.sortable('cancel');
           ui.item.parents('ul.vertical').find('.ui-draggable').remove();
-
-          console.log(elements);
           
           self.setState({
             shouldUpdate: true,
@@ -527,10 +541,11 @@ var EditorContent = React.createClass({
     });
   },
   render: function(){
+    console.log('render EditorContent');
     var self = this;
     var elements = $.map(this.state.elements,function(item, index1){
       return (
-        <li className="sort-item">
+        <li className="sort-item" key={index1}>
           <ul className="sort horizontal" data-id="2" data-parent-id={index1} data-length={item.length}>
             {item.map(function(el, index2){
               var style = {
@@ -547,7 +562,7 @@ var EditorContent = React.createClass({
 
     return (
       <div className="page-content">
-        <ul className="sort vertical" data-id="1" data-length={elements.length} >
+        <ul className="sort vertical" data-id="1" data-length={elements.length}>
           {elements}
         </ul>
       </div>
@@ -567,12 +582,61 @@ var ListItem = React.createClass({
       </li>
     );
   }
-})
+});
+
+var EditorPageNavigation = React.createClass({
+  onPageSelect: function(child){
+    var self = this;
+    this.props.pages.forEach(function(page, i){
+      self.props.pages[i].isSelected = false;
+      if(page.pageID == child.pageID){
+        self.props.pages[i].isSelected = true;
+      }
+    });
+    this.updatePageNavigation(this.props.pages);
+    this.props.onPageSelect(child);
+  },
+  updatePageNavigation: function(pages){
+    this.props.pages = pages;
+    this.forceUpdate();
+  },
+  render: function(){
+    var self = this;
+    var pages = this.props.pages || [];
+    return (
+      <div id="page-navigation">
+        <ul>
+          {pages.map(function(page, i){
+            return (
+              <li className="page-container" onClick={self.onPageSelect.bind(this, page)} key={i}>
+                <div className={(page.isSelected == true? 'selected' : '') + " page"}>
+                  <span className="name">{page.pageName}</span>
+                </div>
+              </li>
+            );
+          }, this)}
+        </ul>
+      </div>
+    );
+  }
+});
 
 var Editor = React.createClass({
 
   getInitialState: function(){
     return this.props.pages[0];
+  },
+
+  pageSelect: function(page){
+    this.refs.editorContent.props.elements = page.pageContent;
+    // this.refs.editorContent.setProps({
+    //   elements: page.pageContent
+    // });
+    // console.log(this.refs.editorContent);
+    this.refs.editorContent.setState({
+      elements: page.pageContent.elements
+    })
+    this.refs.editorContent.render();
   },
 
   updatePageNavigation: function(pages){
@@ -582,8 +646,8 @@ var Editor = React.createClass({
   render: function(){
     return (
       <div id="editor">
-        <EditorPageNavigation ref="editorNavigation" pages={this.props.pages}/>
-        <EditorContent elements={this.props.pages[0].pageContent}/>
+        <EditorPageNavigation ref="editorNavigation" pages={this.props.pages} onPageSelect={this.pageSelect}/>
+        <EditorContent ref="editorContent" elements={this.props.pages[0].pageContent}/>
       </div>
     );
   }
@@ -611,42 +675,41 @@ var Application = React.createClass({
   },
 
   render: function(){
+
     return (
       <div>
         <Header />
         <SideBar 
           onPageUpdate={this.onPageUpdate} 
-          pages={this.props.data.app.pages}/>
+          pages={this.props.pages}/>
         <Editor 
           ref="editor" 
-          pages={this.props.data.app.pages}/>
+          pages={this.props.pages}/>
       </div>
     );
   }
 });
 
-var data = {
-  app: {
-    pages: [{
-        pageName: 'Home',
-        pageID: GUID(),
-        isSelected: true,
-        pageContent: {
-            elements: [
-                [{
-                    type: '2',
-                    id: GUID(),
-                    props: {
-                        content: ''
-                    }
-                }]
-            ]
-        }
-    }]
-  }
-};
+var Pages = [{
+    pageName: 'Home',
+    pageID: GUID(),
+    isSelected: true,
+    pageContent: {
+        elements: [
+            [{
+                type: '2',
+                id: GUID(),
+                props: {
+                    content: ''
+                }
+            }]
+        ]
+    }
+}];
+  
 
-React.render(<Application data={data}/>, document.getElementById("main"));
+
+React.render(<Application pages={Pages}/>, document.getElementById("main"));
 
 function GUID(){
   return Math.random().toString(36).substring(7);
