@@ -72,7 +72,7 @@ var SideBarTemplatesPage = React.createClass({
 
 var SideBarTemplates = React.createClass({
   componentDidMount: function(){
-    this.props.onPageUpdate(this.props.pages);
+    // this.props.onPageUpdate(this.props.pages);
   },
   formSubmit: function(e){
     e.preventDefault();
@@ -336,7 +336,6 @@ var TextElement = React.createClass({
     var elementID = location[1];
     var parentID = location[0];
 
-    // this.setState({el: el});
     this.props.onUpdate(elementID, parentID, this.state.el);
   },
 
@@ -401,56 +400,75 @@ var EditorContent = React.createClass({
     return this.props.elements;
   },
 
-  componentWillReceiveProps: function(){
-    console.log('will recieve props');
-  },
-
   shouldComponentUpdate: function(nextProps, nextState){
     nextState.elements = nextState.elements.filter(function(value, index, arr){ return value.length > 0; });
-    return nextState.shouldUpdate;
+    return (nextState.hasOwnProperty('silent')) ? !nextState.silent : true;
+  },
+
+  componentDidMount: function(){
+    this.enableSorting();
+  },
+
+  componentDidUpdate: function(){
+    this.enableSorting();
   },
 
   onElementUpdate: function(elementID, parentID, el){
+    var self = this;
     var elements = this.state.elements;
     elements[parentID][elementID] = el;
     
     this.setState({
-      shouldUpdate: false,
+      silent: true,
       elements: elements
+    }, function(){
+      self.props.onUpdate(elements);
     });
 
   },
 
   onElementDelete: function(elementID, parentID){
-
     var elements = this.state.elements;
     elements[parentID].splice(elementID, 1);
     
     this.setState({
-      shouldUpdate: true,
+      silent: false,
       elements: elements
+    }, function(){
+      self.props.onUpdate(elements);
     });
 
   },
+
   renderElement: function(el){
     var elType = el.type;
     var content = el.props.content;
-    if(elType == 1){
-      return (<TitleElement el={el} onUpdate={this.onElementUpdate} onDelete={this.onElementDelete}/>);
-    }else if(elType == 2){
-      return (<TextElement el={el} onUpdate={this.onElementUpdate} onDelete={this.onElementDelete}/>);
-    }else if(elType == 3){
-      return (<ImageElement el={el} onUpdate={this.onElementUpdate} onDelete={this.onElementDelete}/>);
-    }else{
-      return (<NavElement el={el} onUpdate={this.onElementUpdate} onDelete={this.onElementDelete}/>);
+    var element;
+    switch(elType){
+      case 1:
+        element = (<TitleElement el={el} 
+                                    onUpdate={this.onElementUpdate} 
+                                    onDelete={this.onElementDelete}/>);
+        break;
+      case 2:
+        element = (<TextElement  el={el} 
+                                onUpdate={this.onElementUpdate} 
+                                onDelete={this.onElementDelete}/>);
+        break;
+      case 3:
+        element = (<ImageElement  el={el} 
+                                  onUpdate={this.onElementUpdate} 
+                                  onDelete={this.onElementDelete}/>);
+        break;
+      case 4:
+        element = (<NavElement  el={el} 
+                                onUpdate={this.onElementUpdate} 
+                                onDelete={this.onElementDelete}/>);
+        break;
     }
+    return element;
   },
-  componentDidMount: function(){
-    this.enableSorting();
-  },
-  componentDidUpdate: function(){
-    this.enableSorting();
-  },
+
   enableSorting: function(){
     var self = this;
     var stateElements = this.state.elements;
@@ -460,7 +478,7 @@ var EditorContent = React.createClass({
       forcePlaceholderSize: false,
       handle: '.editor-element-handle',
       revert: 1,
-      distance: 0.01,
+      distance: 0.001,
       scroll: true,
       connectWith: ".sort",
       placeholder: {
@@ -506,10 +524,11 @@ var EditorContent = React.createClass({
           ui.item.remove();
 
           self.setState({
-            shouldUpdate: true,
+            silent: false,
             elements: elements
           }, function(){
             self.enableSorting();
+            self.props.onUpdate(elements);
           });
 
         }else if(ui.item.hasClass('sort-item')){
@@ -529,19 +548,20 @@ var EditorContent = React.createClass({
           ui.item.parents('ul.vertical').find('.ui-draggable').remove();
           
           self.setState({
-            shouldUpdate: true,
+            silent: false,
             elements: elements
           }, function(){
             self.enableSorting();
+            self.props.onUpdate(elements);
           });
         }else{
-          self.sort.sortable('cancel');
+          // self.sort.sortable('cancel');
         }
       }
     });
   },
+
   render: function(){
-    console.log('render EditorContent');
     var self = this;
     var elements = $.map(this.state.elements,function(item, index1){
       return (
@@ -568,6 +588,7 @@ var EditorContent = React.createClass({
       </div>
     );
   }
+
 });
 
 var ListItem = React.createClass({
@@ -585,20 +606,16 @@ var ListItem = React.createClass({
 });
 
 var EditorPageNavigation = React.createClass({
-  onPageSelect: function(child){
-    var self = this;
-    this.props.pages.forEach(function(page, i){
-      self.props.pages[i].isSelected = false;
-      if(page.pageID == child.pageID){
-        self.props.pages[i].isSelected = true;
-      }
-    });
-    this.updatePageNavigation(this.props.pages);
-    this.props.onPageSelect(child);
+  getInitialState: function(){
+    return {'pages': this.props.pages};
+  },
+  onPageSelect: function(page, index){
+    if(!page.isSelected)
+      this.props.onPageSelect(index);
   },
   updatePageNavigation: function(pages){
-    this.props.pages = pages;
-    this.forceUpdate();
+    // this.state.pages = pages;
+    // this.forceUpdate();
   },
   render: function(){
     var self = this;
@@ -608,7 +625,7 @@ var EditorPageNavigation = React.createClass({
         <ul>
           {pages.map(function(page, i){
             return (
-              <li className="page-container" onClick={self.onPageSelect.bind(this, page)} key={i}>
+              <li className="page-container" onClick={self.onPageSelect.bind(this, page, i)} key={i}>
                 <div className={(page.isSelected == true? 'selected' : '') + " page"}>
                   <span className="name">{page.pageName}</span>
                 </div>
@@ -623,31 +640,51 @@ var EditorPageNavigation = React.createClass({
 
 var Editor = React.createClass({
 
+  currentPageIndex: 0,
+
   getInitialState: function(){
-    return this.props.pages[0];
+    return {'pages': this.props.pages};
   },
 
-  pageSelect: function(page){
-    this.refs.editorContent.props.elements = page.pageContent;
-    // this.refs.editorContent.setProps({
-    //   elements: page.pageContent
-    // });
-    // console.log(this.refs.editorContent);
+  pageSelect: function(pageIndex){
+    window.editorContent = this.refs.editorContent;
+    this.currentPageIndex = pageIndex;
+    var self = this;
+    this.props.pages.forEach(function(page, i){
+      self.props.pages[i].isSelected = false;
+    });
+    this.state.pages[this.currentPageIndex].isSelected = true;
+    this.updatePageNavigation();
+
     this.refs.editorContent.setState({
-      elements: page.pageContent.elements
-    })
-    this.refs.editorContent.render();
+      elements: this.state.pages[this.currentPageIndex].pageContent.elements,
+      'silent': false,
+    });
   },
 
-  updatePageNavigation: function(pages){
-    this.refs.editorNavigation.updatePageNavigation(pages);
+  shouldComponentUpdate: function(nextProps, nextState){
+    return nextState.hasOwnProperty('silent') ? !nextState.silent : false;
+  },
+
+  updatePageNavigation: function(){
+    this.refs.editorPageNavigation.setState({
+      'pages': this.state.pages
+    });
+  },
+
+  onUpdate: function(elements){
+    this.props.pages[this.currentPageIndex].pageContent.elements = elements;
   },
 
   render: function(){
     return (
       <div id="editor">
-        <EditorPageNavigation ref="editorNavigation" pages={this.props.pages} onPageSelect={this.pageSelect}/>
-        <EditorContent ref="editorContent" elements={this.props.pages[0].pageContent}/>
+        <EditorPageNavigation ref="editorPageNavigation" 
+                              pages={this.state.pages} 
+                              onPageSelect={this.pageSelect}/>
+        <EditorContent  ref="editorContent" 
+                        elements={this.state.pages[this.currentPageIndex].pageContent}
+                        onUpdate={this.onUpdate}/>
       </div>
     );
   }
@@ -655,7 +692,13 @@ var Editor = React.createClass({
 
 var Application = React.createClass({
   onPageUpdate: function(pages){
-    this.refs.editor.updatePageNavigation(pages);
+    var self = this;
+    this.refs.editor.setState({
+      'silent': true,
+      'pages': pages
+    }, function(){
+      self.refs.editor.updatePageNavigation();
+    });
   },
 
   handleResize: function(e) {
@@ -697,7 +740,7 @@ var Pages = [{
     pageContent: {
         elements: [
             [{
-                type: '2',
+                type: 2,
                 id: GUID(),
                 props: {
                     content: ''
