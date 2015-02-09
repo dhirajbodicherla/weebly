@@ -86,12 +86,12 @@ var SideBarTemplatesPage = React.createClass({
               key={GUID()}>
               {pageName}
         </span>
-        <span className="icon delete" 
+        <span className="icon delete icon-Add-Delete-Edit-Icons" 
               onClick={this.deleteClickHandler} 
               onMouseOver={this.pageDeleteHover} 
               onMouseOut={this.pageNormal}>
         </span>
-        <span className="icon edit" 
+        <span className="icon edit icon-Add-Delete-Edit-Icons" 
               onClick={this.editClickHandler}>
         </span>
       </div>
@@ -189,7 +189,7 @@ var SideBarTemplates = React.createClass({
                       ref="input" 
                       onFocus={this.inputFocus} 
                       onBlur={this.inputBlur}/>
-                <span className="icon add" 
+                <span className="icon add icon-Add-Delete-Edit-Icons" 
                       onClick={this.addClickHandler} 
                       ref="addButton">
                 </span>
@@ -206,7 +206,7 @@ var SideBarElementsIcon = React.createClass({
   render: function(){
     return (
       <div className="element">
-        <div className={this.props.typeName + " image"} data-type={this.props.typeID}></div>
+        <div className={this.props.typeName + " image icon-Element-Icons"} data-type={this.props.typeID}></div>
         <div className="label">{this.props.typeDisplay}</div>
       </div>
     );
@@ -363,10 +363,11 @@ var TitleElement = React.createClass({
     return (
       <div className="editor-element editor-element-title">
         <div className="controls">
-          <div className="editor-element-handle left-handle"></div>
-          <div className="editor-element-handle right-handle"></div>
-          <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete" onMouseOver={this.deleteMouseOverHandler} 
+          <div className="editor-element-handle left-handle icon-Resize-Bar"></div>
+          <div className="editor-element-handle right-handle icon-Resize-Bar"></div>
+          <div className="editor-element-handle bottom-handle icon-Resize-Bar"></div>
+          <div className="delete icon-Delete-Element" 
+                                  onMouseOver={this.deleteMouseOverHandler} 
                                   onMouseOut={this.deleteMouseOutHandler} 
                                   onClick={this.deleteClickHandler}></div>
         </div>
@@ -400,10 +401,11 @@ var TextElement = React.createClass({
     return (
       <div className="editor-element editor-element-text">
         <div className="controls">
-          <div className="editor-element-handle left-handle"></div>
-          <div className="editor-element-handle right-handle"></div>
-          <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete" onMouseOver={this.deleteMouseOverHandler} 
+          <div className="editor-element-handle left-handle icon-Resize-Bar"></div>
+          <div className="editor-element-handle right-handle icon-Resize-Bar"></div>
+          <div className="editor-element-handle bottom-handle icon-Resize-Bar"></div>
+          <div className="delete icon-Delete-Element" 
+                                  onMouseOver={this.deleteMouseOverHandler} 
                                   onMouseOut={this.deleteMouseOutHandler} 
                                   onClick={this.deleteClickHandler}></div>
         </div>
@@ -423,10 +425,11 @@ var ImageElement = React.createClass({
     return (
       <div className="editor-element editor-element-image">
         <div className="controls">
-          <div className="editor-element-handle left-handle"></div>
-          <div className="editor-element-handle right-handle"></div>
-          <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete" onMouseOver={this.deleteMouseOverHandler} 
+          <div className="editor-element-handle left-handle icon-Resize-Bar"></div>
+          <div className="editor-element-handle right-handle icon-Resize-Bar"></div>
+          <div className="editor-element-handle bottom-handle icon-Resize-Bar"></div>
+          <div className="delete icon-Delete-Element" 
+                                  onMouseOver={this.deleteMouseOverHandler} 
                                   onMouseOut={this.deleteMouseOutHandler} 
                                   onClick={this.deleteClickHandler}></div>
         </div>
@@ -445,10 +448,11 @@ var NavElement = React.createClass({
     return (
       <div className="editor-element editor-element-nav">
         <div className="controls">
-          <div className="editor-element-handle left-handle"></div>
-          <div className="editor-element-handle right-handle"></div>
-          <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete" onMouseOver={this.deleteMouseOverHandler} 
+          <div className="editor-element-handle left-handle icon-Resize-Bar"></div>
+          <div className="editor-element-handle right-handle icon-Resize-Bar"></div>
+          <div className="editor-element-handle bottom-handle icon-Resize-Bar"></div>
+          <div className="delete icon-Delete-Element" 
+                                  onMouseOver={this.deleteMouseOverHandler} 
                                   onMouseOut={this.deleteMouseOutHandler} 
                                   onClick={this.deleteClickHandler}></div>
         </div>
