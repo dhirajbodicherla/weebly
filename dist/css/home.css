@@ -19,6 +19,11 @@
   font-family: 'ProximaNova-Sbold';
   src: url("/fonts/ProximaNova-Sbold.otf") format("opentype");
 }
+.borderBoxMixin {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 body {
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -38,9 +43,12 @@ body {
   position: absolute;
   background: #518dca;
   border-bottom: 1px solid #404040;
-  box-shadow: 0 1px 1px 0 #404040;
+  /*box-shadow: 0 1px 1px 0 #404040;
   -webkit-box-shadow: 0 1px 1px 0 #404040;
-  -moz-box-shadow: 0 1px 1px 0 #404040;
+  -moz-box-shadow: 0 1px 1px 0 #404040;*/
+  -webkit-box-shadow: 0 1px 1px #000000, inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  -moz-box-shadow: 0 1px 1px #000000, inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 1px #000000, inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   z-index: 5;
 }
 #header #logomark {
@@ -55,9 +63,11 @@ body {
   left: 0;
   top: 41px;
   bottom: 0;
-  width: 252px;
-  background: #4b5155;
+  width: 236px;
+  background: #2c3e50;
   font-family: 'ProximaNova-Sbold';
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 #sidebar .item {
   width: 235px;
@@ -74,9 +84,9 @@ body {
   font-size: 13px;
   border-top: 2px solid #1a2733;
   border-bottom: 2px solid #1a2733;
-}
-#sidebar .item:last-child {
-  padding-bottom: 250px;
+  -webkit-box-shadow: 0 1px rgba(255, 255, 255, 0.05);
+  -moz-box-shadow: 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 1px rgba(255, 255, 255, 0.05);
 }
 #sidebar ul {
   list-style-type: none;
@@ -91,26 +101,31 @@ body {
   padding: 24px 32px;
 }
 #templates .content .page {
-  border-radius: 5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 4px;
   height: 36px;
   width: 171px;
-  box-sizing: border-box;
   color: #ffffff;
   margin-bottom: 9px;
   position: relative;
-  border: 2px solid #617588;
-  background: #4f657b;
-  box-shadow: 0 2px 0 0 #233240;
-  -webkit-box-shadow: 0 2px 0 0 #233240;
-  -moz-box-shadow: 0 2px 0 0 #233240;
+  /*background: @gray;*/
+  background: #518dca;
+  -webkit-box-shadow: 0 2px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  -moz-box-shadow: 0 2px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   -o-transition: background 0.2s ease-in;
   -ms-transition: background 0.2s ease-in;
   -moz-transition: background 0.2s ease-in;
   -webkit-transition: background 0.2s ease-in;
   transition: background 0.2s ease-in;
+  /*&.selected{
+      background: @blue;
+    }*/
 }
 #templates .content .page .name {
-  top: 8px;
+  top: 10px;
   position: absolute;
   right: 54px;
   left: 17px;
@@ -122,32 +137,30 @@ body {
 #templates .content .page .icon {
   float: right;
   position: relative;
-  top: 5px;
+  top: 10px;
+  right: 10px;
   display: none;
-  -webkit-transform: scale(0.8);
 }
 #templates .content .page:hover {
   background: #4f657b;
 }
-#templates .content .page:hover .icon {
+#templates .content .page:hover .delete,
+#templates .content .page:hover .edit {
   display: block;
-}
-#templates .content .page.selected {
-  background: #518dca;
-  border: 2px solid #6399cf;
 }
 #templates .content .page.delete {
   background: #d86a65;
-  border: 2px solid #dc7975;
 }
 #templates .content .page.delete .icon.edit {
   display: none;
 }
 #templates .content #add-page {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   border-radius: 5px;
   height: 36px;
   width: 171px;
-  box-sizing: border-box;
   line-height: 34px;
   color: #ffffff;
   background: #4f657b;
@@ -157,12 +170,9 @@ body {
   border: 2px solid #4f657b;
   position: relative;
 }
-#templates .content #add-page .icon {
+#templates .content #add-page .add {
   float: right;
   position: relative;
-  top: 3px;
-  right: 10px;
-  -webkit-transform: scale(0.8);
 }
 #templates .content #add-page .input {
   border: transparent;
@@ -192,10 +202,12 @@ body {
   height: 100%;
 }
 #elements .content .sidebar-element {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   width: 116px;
   background: #34485c;
   height: 108px;
-  box-sizing: border-box;
   border: none;
   float: left;
   position: relative;
@@ -270,20 +282,18 @@ body {
   background: #ffffff;
   border-radius: 4px;
   padding: 42px 52px 72px 42px;
-  height: 100%;
-  -webkit-transition: all 0.7s ease-out;
-  -moz-transition: all 0.7s ease-out;
-  -ms-transition: all 0.7s ease-out;
-  -o-transition: all 0.7s ease-out;
-  transition: all 0.7s ease-out;
+  overflow-y: scroll;
+  box-shadow: -3px 0px 7px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: -3px 0px 7px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: -3px 0px 7px 0px rgba(0, 0, 0, 0.3);
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 #editor.editor-content-overlap {
   left: 50px;
-  -webkit-transition: all 0.7s ease-out;
-  -moz-transition: all 0.7s ease-out;
-  -ms-transition: all 0.7s ease-out;
-  -o-transition: all 0.7s ease-out;
-  transition: all 0.7s ease-out;
 }
 #editor #page-navigation {
   margin-top: 30px;
@@ -301,13 +311,15 @@ body {
   margin: 0 13px 13px 0;
 }
 #editor #page-navigation .page {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   border-radius: 5px;
   height: 40px;
   width: 123px;
   line-height: 40px;
   color: #97aabc;
   text-align: center;
-  box-sizing: border-box;
   text-transform: uppercase;
   position: relative;
   background: #ffffff;
@@ -324,6 +336,7 @@ body {
 #editor .page-content {
   margin-top: 48px;
   border-radius: 2px;
+  margin-bottom: 100px;
 }
 #editor .page-content ul {
   list-style-type: none;
@@ -335,6 +348,8 @@ body {
   padding: 25px 0 !important;
 }
 #editor .page-content .sort-item {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 #editor .page-content .vertical > .sort-item {
@@ -360,15 +375,21 @@ body {
   border: 2px solid #8fc7ff;
 }
 .editor-element {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   position: relative;
   border-radius: 5px;
   padding: 1px;
   border: 2px solid transparent;
   margin-top: 1px;
   height: 100%;
-  transition: all 0.3s;
-  box-sizing: border-box;
   padding: 2px;
+  transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
 }
 .editor-element.delete {
   border: 2px solid #ef7a74 !important;
@@ -379,71 +400,62 @@ body {
 .editor-element .controls {
   opacity: 0;
   transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
 }
 .editor-element .controls .editor-element-handle:hover {
   cursor: move;
 }
 .editor-element .controls .left-handle {
-  background: url('/img/Resize-Bar.png');
   position: absolute;
   left: -9px;
   bottom: 0;
   top: 0;
   margin: auto;
-  width: 16px;
-  height: 47px;
-  background-position: 0 -2px;
 }
 .editor-element .controls .right-handle {
-  background: url('/img/Resize-Bar.png');
   position: absolute;
   right: -9px;
   bottom: 0;
   top: 0;
   margin: auto;
-  width: 16px;
-  height: 47px;
-  background-position: 0 -2px;
 }
 .editor-element .controls .bottom-handle {
-  background: url('/img/Resize-Bar.png');
   position: absolute;
   margin: auto;
-  bottom: -25px;
+  bottom: -26px;
   left: 0;
   right: 0;
-  width: 16px;
-  height: 47px;
-  background-position: 0 -2px;
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
   -moz-tranform: rotate(90deg);
 }
 .editor-element .controls .delete {
-  background: url('/img/Delete-Element.png');
   position: absolute;
-  right: -5px;
-  top: -5px;
-  width: 44px;
-  height: 43px;
-  background-position: -7px -6px;
+  right: -2px;
+  top: -2px;
+  width: 40px;
+  height: 40px;
+  background-position: -166px -428px;
 }
 .editor-element .controls .delete:hover {
   cursor: pointer;
-  background-position: -50px -6px;
+  background-position: -209px -428px;
 }
 .editor-element-text {
   min-height: 50px;
   margin-top: 3px;
 }
 .editor-element-text .input {
-  width: 100%;
-  height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  width: 100%;
+  height: 100%;
   font-size: 14px;
-  line-height: 45px;
+  line-height: 25px;
   border: transparent;
   color: #4f657b;
   font-family: 'ProximaNova-Reg';
@@ -466,39 +478,48 @@ body {
   height: 100px;
 }
 .editor-element-title .input {
-  font-size: 30px;
-  width: 100%;
-  height: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  font-size: 20px;
+  width: 100%;
+  height: 100%;
+  font-size: 30px;
   line-height: 45px;
   border: transparent;
   color: #4f657b;
   font-family: 'ProximaNova-Sbold';
+}
+.editor-element-title .input::-webkit-input-placeholder {
+  color: #4f657b;
+}
+.editor-element-title .input::-moz-placeholder {
+  color: #4f657b;
+}
+.editor-element-title .input:-ms-input-placeholder {
+  color: #4f657b;
+}
+.editor-element-title .input:-moz-placeholder {
+  color: #4f657b;
 }
 .editor-element-image {
   padding: 18px;
   height: 195px;
 }
 .editor-element-image .image-element {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   border: 2px solid #c0ccd8;
   border-radius: 5px;
   background: #eff2f5;
   text-align: center;
   height: 100%;
-  box-sizing: border-box;
 }
 .editor-element-image .image-element .image-placeholder {
-  /*background: url('../img/Image-Placeholder.png');
-      width: 106px;
-      height: 106px;*/
   margin: 0 auto;
   background-position: -7px -440px;
   width: 125px;
   height: 125px;
-  /*background-position: -15px -15px;*/
 }
 .editor-element-image .image-element .label {
   font-family: 'ProximaNova-Sbold';
@@ -515,53 +536,68 @@ body {
 */
 .image {
   z-index: 100;
-  width: 46px;
-  height: 46px;
-  background: url('/img/Element-Icons.png');
-  background-size: 200px;
+  width: 52px;
+  height: 54px;
+  -webkit-box-shadow: 0 2px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  -moz-box-shadow: 0 2px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 .title-icon {
-  background-position: -7px -7px;
+  background-position: -426px -150px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #67c98c;
 }
 .text-icon {
-  background-position: -54px -7px;
+  background-position: -480px -150px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #8b87b8;
 }
 .img-icon {
-  background-position: -100px -7px;
+  background-position: -534px -150px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #6ac9ec;
 }
 .nav-icon {
-  background-position: -147px -7px;
+  background-position: -588px -150px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #e3d262;
 }
 .image-moving {
-  box-shadow: 1px 6px 20px -6px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 1px 6px 20px -6px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 1px 6px 20px -6px rgba(0, 0, 0, 0.5);
+  cursor: move;
+  -webkit-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  -moz-box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 .icon {
-  background: url('/img/Add-Delete-Edit-Icons.png');
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 15px;
+  height: 15px;
   position: relative;
-  background-size: 100px 100px;
   vertical-align: middle;
 }
 .icon.add {
-  background-position: -13px -13px;
-}
-.icon.add:hover {
-  background-position: -13px -37px;
+  top: 10px;
+  right: 10px;
+  background-position: -351px -185px;
 }
 .icon.add.hover {
-  background-position: -13px -37px;
+  background-position: -351px -204px;
 }
 .icon.edit {
-  right: 5px;
-  background-position: -39px;
+  margin-right: 7px;
+  background-position: -372px -185px;
 }
 .icon.delete {
-  right: 10px;
-  background-position: -64px;
+  right: 5px;
+  background-position: -392px -185px;
 }
 /* Dashed line placeholder */
 .editor-element-placeholder {
@@ -588,49 +624,33 @@ body {
 }
 .vertical > .editor-element-placeholder + .sort-item {
   -moz-transition: all 0.3s ease-out;
-  /* FF4+ */
   -o-transition: all 0.3s ease-out;
-  /* Opera 10.5+ */
   -webkit-transition: all 0.3s ease-out;
-  /* Saf3.2+, Chrome */
   -ms-transition: all 0.3s ease-out;
-  /* IE10 */
   transition: all 0.3s ease-out;
   margin-bottom: 10px !important;
 }
 .vertical > .sort-item + .editor-element-placeholder {
   -moz-transition: all 0.3s ease-out;
-  /* FF4+ */
   -o-transition: all 0.3s ease-out;
-  /* Opera 10.5+ */
   -webkit-transition: all 0.3s ease-out;
-  /* Saf3.2+, Chrome */
   -ms-transition: all 0.3s ease-out;
-  /* IE10 */
   transition: all 0.3s ease-out;
   margin-top: 10px !important;
 }
 .horizontal > .editor-element-placeholder + .sort-item {
   -moz-transition: all 0.3s ease-out;
-  /* FF4+ */
   -o-transition: all 0.3s ease-out;
-  /* Opera 10.5+ */
   -webkit-transition: all 0.3s ease-out;
-  /* Saf3.2+, Chrome */
   -ms-transition: all 0.3s ease-out;
-  /* IE10 */
   transition: all 0.3s ease-out;
   margin-left: 10px !important;
 }
 .horizontal > .sort-item + .editor-element-placeholder {
   -moz-transition: all 0.3s ease-out;
-  /* FF4+ */
   -o-transition: all 0.3s ease-out;
-  /* Opera 10.5+ */
   -webkit-transition: all 0.3s ease-out;
-  /* Saf3.2+, Chrome */
   -ms-transition: all 0.3s ease-out;
-  /* IE10 */
   transition: all 0.3s ease-out;
   margin-right: 10px !important;
 }
@@ -668,25 +688,6 @@ textarea:focus,
   outline: none;
 }
 /*
+WORK IN PROGRESS
 Note: Only for hi-res images
 */
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-  .icon {
-    background: url('/img/Add-Delete-Edit-Icons@2x.png');
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    position: relative;
-    background-size: 100px 100px;
-    vertical-align: middle;
-  }
-  .icon.add {
-    background-position: -13px;
-  }
-  .icon.edit {
-    background-position: -39px;
-  }
-  .icon.delete {
-    background-position: -64px;
-  }
-}

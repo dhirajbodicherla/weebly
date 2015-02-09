@@ -12,30 +12,40 @@ var SideBarTemplatesPage = React.createClass({displayName: "SideBarTemplatesPage
   getInitialState: function(){
     return {page: this.props.page};
   },
-  backToNormal: function(){
+  pageNormal: function(){
     $(this.refs.pageButton.getDOMNode()).removeClass('delete');
   },
-  beforeDelete: function(){
+  pageDeleteHover: function(){
     $(this.refs.pageButton.getDOMNode()).addClass('delete');    
   },
-  deletePage: function(e){
+  deleteClickHandler: function(e){
     this.props.onDelete(this);
     e.stopPropagation();
   },
   onPageButtonClick: function(){
-    // this.state.page.isSelected = true;
+    return;
+    /* NOTE: Click should not do anything for now */
     var page = this.state.page;
     page.isSelected = true;
     this.setState({
       page: page
     });
-    // this.props.onClick(this);
+    this.props.onClick(this);
   },
-  editPage: function(e){
-    $(this.refs.label.getDOMNode()).text(this.state.page.pageName).attr('contenteditable', 'true').addClass('editing').focus();
+  editClickHandler: function(e){
+    $(this.refs.label.getDOMNode())
+      .text(this.state.page.pageName)
+      .attr('contenteditable', 'true')
+      .addClass('editing').focus();
+
     e.stopPropagation();
   },
-  preventSelection: function(e){
+  inputNameClickHandler: function(e){
+    /* 
+      This is only used to stop propagation 
+      when input is clicked while editing.
+      Will stop event to avoid page being selected while editing
+    */
     if($(this.refs.label.getDOMNode()).hasClass('editing'))
       e.stopPropagation();
   },
@@ -47,9 +57,12 @@ var SideBarTemplatesPage = React.createClass({displayName: "SideBarTemplatesPage
     }
   },
   saveContent: function(){
-    $(this.refs.label.getDOMNode()).removeAttr('contenteditable').removeClass('editing');
     var page = this.state.page;
     var self = this;
+
+    $(this.refs.label.getDOMNode())
+      .removeAttr('contenteditable')
+      .removeClass('editing');
     page.pageName = this.refs.label.getDOMNode().innerText
     this.setState({
       page: page
@@ -68,18 +81,18 @@ var SideBarTemplatesPage = React.createClass({displayName: "SideBarTemplatesPage
             title: this.state.page.pageName}, 
         React.createElement("span", {className: "name input-name", 
               ref: "label", 
-              onClick: this.preventSelection, 
+              onClick: this.inputNameClickHandler, 
               onKeyDown: this.submitHandler, 
               key: GUID()}, 
               pageName
         ), 
-        React.createElement("span", {className: "icon delete", 
-              onClick: this.deletePage, 
-              onMouseOver: this.beforeDelete, 
-              onMouseOut: this.backToNormal}
+        React.createElement("span", {className: "icon delete icon-Add-Delete-Edit-Icons", 
+              onClick: this.deleteClickHandler, 
+              onMouseOver: this.pageDeleteHover, 
+              onMouseOut: this.pageNormal}
         ), 
-        React.createElement("span", {className: "icon edit", 
-              onClick: this.editPage}
+        React.createElement("span", {className: "icon edit icon-Add-Delete-Edit-Icons", 
+              onClick: this.editClickHandler}
         )
       )
     );
@@ -90,18 +103,17 @@ var SideBarTemplates = React.createClass({displayName: "SideBarTemplates",
   componentDidMount: function(){
     // this.props.onPageUpdate(this.props.pages);
   },
-  formSubmit: function(e){
+  formSubmitHandler: function(e){
     e.preventDefault();
-    this.addPage();
+    this.addClickHandler();
   },
-  onMouseOut: function(){
+  inputFocus: function(){
     $(this.refs.addButton.getDOMNode()).removeClass('hover');
   },
-  onMouseOver: function(){
+  inputBlur: function(){
     $(this.refs.addButton.getDOMNode()).addClass('hover');
   },
-  addPage: function(){
-
+  addClickHandler: function(){
     var pageName = this.refs.input.getDOMNode().value;
     if(!pageName) return;
 
@@ -114,18 +126,17 @@ var SideBarTemplates = React.createClass({displayName: "SideBarTemplates",
     this.refs.input.getDOMNode().value = '';
     this.forceUpdate();
     this.props.onPageUpdate(this.props.pages);
-  
   },
   deletePage: function(child, e){
     var pages = this.props.pages;
     var position = pages.indexOf(pages.filter(function(v,i){ return v.pageID == child.props.page.pageID })[0]);
     this.props.pages.splice(position, 1);
-
     this.forceUpdate();
     this.props.onPageUpdate(this.props.pages);
-
   },
   togglePageButton: function(child){
+    return;
+    /* NOTE: Click should not do anything for now */
     var self = this;
     this.props.pages.forEach(function(page, i){
       self.props.pages[i].isSelected = false;
@@ -137,7 +148,7 @@ var SideBarTemplates = React.createClass({displayName: "SideBarTemplates",
     this.props.onPageUpdate(this.props.pages);
     
   },
-  pageUpdate: function(child){
+  pageUpdateHandler: function(child){
     var self = this;
     this.props.pages.forEach(function(page, i){
       if(page.pageID == child.props.page.pageID){
@@ -158,28 +169,28 @@ var SideBarTemplates = React.createClass({displayName: "SideBarTemplates",
             React.createElement("ul", null, 
               this.props.pages.map(function(page, i){
                 return (
-                  React.createElement("li", {key: i}, 
+                  React.createElement("li", {key: page.pageID + '-pages'}, 
                     React.createElement(SideBarTemplatesPage, {
                       onClick: self.togglePageButton, 
                       onDelete: self.deletePage, 
                       page: page, 
-                      onPageUpdate: self.pageUpdate})
+                      onPageUpdate: self.pageUpdateHandler})
                     )
                   );
               })
             ), 
             React.createElement("div", {id: "add-page"}, 
-              React.createElement("form", {onSubmit: this.formSubmit, 
-                    onMouseOut: this.onMouseOut, 
-                    onMouseOver: this.onMouseOver}, 
+              React.createElement("form", {onSubmit: this.formSubmitHandler, 
+                    onMouseOut: this.inputFocus, 
+                    onMouseOver: this.inputBlur}, 
                 React.createElement("input", {type: "text", 
                       className: "input", 
                       placeholder: "add new page", 
                       ref: "input", 
-                      onFocus: this.onMouseOver, 
-                      onBlur: this.onMouseOut}), 
-                React.createElement("span", {className: "icon add", 
-                      onClick: this.addPage, 
+                      onFocus: this.inputFocus, 
+                      onBlur: this.inputBlur}), 
+                React.createElement("span", {className: "icon add icon-Add-Delete-Edit-Icons", 
+                      onClick: this.addClickHandler, 
                       ref: "addButton"}
                 )
               )
@@ -191,11 +202,11 @@ var SideBarTemplates = React.createClass({displayName: "SideBarTemplates",
   }
 });
 
-var SideBarElementsIcons = React.createClass({displayName: "SideBarElementsIcons",
+var SideBarElementsIcon = React.createClass({displayName: "SideBarElementsIcon",
   render: function(){
     return (
       React.createElement("div", {className: "element"}, 
-        React.createElement("div", {className: this.props.typeName + " image", "data-type": this.props.typeID}), 
+        React.createElement("div", {className: this.props.typeName + " image icon-Element-Icons", "data-type": this.props.typeID}), 
         React.createElement("div", {className: "label"}, this.props.typeDisplay)
       )
     );
@@ -206,7 +217,13 @@ var SideBarElements = React.createClass({displayName: "SideBarElements",
   componentDidMount: function(){
     var self = this;
     $('#elements .element .image').draggable({
+      scroll: false,
+      appendTo: 'body', /* Fix for dragging elements in scroll-y containers */
+      containment: 'window', /* Same as above */
       connectToSortable: ".sort",
+      /*
+        Returns a clone with React properties to avoid react errors
+      */
       helper: function(){
         var className = $(this).attr('class') + ' image-moving';
         return React.renderToString(React.createElement('div', {className: className}, null));
@@ -224,16 +241,16 @@ var SideBarElements = React.createClass({displayName: "SideBarElements",
         React.createElement("div", {className: "content"}, 
           React.createElement("ul", null, 
             React.createElement("li", {className: "sidebar-element"}, 
-              React.createElement(SideBarElementsIcons, {typeID: "1", typeName: "title-icon", typeDisplay: "Title"})
+              React.createElement(SideBarElementsIcon, {typeID: "1", typeName: "title-icon", typeDisplay: "Title"})
             ), 
             React.createElement("li", {className: "sidebar-element"}, 
-              React.createElement(SideBarElementsIcons, {typeID: "2", typeName: "text-icon", typeDisplay: "Text"})
+              React.createElement(SideBarElementsIcon, {typeID: "2", typeName: "text-icon", typeDisplay: "Text"})
             ), 
             React.createElement("li", {className: "sidebar-element"}, 
-              React.createElement(SideBarElementsIcons, {typeID: "3", typeName: "img-icon", typeDisplay: "Image"})
+              React.createElement(SideBarElementsIcon, {typeID: "3", typeName: "img-icon", typeDisplay: "Image"})
             ), 
             React.createElement("li", {className: "sidebar-element"}, 
-              React.createElement(SideBarElementsIcons, {typeID: "4", typeName: "nav-icon", typeDisplay: "Nav"})
+              React.createElement(SideBarElementsIcon, {typeID: "4", typeName: "nav-icon", typeDisplay: "Nav"})
             )
           ), 
           React.createElement("div", {className: "clearfix"})
@@ -247,7 +264,10 @@ var SideBarSettings = React.createClass({displayName: "SideBarSettings",
   getInitialState: function() {
     return {isChecked: false};
   },
-  toggleCheckBox: function(){
+  /*
+    Toggle checkbox
+  */
+  clickHandler: function(){
     this.setState({isChecked : !this.state.isChecked});
   },
   render: function(){
@@ -262,7 +282,8 @@ var SideBarSettings = React.createClass({displayName: "SideBarSettings",
             React.createElement("li", {className: "settings-item-container"}, 
               React.createElement("div", {className: "settings-item site-grid"}, 
                 "site grid", 
-                React.createElement("span", {className: checkboxState + " checkbox icon-Toggle-Switch", onClick: this.toggleCheckBox})
+                React.createElement("span", {className: checkboxState + " checkbox icon-Toggle-Switch", 
+                      onClick: this.clickHandler})
               )
             )
           )
@@ -273,19 +294,24 @@ var SideBarSettings = React.createClass({displayName: "SideBarSettings",
 });
 
 var SideBar = React.createClass({displayName: "SideBar",
-  onPageUpdate: function(pages){
+  pageUpdateHandler: function(pages){
     this.props.onPageUpdate(pages);
   },
-  onMouseEnter: function(){
+  /* 
+    Mouse enter and leave are to control the 
+    editor container overlay when window is small
+  */
+  mouseEnterHandler: function(){
     this.props.mouseEnter();
   },
-  onMouseLeave: function(){
+  mouseLeaveHandler: function(){
     this.props.mouseLeave();
   },
   render: function(){
     return (
-      React.createElement("div", {id: "sidebar", onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave}, 
-        React.createElement(SideBarTemplates, {onPageUpdate: this.onPageUpdate, 
+      React.createElement("div", {id: "sidebar", onMouseEnter: this.mouseEnterHandler, 
+                        onMouseLeave: this.mouseLeaveHandler}, 
+        React.createElement(SideBarTemplates, {onPageUpdate: this.pageUpdateHandler, 
                           pages: this.props.pages}), 
         React.createElement(SideBarElements, null), 
         React.createElement(SideBarSettings, null)
@@ -294,16 +320,22 @@ var SideBar = React.createClass({displayName: "SideBar",
   }
 });
 
+/* 
+  Elements structures below
+
+  Mixin for all 4 types of elements
+  This takes care of common events: delete hover and click
+*/
 var ElementEventsMixin = {
-  deleteMouseOver: function(e){
+  deleteMouseOverHandler: function(e){
     $(e.currentTarget).siblings().hide();
     $(this.getDOMNode()).closest('.editor-element').addClass('delete');
   },
-  deleteMouseOut: function(e){
+  deleteMouseOutHandler: function(e){
     $(e.currentTarget).siblings().show();
     $(this.getDOMNode()).closest('.editor-element').removeClass('delete');
   },
-  deleteOnClick: function(e){
+  deleteClickHandler: function(e){
     var node = $(this.getDOMNode()).closest('li.sort-item');
     var location = node.data('location').split('-');
     var elementID = location[1];
@@ -331,13 +363,16 @@ var TitleElement = React.createClass({displayName: "TitleElement",
     return (
       React.createElement("div", {className: "editor-element editor-element-title"}, 
         React.createElement("div", {className: "controls"}, 
-          React.createElement("div", {className: "editor-element-handle left-handle"}), 
-          React.createElement("div", {className: "editor-element-handle right-handle"}), 
-          React.createElement("div", {className: "editor-element-handle bottom-handle"}), 
-          React.createElement("div", {className: "delete", onMouseOver: this.deleteMouseOver, onMouseOut: this.deleteMouseOut, onClick: this.deleteOnClick})
+          React.createElement("div", {className: "editor-element-handle left-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "editor-element-handle right-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "editor-element-handle bottom-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "delete icon-Delete-Element", 
+                                  onMouseOver: this.deleteMouseOverHandler, 
+                                  onMouseOut: this.deleteMouseOutHandler, 
+                                  onClick: this.deleteClickHandler})
         ), 
         React.createElement("textarea", {type: "text", className: "input", 
-                placeholder: "Start typing here", 
+                placeholder: "Add title here", 
                 defaultValue: this.state.el.props.content, 
                 onKeyUp: this.saveContent}
         )
@@ -366,10 +401,13 @@ var TextElement = React.createClass({displayName: "TextElement",
     return (
       React.createElement("div", {className: "editor-element editor-element-text"}, 
         React.createElement("div", {className: "controls"}, 
-          React.createElement("div", {className: "editor-element-handle left-handle"}), 
-          React.createElement("div", {className: "editor-element-handle right-handle"}), 
-          React.createElement("div", {className: "editor-element-handle bottom-handle"}), 
-          React.createElement("div", {className: "delete", onMouseOver: this.deleteMouseOver, onMouseOut: this.deleteMouseOut, onClick: this.deleteOnClick})
+          React.createElement("div", {className: "editor-element-handle left-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "editor-element-handle right-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "editor-element-handle bottom-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "delete icon-Delete-Element", 
+                                  onMouseOver: this.deleteMouseOverHandler, 
+                                  onMouseOut: this.deleteMouseOutHandler, 
+                                  onClick: this.deleteClickHandler})
         ), 
         React.createElement("textarea", {type: "text", className: "input", 
                   placeholder: "Start typing here", 
@@ -387,10 +425,13 @@ var ImageElement = React.createClass({displayName: "ImageElement",
     return (
       React.createElement("div", {className: "editor-element editor-element-image"}, 
         React.createElement("div", {className: "controls"}, 
-          React.createElement("div", {className: "editor-element-handle left-handle"}), 
-          React.createElement("div", {className: "editor-element-handle right-handle"}), 
-          React.createElement("div", {className: "editor-element-handle bottom-handle"}), 
-          React.createElement("div", {className: "delete", onMouseOver: this.deleteMouseOver, onMouseOut: this.deleteMouseOut, onClick: this.deleteOnClick})
+          React.createElement("div", {className: "editor-element-handle left-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "editor-element-handle right-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "editor-element-handle bottom-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "delete icon-Delete-Element", 
+                                  onMouseOver: this.deleteMouseOverHandler, 
+                                  onMouseOut: this.deleteMouseOutHandler, 
+                                  onClick: this.deleteClickHandler})
         ), 
         React.createElement("div", {className: "image-element"}, 
           React.createElement("div", {className: "image-placeholder icon-Image-Placeholder"}), 
@@ -407,10 +448,13 @@ var NavElement = React.createClass({displayName: "NavElement",
     return (
       React.createElement("div", {className: "editor-element editor-element-nav"}, 
         React.createElement("div", {className: "controls"}, 
-          React.createElement("div", {className: "editor-element-handle left-handle"}), 
-          React.createElement("div", {className: "editor-element-handle right-handle"}), 
-          React.createElement("div", {className: "editor-element-handle bottom-handle"}), 
-          React.createElement("div", {className: "delete", onMouseOver: this.deleteMouseOver, onMouseOut: this.deleteMouseOut, onClick: this.deleteOnClick})
+          React.createElement("div", {className: "editor-element-handle left-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "editor-element-handle right-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "editor-element-handle bottom-handle icon-Resize-Bar"}), 
+          React.createElement("div", {className: "delete icon-Delete-Element", 
+                                  onMouseOver: this.deleteMouseOverHandler, 
+                                  onMouseOut: this.deleteMouseOutHandler, 
+                                  onClick: this.deleteClickHandler})
         ), 
         React.createElement("p", {className: "placeholder"}, "Nav")
       )
@@ -424,32 +468,36 @@ var EditorContent = React.createClass({displayName: "EditorContent",
   },
 
   shouldComponentUpdate: function(nextProps, nextState){
+    /*
+      Note: To remove elements with 0 sizes sub arrays
+      ** See Page structure for more information
+    */
     nextState.elements = nextState.elements.filter(function(value, index, arr){ return value.length > 0; });
     return (nextState.hasOwnProperty('silent')) ? !nextState.silent : true;
   },
-
   componentDidMount: function(){
     this.enableSorting();
   },
-
+  /* 
+    After moving each elements inside the canvas 
+    setState is called because of which componentDidUpdate 
+    is called. At this stage inorder to enable nested 
+    sorting enable sorting has to be enabled
+  */
   componentDidUpdate: function(){
     this.enableSorting();
   },
-
   onElementUpdate: function(elementID, parentID, el){
     var self = this;
     var elements = this.state.elements;
     elements[parentID][elementID] = el;
-    
     this.setState({
       silent: true,
       elements: elements
     }, function(){
       self.props.onUpdate(elements);
     });
-
   },
-
   onElementDelete: function(elementID, parentID){
     var elements = this.state.elements;
     elements[parentID].splice(elementID, 1);
@@ -462,7 +510,6 @@ var EditorContent = React.createClass({displayName: "EditorContent",
     });
 
   },
-
   renderElement: function(el){
     var elType = el.type;
     var content = el.props.content;
@@ -491,7 +538,6 @@ var EditorContent = React.createClass({displayName: "EditorContent",
     }
     return element;
   },
-
   enableSorting: function(){
     var self = this;
     var stateElements = this.state.elements;
@@ -501,11 +547,15 @@ var EditorContent = React.createClass({displayName: "EditorContent",
       forcePlaceholderSize: false,
       handle: '.editor-element-handle',
       revert: 1,
-      distance: 0.001,
+      distance: 0.001, /* Accuracy */
       scroll: true,
-      connectWith: ".sort",
+      connectWith: ".sort", /* Nested sorting */
       placeholder: {
         element: function(currentItem) {
+          /* 
+            For the dotted place holder
+            Weird fix: Height is not used but just needs to be computed 
+          */
           var parent = $(this).closest('ul'), height = '1px';
           if(parent.data('parent-id') != null){
             height = parent.height() + 'px';
@@ -527,7 +577,7 @@ var EditorContent = React.createClass({displayName: "EditorContent",
         var elements = self.state.elements;
 
         ui.item.removeClass('sort-item-moving');
-
+        /* Case: Dragging elements to canvas */
         if(ui.item.hasClass('image')){
 
           var el = {
@@ -543,7 +593,6 @@ var EditorContent = React.createClass({displayName: "EditorContent",
           }else{
             elements[category].splice(position, 0, el); 
           }
-      
           ui.item.remove();
 
           self.setState({
@@ -555,20 +604,21 @@ var EditorContent = React.createClass({displayName: "EditorContent",
           });
 
         }else if(ui.item.hasClass('sort-item')){
+          /* Case: Dragging elements within canvas */
           var targetPosition = ui.item.index();
-          var targetParent = ui.item.closest('ul.horizontal').parent('li').index();
+          var targetParent = ui.item.closest('.horizontal').parent('li').index();
           var location = ui.item.data('location').split('-');
           var sourcePosition = location[1];
           var sourceParent = location[0];
-
+          
           if(ui.item.closest('ul').hasClass('vertical')){
-            elements.splice(targetParent, 0, [elements[sourceParent].splice(sourcePosition, 1)[0]]);
+            elements.splice(targetPosition, 0, [elements[sourceParent].splice(sourcePosition, 1)[0]]);
           }else{
             elements[targetParent].splice(targetPosition, 0, elements[sourceParent].splice(sourcePosition, 1)[0]);
           }
 
           self.sort.sortable('cancel');
-          ui.item.parents('ul.vertical').find('.ui-draggable').remove();
+          ui.item.parents('.vertical').find('.ui-draggable').remove();
           
           self.setState({
             silent: false,
@@ -583,26 +633,32 @@ var EditorContent = React.createClass({displayName: "EditorContent",
       }
     });
   },
-
   render: function(){
     var self = this;
     var elements = $.map(this.state.elements,function(item, index1){
       return (
         React.createElement("li", {className: "sort-item", key: index1}, 
-          React.createElement("ul", {className: "sort horizontal", "data-id": "2", "data-parent-id": index1, "data-length": item.length}, 
-            item.map(function(el, index2){
+          React.createElement("ul", {className: "sort horizontal", 
+              "data-id": "2", 
+              "data-parent-id": index1, 
+              "data-length": item.length}, 
+            item.map(function(element, index2){
               var style = {
                 width: Math.floor(99/item.length) + '%'
               };
               return (
-                React.createElement(ListItem, {render: self.renderElement, style: style, index1: index1, index2: index2, el: el, key: el.id})
-              );  
+                React.createElement(ListItem, {render: self.renderElement, 
+                          style: style, 
+                          index1: index1, 
+                          index2: index2, 
+                          element: element, 
+                          key: element.id})
+              );
             })
           )
         )
       );
     });
-
     return (
       React.createElement("div", {className: "page-content"}, 
         React.createElement("ul", {className: "sort vertical", "data-id": "1", "data-length": elements.length}, 
@@ -611,7 +667,6 @@ var EditorContent = React.createClass({displayName: "EditorContent",
       )
     );
   }
-
 });
 
 var ListItem = React.createClass({displayName: "ListItem",
@@ -622,7 +677,7 @@ var ListItem = React.createClass({displayName: "ListItem",
           "data-element-id": this.props.index2, 
           "data-parent-id": this.props.index1, 
           "data-location": this.props.index1 + '-' + this.props.index2}, 
-        this.props.render(this.props.el)
+        this.props.render(this.props.element)
       )
     );
   }
@@ -632,13 +687,9 @@ var EditorPageNavigation = React.createClass({displayName: "EditorPageNavigation
   getInitialState: function(){
     return {'pages': this.props.pages};
   },
-  onPageSelect: function(page, index){
+  pageSelectHandler: function(page, index){
     if(!page.isSelected)
       this.props.onPageSelect(index);
-  },
-  updatePageNavigation: function(pages){
-    // this.state.pages = pages;
-    // this.forceUpdate();
   },
   render: function(){
     var self = this;
@@ -647,10 +698,12 @@ var EditorPageNavigation = React.createClass({displayName: "EditorPageNavigation
       React.createElement("div", {id: "page-navigation"}, 
         React.createElement("ul", null, 
           pages.map(function(page, i){
-            var pageName = page.pageName.length > 12 ? page.pageName.substring(0,9) + '...' : page.pageName;
+            var pageName = page.pageName.length > 12 
+                          ? page.pageName.substring(0,9) + '...' 
+                          : page.pageName;
             return (
               React.createElement("li", {className: "page-container", 
-                  onClick: self.onPageSelect.bind(this, page, i), 
+                  onClick: self.pageSelectHandler.bind(this, page, i), 
                   key: i, 
                   title: page.pageName}, 
                 React.createElement("div", {className: (page.isSelected == true? 'selected' : '') + " page"}, 
@@ -666,14 +719,11 @@ var EditorPageNavigation = React.createClass({displayName: "EditorPageNavigation
 });
 
 var Editor = React.createClass({displayName: "Editor",
-
   currentPageIndex: 0,
-
   getInitialState: function(){
     return {'pages': this.props.pages};
   },
-
-  pageSelect: function(pageIndex){
+  pageSelectHandler: function(pageIndex){
     window.editorContent = this.refs.editorContent;
     this.currentPageIndex = pageIndex;
     var self = this;
@@ -682,43 +732,46 @@ var Editor = React.createClass({displayName: "Editor",
     });
     this.state.pages[this.currentPageIndex].isSelected = true;
     this.updatePageNavigation();
-
     this.refs.editorContent.setState({
       elements: this.state.pages[this.currentPageIndex].pageContent.elements,
       'silent': false,
     });
   },
-
   shouldComponentUpdate: function(nextProps, nextState){
     return nextState.hasOwnProperty('silent') ? !nextState.silent : false;
   },
-
   updatePageNavigation: function(){
     this.refs.editorPageNavigation.setState({
       'pages': this.state.pages
     });
   },
-
-  onUpdate: function(elements){
+  pageUpdateHandler: function(elements){
     this.props.pages[this.currentPageIndex].pageContent.elements = elements;
   },
-
   render: function(){
     return (
       React.createElement("div", {id: "editor"}, 
         React.createElement(EditorPageNavigation, {ref: "editorPageNavigation", 
                               pages: this.state.pages, 
-                              onPageSelect: this.pageSelect}), 
+                              onPageSelect: this.pageSelectHandler}), 
         React.createElement(EditorContent, {ref: "editorContent", 
                         elements: this.state.pages[this.currentPageIndex].pageContent, 
-                        onUpdate: this.onUpdate})
+                        onUpdate: this.pageUpdateHandler})
       )
     );
   }
 });
 
 var Application = React.createClass({displayName: "Application",
-  onPageUpdate: function(pages){
+  componentDidMount: function() {
+    this.editorNode = $(this.refs.editor.getDOMNode());
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize();
+  },
+  componentWillUnmount: function() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+  pageUpdateHandler: function(pages){
     var self = this;
     this.refs.editor.setState({
       'silent': true,
@@ -727,43 +780,30 @@ var Application = React.createClass({displayName: "Application",
       self.refs.editor.updatePageNavigation();
     });
   },
-
-  editorContentShow: function(){
+  editorContentOverlayShow: function(){
     if(window.innerWidth < 850)
-      $(this.refs.editor.getDOMNode()).removeClass('editor-content-overlap');
+      this.editorNode.removeClass('editor-content-overlap');
   },
-
-  editorContentHide: function(){
+  editorContentOverlayHide: function(){
     if(window.innerWidth < 850)
-      $(this.refs.editor.getDOMNode()).addClass('editor-content-overlap');
+      this.editorNode.addClass('editor-content-overlap');
   },
-
   handleResize: function(e) {
     if(window.innerWidth < 850){
-      $(this.refs.editor.getDOMNode()).addClass('editor-content-overlap');
+      this.editorNode.addClass('editor-content-overlap');
     }else{
-      $(this.refs.editor.getDOMNode()).removeClass('editor-content-overlap');
+      this.editorNode.removeClass('editor-content-overlap');
     }
   },
-
-  componentDidMount: function() {
-    window.addEventListener('resize', this.handleResize);
-  },
-
-  componentWillUnmount: function() {
-    window.removeEventListener('resize', this.handleResize);
-  },
-
   render: function(){
-
     return (
       React.createElement("div", null, 
         React.createElement(Header, null), 
         React.createElement(SideBar, {
-          onPageUpdate: this.onPageUpdate, 
+          onPageUpdate: this.pageUpdateHandler, 
           pages: this.props.pages, 
-          mouseEnter: this.editorContentShow, 
-          mouseLeave: this.editorContentHide}), 
+          mouseEnter: this.editorContentOverlayShow, 
+          mouseLeave: this.editorContentOverlayHide}), 
         React.createElement(Editor, {
           ref: "editor", 
           pages: this.props.pages})
@@ -772,7 +812,8 @@ var Application = React.createClass({displayName: "Application",
   }
 });
 
-var Pages = [{
+/* NOTE: This will ideally be retrieved from DB */
+var defaultPages = [{
     pageName: 'Home',
     pageID: GUID(),
     isSelected: true,
@@ -789,10 +830,12 @@ var Pages = [{
     }
 }];
   
+React.render(React.createElement(Application, {pages: defaultPages}), document.getElementById("main"));
 
-
-React.render(React.createElement(Application, {pages: Pages}), document.getElementById("main"));
-
+/* 
+  Util function.
+  Todo: Should be placed in Util class for code organising
+*/
 function GUID(){
   return Math.random().toString(36).substring(7);
 }
