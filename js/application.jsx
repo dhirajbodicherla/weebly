@@ -55,7 +55,7 @@ var SideBarTemplatesPage = React.createClass({
   render: function(){
     var isSelected = this.state.page.isSelected ? 'selected' : '';
     var pageName = this.state.page.pageName;
-    pageName = pageName.length > 6 ? pageName.substring(0, 6) + '...' : pageName;
+    pageName = pageName.length > 11 ? pageName.substring(0, 8) + '...' : pageName;
     return (
       <div className={isSelected + " page" } 
             ref="pageButton" 
@@ -580,7 +580,7 @@ var EditorContent = React.createClass({
           <ul className="sort horizontal" data-id="2" data-parent-id={index1} data-length={item.length}>
             {item.map(function(el, index2){
               var style = {
-                width: Math.floor(95/item.length) + '%'
+                width: Math.floor(99/item.length) + '%'
               };
               return (
                 <ListItem render={self.renderElement} style={style} index1={index1} index2={index2} el={el} key={el.id}/>
@@ -635,7 +635,7 @@ var EditorPageNavigation = React.createClass({
       <div id="page-navigation">
         <ul>
           {pages.map(function(page, i){
-            var pageName = page.pageName.length > 9 ? page.pageName.substring(0,9) + '...' : page.pageName;
+            var pageName = page.pageName.length > 12 ? page.pageName.substring(0,9) + '...' : page.pageName;
             return (
               <li className="page-container" 
                   onClick={self.onPageSelect.bind(this, page, i)} 
