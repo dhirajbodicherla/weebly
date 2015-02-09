@@ -18133,7 +18133,6 @@ module.exports = warning;
   render: function(){
     return (
       React.createElement("div", {id: "header"}, 
-        React.createElement("div", {className: "bg"}), 
         React.createElement("div", {id: "logomark", className: "icon-Weebly-Logo"})
       )
     );
@@ -18187,7 +18186,7 @@ var SideBarTemplatesPage = React.createClass({displayName: "SideBarTemplatesPage
   render: function(){
     var isSelected = this.state.page.isSelected ? 'selected' : '';
     var pageName = this.state.page.pageName;
-    pageName = pageName.length > 6 ? pageName.substring(0, 6) + '...' : pageName;
+    pageName = pageName.length > 11 ? pageName.substring(0, 8) + '...' : pageName;
     return (
       React.createElement("div", {className: isSelected + " page", 
             ref: "pageButton", 
@@ -18335,7 +18334,8 @@ var SideBarElements = React.createClass({displayName: "SideBarElements",
     $('#elements .element .image').draggable({
       connectToSortable: ".sort",
       helper: function(){
-        return React.renderToString(React.createElement('div', {className: $(this).attr('class')}, null));
+        var className = $(this).attr('class') + ' image-moving';
+        return React.renderToString(React.createElement('div', {className: className}, null));
       },
       revert: "invalid",
       revertDuration: 200,
@@ -18712,7 +18712,7 @@ var EditorContent = React.createClass({displayName: "EditorContent",
           React.createElement("ul", {className: "sort horizontal", "data-id": "2", "data-parent-id": index1, "data-length": item.length}, 
             item.map(function(el, index2){
               var style = {
-                width: Math.floor(95/item.length) + '%'
+                width: Math.floor(99/item.length) + '%'
               };
               return (
                 React.createElement(ListItem, {render: self.renderElement, style: style, index1: index1, index2: index2, el: el, key: el.id})
@@ -18767,7 +18767,7 @@ var EditorPageNavigation = React.createClass({displayName: "EditorPageNavigation
       React.createElement("div", {id: "page-navigation"}, 
         React.createElement("ul", null, 
           pages.map(function(page, i){
-            var pageName = page.pageName.length > 9 ? page.pageName.substring(0,9) + '...' : page.pageName;
+            var pageName = page.pageName.length > 12 ? page.pageName.substring(0,9) + '...' : page.pageName;
             return (
               React.createElement("li", {className: "page-container", 
                   onClick: self.onPageSelect.bind(this, page, i), 

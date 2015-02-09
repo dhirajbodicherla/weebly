@@ -3,25 +3,26 @@
 @gray: #4f657b;
 @white: #ffffff;
 @lightgray: #97aabc;
+@assetsLocation: '../';
 @font-face {
   font-family: 'ProximaNova-Light';
-  src: url("../fonts/ProximaNova-Light.otf") format("opentype");
+  src: url("@{assetsLocation}fonts/ProximaNova-Light.otf") format("opentype");
 }
 @font-face {
   font-family: 'ProximaNova-LightIt';
-  src: url("../fonts/ProximaNova-LightIt.otf") format("opentype");
+  src: url("@{assetsLocation}fonts/ProximaNova-LightIt.otf") format("opentype");
 }
 @font-face {
   font-family: 'ProximaNova-Reg';
-  src: url("../fonts/ProximaNova-Reg.otf") format("opentype");
+  src: url("@{assetsLocation}fonts/ProximaNova-Reg.otf") format("opentype");
 }
 @font-face {
   font-family: 'ProximaNova-RegIt';
-  src: url("../fonts/ProximaNova-RegIt.otf") format("opentype");
+  src: url("@{assetsLocation}fonts/ProximaNova-RegIt.otf") format("opentype");
 }
 @font-face {
   font-family: 'ProximaNova-Sbold';
-  src: url("../fonts/ProximaNova-Sbold.otf") format("opentype");
+  src: url("@{assetsLocation}fonts/ProximaNova-Sbold.otf") format("opentype");
 }
 body{
   -webkit-user-select: none;
@@ -99,9 +100,7 @@ body{
     height: 36px;
     width: 171px;
     box-sizing: border-box;
-    /*line-height: 32px;*/
     color: @white;
-    /*padding: 5px 5px 5px 20px;*/
     margin-bottom: 9px; 
     position: relative;
     border: 2px solid #617588;
@@ -160,7 +159,6 @@ body{
     line-height: 34px;
     color: @white;
     background: @gray;
-    /*padding: 5px 5px 5px 20px;*/
     margin-bottom: 9px; 
     text-transform: uppercase;
     background: transparent;
@@ -202,7 +200,6 @@ body{
 }
 #elements .content{
   height: 100%;
-  /*background: #21313f;*/
   .sidebar-element {
     width: 116px;
     background: #34485c;
@@ -212,7 +209,6 @@ body{
     float: left;
     position: relative;
     padding: 15px;
-    /*margin: 2px;*/
     border-top: none;
 
     &:nth-child(1){
@@ -262,11 +258,6 @@ body{
     line-height: 54px;
     padding: 0 32px;
     font-size: 14px;
-    .label{
-      /*color: @gray;
-      text-transform: uppercase;
-      line-height: 54px;*/
-    }
     .checkbox{
       width: 62px;
       height: 29px;
@@ -291,12 +282,17 @@ body{
   bottom: 0;
   min-height: 250px;
   background: @white;
-  /*overflow: scroll;*/
   border-radius: 4px;
   padding: 42px 52px 72px 42px;
-  /*min-width: 600px;*/
+  height: 100%;
 
-  &.overlap{
+  -webkit-transition: all 0.7s ease-out;
+       -moz-transition: all 0.7s ease-out;
+        -ms-transition: all 0.7s ease-out;
+         -o-transition: all 0.7s ease-out;
+            transition: all 0.7s ease-out;
+
+  &.editor-content-overlap{
     left: 50px;
     -webkit-transition: all 0.7s ease-out;
        -moz-transition: all 0.7s ease-out;
@@ -317,8 +313,7 @@ body{
     .page-container{
       display: inline-block;
       padding: 0;
-      margin: 0;
-      margin-right: 13px;
+      margin: 0 13px 13px 0;
     }
     .page{
       border-radius: 5px;
@@ -327,7 +322,6 @@ body{
       line-height: 40px;
       color: @lightgray;
       text-align: center;
-      /*padding: 5px 5px 5px 20px;*/
       box-sizing: border-box;
       text-transform: uppercase;
       position: relative;
@@ -409,7 +403,7 @@ body{
     }
 
     .left-handle{
-      background: url('../img/Resize-Bar.png');
+      background: url('@{assetsLocation}img/Resize-Bar.png');
       position: absolute;
       left: -9px;
       bottom: 0;
@@ -420,7 +414,7 @@ body{
       background-position: 0 -2px;
     }
     .right-handle{
-      background: url('../img/Resize-Bar.png');
+      background: url('@{assetsLocation}img/Resize-Bar.png');
       position: absolute;
       right: -9px;
       bottom: 0;
@@ -431,7 +425,7 @@ body{
       background-position: 0 -2px;
     }
     .bottom-handle{
-      background: url('../img/Resize-Bar.png');
+      background: url('@{assetsLocation}img/Resize-Bar.png');
       position: absolute;
       margin: auto;
       bottom: -25px;
@@ -445,7 +439,7 @@ body{
       -moz-tranform: rotate(90deg);
     }
     .delete{
-      background: url('../img/Delete-Element.png');
+      background: url('@{assetsLocation}img/Delete-Element.png');
       position: absolute;
       right: -5px;
       top: -5px;
@@ -541,7 +535,7 @@ body{
   z-index: 100;
   width: 46px;
   height: 46px;
-  background: url('../img/Element-Icons.png');
+  background: url('@{assetsLocation}img/Element-Icons.png');
   background-size: 200px;
 }
 .title-icon{
@@ -562,7 +556,7 @@ body{
   -moz-box-shadow: 1px 6px 20px -6px rgba(0, 0, 0, 0.5);
 }
 .icon{
-  background: url('../img/Add-Delete-Edit-Icons.png');
+  background: url('@{assetsLocation}img/Add-Delete-Edit-Icons.png');
   display: inline-block;
   width: 24px;
   height: 24px;
@@ -595,9 +589,6 @@ body{
 .vertical > .editor-element-placeholder{
   border-top: 2px dashed #8fc7ff;
   border-left: none;
-  /*width: 100%;
-  height: 1px;
-  margin: 2px 0;*/
   position: absolute;
   left: 0;
   right: 0;
@@ -675,6 +666,9 @@ Note: For empty editor canvas (Work in progress)
 textarea {
   resize: none;
 }
+input:focus, textarea:focus, .input-name:focus{
+  outline: none;
+}
 
 /*
 Note: Only for hi-res images
@@ -687,7 +681,7 @@ only screen and (                min-resolution: 192dpi),
 only screen and (                min-resolution: 2dppx) {
 
   .icon{
-    background: url('../img/Add-Delete-Edit-Icons@2x.png');
+    background: url('@{assetsLocation}img/Add-Delete-Edit-Icons@2x.png');
     display: inline-block;
     width: 24px;
     height: 24px;
@@ -704,7 +698,4 @@ only screen and (                min-resolution: 2dppx) {
       background-position: -64px;
     }
   }
-}
-input:focus, textarea:focus, .input-name:focus{
-  outline: none;
 }

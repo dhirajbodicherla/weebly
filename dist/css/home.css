@@ -1,10 +1,25 @@
 @import 'sprites.css';
 @font-face {
-  font-family: ProximaNova;
-  src: url("../fonts/ProximaNova-Reg.otf") format("opentype");
+  font-family: 'ProximaNova-Light';
+  src: url("/fonts/ProximaNova-Light.otf") format("opentype");
+}
+@font-face {
+  font-family: 'ProximaNova-LightIt';
+  src: url("/fonts/ProximaNova-LightIt.otf") format("opentype");
+}
+@font-face {
+  font-family: 'ProximaNova-Reg';
+  src: url("/fonts/ProximaNova-Reg.otf") format("opentype");
+}
+@font-face {
+  font-family: 'ProximaNova-RegIt';
+  src: url("/fonts/ProximaNova-RegIt.otf") format("opentype");
+}
+@font-face {
+  font-family: 'ProximaNova-Sbold';
+  src: url("/fonts/ProximaNova-Sbold.otf") format("opentype");
 }
 body {
-  font-family: 'ProximaNova', serif;
   -webkit-user-select: none;
   -moz-user-select: none;
 }
@@ -16,31 +31,33 @@ body {
   bottom: 0;
 }
 #header {
-  height: 50px;
+  height: 41px;
   left: 0;
   right: 0;
   top: 0;
   position: absolute;
-}
-#header .bg {
-  height: 100%;
-  width: 100%;
   background: #518dca;
+  border-bottom: 1px solid #404040;
+  box-shadow: 0 1px 1px 0 #404040;
+  -webkit-box-shadow: 0 1px 1px 0 #404040;
+  -moz-box-shadow: 0 1px 1px 0 #404040;
+  z-index: 5;
 }
 #header #logomark {
   position: absolute;
-  left: 30px;
-  top: 7px;
   height: 39px;
   width: 39px;
+  margin: 1px;
+  left: 32px;
 }
 #sidebar {
   position: absolute;
   left: 0;
-  top: 50px;
+  top: 41px;
   bottom: 0;
   width: 252px;
   background: #4b5155;
+  font-family: 'ProximaNova-Sbold';
 }
 #sidebar .item {
   width: 235px;
@@ -49,11 +66,14 @@ body {
 }
 #sidebar .item .divider {
   background: #4f657b;
-  height: 35px;
+  height: 32px;
   text-transform: uppercase;
   line-height: 35px;
   text-align: center;
   color: #9cb3ca;
+  font-size: 13px;
+  border-top: 2px solid #1a2733;
+  border-bottom: 2px solid #1a2733;
 }
 #sidebar .item:last-child {
   padding-bottom: 250px;
@@ -65,64 +85,142 @@ body {
 }
 #templates .content {
   height: 100%;
+  font-size: 13px;
 }
 #templates .content .pages {
-  padding: 26px 32px;
+  padding: 24px 32px;
+}
+#templates .content .page {
+  border-radius: 5px;
+  height: 36px;
+  width: 171px;
+  box-sizing: border-box;
+  color: #ffffff;
+  margin-bottom: 9px;
+  position: relative;
+  border: 2px solid #617588;
+  background: #4f657b;
+  box-shadow: 0 2px 0 0 #233240;
+  -webkit-box-shadow: 0 2px 0 0 #233240;
+  -moz-box-shadow: 0 2px 0 0 #233240;
+  -o-transition: background 0.2s ease-in;
+  -ms-transition: background 0.2s ease-in;
+  -moz-transition: background 0.2s ease-in;
+  -webkit-transition: background 0.2s ease-in;
+  transition: background 0.2s ease-in;
+}
+#templates .content .page .name {
+  top: 8px;
+  position: absolute;
+  right: 54px;
+  left: 17px;
+  overflow: auto;
+  letter-spacing: 0.1px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+#templates .content .page .icon {
+  float: right;
+  position: relative;
+  top: 5px;
+  display: none;
+  -webkit-transform: scale(0.8);
+}
+#templates .content .page:hover {
+  background: #4f657b;
+}
+#templates .content .page:hover .icon {
+  display: block;
+}
+#templates .content .page.selected {
+  background: #518dca;
+  border: 2px solid #6399cf;
+}
+#templates .content .page.delete {
+  background: #d86a65;
+  border: 2px solid #dc7975;
+}
+#templates .content .page.delete .icon.edit {
+  display: none;
 }
 #templates .content #add-page {
   border-radius: 5px;
-  height: 34px;
-  width: 150px;
+  height: 36px;
+  width: 171px;
+  box-sizing: border-box;
   line-height: 34px;
-  color: white;
+  color: #ffffff;
   background: #4f657b;
-  padding: 5px 5px 5px 20px;
   margin-bottom: 9px;
   text-transform: uppercase;
   background: transparent;
-  border: 1px solid #4f657b;
+  border: 2px solid #4f657b;
   position: relative;
 }
 #templates .content #add-page .icon {
   float: right;
   position: relative;
-  top: 5px;
+  top: 3px;
+  right: 10px;
+  -webkit-transform: scale(0.8);
 }
 #templates .content #add-page .input {
   border: transparent;
   background: transparent;
-  color: white;
-  font-size: 14px;
+  color: #ffffff;
+  font-size: 13px;
   width: 75%;
-  text-transform: uppercase;
   position: absolute;
-  left: 15px;
-  top: 13px;
+  left: 17px;
+  top: 8px;
+  padding: 0;
+  text-transform: uppercase;
+}
+#templates .content #add-page .input::-webkit-input-placeholder {
+  color: #4f657b;
+}
+#templates .content #add-page .input::-moz-placeholder {
+  color: #4f657b;
+}
+#templates .content #add-page .input:-ms-input-placeholder {
+  color: #4f657b;
+}
+#templates .content #add-page .input:-moz-placeholder {
+  color: #4f657b;
 }
 #elements .content {
   height: 100%;
-  background: #21313f;
 }
 #elements .content .sidebar-element {
-  width: 85px;
+  width: 116px;
   background: #34485c;
-  height: 85px;
+  height: 108px;
+  box-sizing: border-box;
   border: none;
   float: left;
   position: relative;
   padding: 15px;
-  margin: 2px;
   border-top: none;
 }
+#elements .content .sidebar-element:nth-child(1) {
+  border-right: 1px solid #21313f;
+  border-bottom: 1px solid #21313f;
+}
+#elements .content .sidebar-element:nth-child(2) {
+  border-left: 1px solid #21313f;
+  border-bottom: 1px solid #21313f;
+}
+#elements .content .sidebar-element:nth-child(3) {
+  border-right: 1px solid #21313f;
+  border-top: 1px solid #21313f;
+}
+#elements .content .sidebar-element:nth-child(4) {
+  border-top: 1px solid #21313f;
+  border-left: 1px solid #21313f;
+}
 #elements .content .sidebar-element:hover {
-  background: #3a4f64;
+  background: #3e5367;
   cursor: move;
-}
-#elements .content .sidebar-element:nth-child(even) {
-  margin-right: 0;
-}
-#elements .content .sidebar-element:nth-child(odd) {
-  margin-left: 0;
 }
 #elements .content .element {
   width: 48px;
@@ -132,6 +230,7 @@ body {
 #elements .content .element .label {
   width: 48px;
   padding: 10px 0 0 0;
+  font-size: 13px;
   color: #4f657b;
   text-transform: uppercase;
   text-align: center;
@@ -145,11 +244,7 @@ body {
   text-transform: uppercase;
   line-height: 54px;
   padding: 0 32px;
-}
-#settings .content .settings-item .label {
-  /*color: @gray;
-      text-transform: uppercase;
-      line-height: 54px;*/
+  font-size: 14px;
 }
 #settings .content .settings-item .checkbox {
   width: 62px;
@@ -165,67 +260,16 @@ body {
 #settings .content .settings-item .checkbox.checked {
   background-position: -276px -225px;
 }
-#templates .page {
-  border-radius: 5px;
-  height: 34px;
-  width: 150px;
-  line-height: 34px;
-  color: #ffffff;
-  padding: 5px 5px 5px 20px;
-  margin-bottom: 9px;
-  text-transform: uppercase;
-  position: relative;
-  border: 1px solid #4f657b;
-  background: #4f657b;
-  -o-transition: background 0.2s ease-in;
-  -ms-transition: background 0.2s ease-in;
-  -moz-transition: background 0.2s ease-in;
-  -webkit-transition: background 0.2s ease-in;
-  /* ...and now override with proper CSS property */
-  transition: background 0.2s ease-in;
-  /*&.selected{
-    background: @gray;
-    color: white;
-  }*/
-}
-#templates .page .name {
-  position: absolute;
-  right: 63px;
-  left: 15px;
-  overflow: auto;
-  letter-spacing: 0.1px;
-  white-space: nowrap;
-}
-#templates .page .icon {
-  float: right;
-  position: relative;
-  top: 5px;
-  display: none;
-}
-#templates .page:hover {
-  background: #4f657b;
-}
-#templates .page:hover .icon {
-  display: block;
-}
-#templates .page.selected {
-  background: #518dca;
-}
-#templates .page.delete {
-  background: #d86a65;
-}
 #editor {
   position: absolute;
   left: 235px;
-  top: 50px;
+  top: 41px;
   right: 0;
   bottom: 0;
   min-height: 250px;
   background: #ffffff;
-  /*overflow: scroll;*/
   border-radius: 4px;
-  padding: 10px 50px;
-  /*min-width: 600px;*/
+  padding: 42px 52px 72px 42px;
 }
 #editor.overlap {
   left: 50px;
@@ -237,40 +281,43 @@ body {
 }
 #editor #page-navigation {
   margin-top: 30px;
+  font-family: 'ProximaNova-Sbold';
 }
 #editor #page-navigation ul {
   padding: 0;
   margin: 0;
+  margin-left: 7px;
   list-style-type: none;
 }
 #editor #page-navigation .page-container {
   display: inline-block;
-  padding: 0 10px;
+  padding: 0;
+  margin: 0;
+  margin-right: 13px;
 }
 #editor #page-navigation .page {
   border-radius: 5px;
-  height: 34px;
-  width: 150px;
-  line-height: 34px;
+  height: 40px;
+  width: 123px;
+  line-height: 40px;
   color: #97aabc;
-  padding: 5px 5px 5px 20px;
-  margin-bottom: 9px;
+  text-align: center;
+  box-sizing: border-box;
   text-transform: uppercase;
   position: relative;
-  background: #4f657b;
+  background: #ffffff;
+  border: 2px solid #8498ac;
+  font-size: 14px;
 }
 #editor #page-navigation .page:hover {
   cursor: pointer;
 }
 #editor #page-navigation .page.selected {
-  background: #96a9bb;
-  color: white;
-}
-#editor #page-navigation .page .name {
-  right: 15px;
+  background: #97aabc;
+  color: #ffffff;
 }
 #editor .page-content {
-  margin-top: 50px;
+  margin-top: 48px;
   border-radius: 2px;
 }
 #editor .page-content ul {
@@ -282,18 +329,21 @@ body {
 #editor .page-content .vertical {
   padding: 25px 0 !important;
 }
+#editor .page-content .sort-item {
+  box-sizing: border-box;
+}
 #editor .page-content .vertical > .sort-item {
   text-align: center;
   /*padding: 5px 0;*/
   margin: 5px 0;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
 }
 #editor .page-content .horizontal > .sort-item {
   display: inline-block !important;
   vertical-align: top;
-  height: 150px;
+  height: 200px;
   margin: 10px 0;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
 }
 #editor .page-content .sort-item-moving {
   opacity: 0.4;
@@ -302,13 +352,13 @@ body {
   opacity: 1;
 }
 #editor .page-content .sort-item .editor-element:hover {
-  border: 1px solid #8fc7ff;
+  border: 2px solid #8fc7ff;
 }
 .editor-element {
   position: relative;
   border-radius: 5px;
   padding: 1px;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   margin-top: 1px;
   height: 100%;
   transition: all 0.3s;
@@ -316,30 +366,7 @@ body {
   padding: 2px;
 }
 .editor-element.delete {
-  border: 1px solid #ef7a74 !important;
-}
-.editor-element .editor-element-title .input {
-  font-size: 22px;
-}
-.editor-element .image-element {
-  background: #eff2f5;
-  text-align: center;
-  height: 100%;
-  box-sizing: border-box;
-}
-.editor-element .image-element .image-placeholder {
-  /*background: url('../img/Image-Placeholder.png');
-      width: 106px;
-      height: 106px;*/
-  margin: 0 auto;
-  background-position: -7px -440px;
-  width: 125px;
-  height: 125px;
-  /*background-position: -15px -15px;*/
-}
-.editor-element .image-element .label {
-  text-transform: uppercase;
-  color: #c0ccd8;
+  border: 2px solid #ef7a74 !important;
 }
 .editor-element .border {
   display: none;
@@ -352,9 +379,9 @@ body {
   cursor: move;
 }
 .editor-element .controls .left-handle {
-  background: url('../img/Resize-Bar.png');
+  background: url('/img/Resize-Bar.png');
   position: absolute;
-  left: -8px;
+  left: -9px;
   bottom: 0;
   top: 0;
   margin: auto;
@@ -363,9 +390,9 @@ body {
   background-position: 0 -2px;
 }
 .editor-element .controls .right-handle {
-  background: url('../img/Resize-Bar.png');
+  background: url('/img/Resize-Bar.png');
   position: absolute;
-  right: -8px;
+  right: -9px;
   bottom: 0;
   top: 0;
   margin: auto;
@@ -374,10 +401,10 @@ body {
   background-position: 0 -2px;
 }
 .editor-element .controls .bottom-handle {
-  background: url('../img/Resize-Bar.png');
+  background: url('/img/Resize-Bar.png');
   position: absolute;
   margin: auto;
-  bottom: -24px;
+  bottom: -25px;
   left: 0;
   right: 0;
   width: 16px;
@@ -388,10 +415,10 @@ body {
   -moz-tranform: rotate(90deg);
 }
 .editor-element .controls .delete {
-  background: url('../img/Delete-Element.png');
+  background: url('/img/Delete-Element.png');
   position: absolute;
-  right: -4px;
-  top: -4px;
+  right: -5px;
+  top: -5px;
   width: 44px;
   height: 43px;
   background-position: -7px -6px;
@@ -400,30 +427,113 @@ body {
   cursor: pointer;
   background-position: -50px -6px;
 }
+.editor-element-text {
+  min-height: 50px;
+  margin-top: 3px;
+}
+.editor-element-text .input {
+  width: 100%;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 45px;
+  border: transparent;
+  color: #4f657b;
+  font-family: 'ProximaNova-Reg';
+}
+.editor-element-text .input::-webkit-input-placeholder {
+  color: #c0ccd8;
+}
+.editor-element-text .input::-moz-placeholder {
+  color: #c0ccd8;
+}
+.editor-element-text .input:-ms-input-placeholder {
+  color: #c0ccd8;
+}
+.editor-element-text .input:-moz-placeholder {
+  color: #c0ccd8;
+}
+.editor-element-title {
+  min-height: 50px;
+  margin-top: 3px;
+  height: 100px;
+}
+.editor-element-title .input {
+  font-size: 30px;
+  width: 100%;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 20px;
+  line-height: 45px;
+  border: transparent;
+  color: #4f657b;
+  font-family: 'ProximaNova-Sbold';
+}
+.editor-element-image {
+  padding: 18px;
+  height: 195px;
+}
+.editor-element-image .image-element {
+  border: 2px solid #c0ccd8;
+  border-radius: 5px;
+  background: #eff2f5;
+  text-align: center;
+  height: 100%;
+  box-sizing: border-box;
+}
+.editor-element-image .image-element .image-placeholder {
+  /*background: url('../img/Image-Placeholder.png');
+      width: 106px;
+      height: 106px;*/
+  margin: 0 auto;
+  background-position: -7px -440px;
+  width: 125px;
+  height: 125px;
+  /*background-position: -15px -15px;*/
+}
+.editor-element-image .image-element .label {
+  font-family: 'ProximaNova-Sbold';
+  text-transform: uppercase;
+  color: #c0ccd8;
+  font-size: 13px;
+}
+.editor-element-nav .placeholder {
+  color: #4f657b;
+  font-family: 'ProximaNova-Sbold';
+}
 /* 
   Note: image and icons are outside because they are dragged throughout the page 
 */
 .image {
   z-index: 100;
-  width: 48px;
-  height: 48px;
-  background: url('../img/Element-Icons.png');
+  width: 46px;
+  height: 46px;
+  background: url('/img/Element-Icons.png');
   background-size: 200px;
 }
 .title-icon {
-  background-position: -6px -6px;
+  background-position: -7px -7px;
 }
 .text-icon {
-  background-position: -53px -6px;
+  background-position: -54px -7px;
 }
 .img-icon {
-  background-position: -99px -6px;
+  background-position: -100px -7px;
 }
 .nav-icon {
-  background-position: -146px -6px;
+  background-position: -147px -7px;
+}
+.image-moving {
+  box-shadow: 1px 6px 20px -6px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 1px 6px 20px -6px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 1px 6px 20px -6px rgba(0, 0, 0, 0.5);
 }
 .icon {
-  background: url('../img/Add-Delete-Edit-Icons.png');
+  background: url('/img/Add-Delete-Edit-Icons.png');
   display: inline-block;
   width: 24px;
   height: 24px;
@@ -441,40 +551,12 @@ body {
   background-position: -13px -37px;
 }
 .icon.edit {
-  right: 10px;
+  right: 5px;
   background-position: -39px;
 }
 .icon.delete {
-  right: 5px;
+  right: 10px;
   background-position: -64px;
-}
-.editor-element-text {
-  min-height: 50px;
-  margin-top: 3px;
-}
-.editor-element-text .input {
-  width: 100%;
-  height: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 20px;
-  line-height: 45px;
-  border: transparent;
-}
-.editor-element-title {
-  min-height: 50px;
-  margin-top: 3px;
-}
-.editor-element-title .input {
-  width: 100%;
-  height: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 20px;
-  line-height: 45px;
-  border: transparent;
 }
 /* Dashed line placeholder */
 .editor-element-placeholder {
@@ -483,9 +565,6 @@ body {
 .vertical > .editor-element-placeholder {
   border-top: 2px dashed #8fc7ff;
   border-left: none;
-  /*width: 100%;
-  height: 1px;
-  margin: 2px 0;*/
   position: absolute;
   left: 0;
   right: 0;
@@ -578,12 +657,17 @@ Note: For empty editor canvas (Work in progress)
 textarea {
   resize: none;
 }
+input:focus,
+textarea:focus,
+.input-name:focus {
+  outline: none;
+}
 /*
 Note: Only for hi-res images
 */
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
   .icon {
-    background: url('../img/Add-Delete-Edit-Icons@2x.png');
+    background: url('/img/Add-Delete-Edit-Icons@2x.png');
     display: inline-block;
     width: 24px;
     height: 24px;
@@ -600,9 +684,4 @@ Note: Only for hi-res images
   .icon.delete {
     background-position: -64px;
   }
-}
-input:focus,
-textarea:focus,
-.input-name:focus {
-  outline: none;
 }

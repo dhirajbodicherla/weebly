@@ -59,7 +59,7 @@ module.exports = function(grunt) {
           yuicompress: false,
           optimization: 2,
           modifyVars: {
-            'imgLocation': '',
+            assetsLocation: '"/"'
           }
         },
         files: {
