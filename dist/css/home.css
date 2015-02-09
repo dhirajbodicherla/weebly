@@ -270,8 +270,14 @@ body {
   background: #ffffff;
   border-radius: 4px;
   padding: 42px 52px 72px 42px;
+  height: 100%;
+  -webkit-transition: all 0.7s ease-out;
+  -moz-transition: all 0.7s ease-out;
+  -ms-transition: all 0.7s ease-out;
+  -o-transition: all 0.7s ease-out;
+  transition: all 0.7s ease-out;
 }
-#editor.overlap {
+#editor.editor-content-overlap {
   left: 50px;
   -webkit-transition: all 0.7s ease-out;
   -moz-transition: all 0.7s ease-out;
@@ -292,8 +298,7 @@ body {
 #editor #page-navigation .page-container {
   display: inline-block;
   padding: 0;
-  margin: 0;
-  margin-right: 13px;
+  margin: 0 13px 13px 0;
 }
 #editor #page-navigation .page {
   border-radius: 5px;

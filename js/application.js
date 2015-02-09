@@ -23,8 +23,13 @@ var SideBarTemplatesPage = React.createClass({displayName: "SideBarTemplatesPage
     e.stopPropagation();
   },
   onPageButtonClick: function(){
-    this.state.page.isSelected = true;
-    this.props.onClick(this);
+    // this.state.page.isSelected = true;
+    var page = this.state.page;
+    page.isSelected = true;
+    this.setState({
+      page: page
+    });
+    // this.props.onClick(this);
   },
   editPage: function(e){
     $(this.refs.label.getDOMNode()).text(this.state.page.pageName).attr('contenteditable', 'true').addClass('editing').focus();
@@ -271,9 +276,15 @@ var SideBar = React.createClass({displayName: "SideBar",
   onPageUpdate: function(pages){
     this.props.onPageUpdate(pages);
   },
+  onMouseEnter: function(){
+    this.props.mouseEnter();
+  },
+  onMouseLeave: function(){
+    this.props.mouseLeave();
+  },
   render: function(){
     return (
-      React.createElement("div", {id: "sidebar"}, 
+      React.createElement("div", {id: "sidebar", onMouseEnter: this.onMouseEnter, onMouseLeave: this.onMouseLeave}, 
         React.createElement(SideBarTemplates, {onPageUpdate: this.onPageUpdate, 
                           pages: this.props.pages}), 
         React.createElement(SideBarElements, null), 
@@ -717,11 +728,21 @@ var Application = React.createClass({displayName: "Application",
     });
   },
 
+  editorContentShow: function(){
+    if(window.innerWidth < 850)
+      $(this.refs.editor.getDOMNode()).removeClass('editor-content-overlap');
+  },
+
+  editorContentHide: function(){
+    if(window.innerWidth < 850)
+      $(this.refs.editor.getDOMNode()).addClass('editor-content-overlap');
+  },
+
   handleResize: function(e) {
     if(window.innerWidth < 850){
-      $(this.refs.editor.getDOMNode()).addClass('overlap');
+      $(this.refs.editor.getDOMNode()).addClass('editor-content-overlap');
     }else{
-      $(this.refs.editor.getDOMNode()).removeClass('overlap');
+      $(this.refs.editor.getDOMNode()).removeClass('editor-content-overlap');
     }
   },
 
@@ -740,7 +761,9 @@ var Application = React.createClass({displayName: "Application",
         React.createElement(Header, null), 
         React.createElement(SideBar, {
           onPageUpdate: this.onPageUpdate, 
-          pages: this.props.pages}), 
+          pages: this.props.pages, 
+          mouseEnter: this.editorContentShow, 
+          mouseLeave: this.editorContentHide}), 
         React.createElement(Editor, {
           ref: "editor", 
           pages: this.props.pages})

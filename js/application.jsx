@@ -206,6 +206,9 @@ var SideBarElements = React.createClass({
   componentDidMount: function(){
     var self = this;
     $('#elements .element .image').draggable({
+      scroll: false,
+      appendTo: 'body',
+      containment: 'window',
       connectToSortable: ".sort",
       helper: function(){
         var className = $(this).attr('class') + ' image-moving';
@@ -334,7 +337,9 @@ var TitleElement = React.createClass({
           <div className="editor-element-handle left-handle"></div>
           <div className="editor-element-handle right-handle"></div>
           <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete" onMouseOver={this.deleteMouseOver} onMouseOut={this.deleteMouseOut} onClick={this.deleteOnClick}></div>
+          <div className="delete" onMouseOver={this.deleteMouseOver} 
+                                  onMouseOut={this.deleteMouseOut} 
+                                  onClick={this.deleteOnClick}></div>
         </div>
         <textarea type="text" className="input"
                 placeholder="Start typing here" 
@@ -390,7 +395,9 @@ var ImageElement = React.createClass({
           <div className="editor-element-handle left-handle"></div>
           <div className="editor-element-handle right-handle"></div>
           <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete" onMouseOver={this.deleteMouseOver} onMouseOut={this.deleteMouseOut} onClick={this.deleteOnClick}></div>
+          <div className="delete" onMouseOver={this.deleteMouseOver} 
+                                  onMouseOut={this.deleteMouseOut} 
+                                  onClick={this.deleteOnClick}></div>
         </div>
         <div className="image-element">
           <div className="image-placeholder icon-Image-Placeholder"></div>
@@ -410,7 +417,9 @@ var NavElement = React.createClass({
           <div className="editor-element-handle left-handle"></div>
           <div className="editor-element-handle right-handle"></div>
           <div className="editor-element-handle bottom-handle"></div>
-          <div className="delete" onMouseOver={this.deleteMouseOver} onMouseOut={this.deleteMouseOut} onClick={this.deleteOnClick}></div>
+          <div className="delete" onMouseOver={this.deleteMouseOver} 
+                                  onMouseOut={this.deleteMouseOut} 
+                                  onClick={this.deleteOnClick}></div>
         </div>
         <p className="placeholder">Nav</p>
       </div>
@@ -560,9 +569,9 @@ var EditorContent = React.createClass({
           var location = ui.item.data('location').split('-');
           var sourcePosition = location[1];
           var sourceParent = location[0];
-
+          
           if(ui.item.closest('ul').hasClass('vertical')){
-            elements.splice(targetParent, 0, [elements[sourceParent].splice(sourcePosition, 1)[0]]);
+            elements.splice(targetPosition, 0, [elements[sourceParent].splice(sourcePosition, 1)[0]]);
           }else{
             elements[targetParent].splice(targetPosition, 0, elements[sourceParent].splice(sourcePosition, 1)[0]);
           }
