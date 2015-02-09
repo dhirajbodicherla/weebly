@@ -2,7 +2,6 @@ var Header = React.createClass({
   render: function(){
     return (
       <div id="header">
-        <div className="bg"></div>
         <div id="logomark" className="icon-Weebly-Logo"></div>
       </div>
     );

@@ -27,6 +27,7 @@ body{
   -webkit-user-select: none;
   -moz-user-select: none;
 }
+
 #main{
   position: absolute;
   left: 0;
@@ -41,12 +42,16 @@ body{
   top: 0;
   position: absolute;
   background: @blue;
+  border-bottom: 1px solid #404040;
+  box-shadow: 0 1px 1px 0 #404040;
+  -webkit-box-shadow: 0 1px 1px 0 #404040;
+  z-index: 5;
   #logomark{
     position: absolute;
-    left: 30px;
-    top: 7px;
     height: 39px;
     width: 39px;
+    margin: 1px;
+    left: 32px;
   }
 }
 #sidebar{
@@ -63,11 +68,16 @@ body{
     position: relative;
     .divider{
       background: @gray;
-      height: 35px;
+      height: 32px;
       text-transform: uppercase;
       line-height: 35px;
       text-align: center;
       color: #9cb3ca;
+      font-size: 13px;
+      border-top: 2px solid #1a2733;
+      border-bottom: 2px solid #1a2733;
+      /*box-shadow: 0 2px 0 0 #1a2733;
+      -webkit-box-shadow: 0 2px 0 0 #1a2733;*/
     }
   }
   .item:last-child{
@@ -81,64 +91,154 @@ body{
 }
 #templates .content{
   height: 100%;
+  font-size: 13px;
   .pages{
-    padding: 26px 32px;
+    padding: 24px 32px;
+  }
+  .page{
+    border-radius: 5px;
+    height: 36px;
+    width: 171px;
+    box-sizing: border-box;
+    /*line-height: 32px;*/
+    color: @white;
+    /*padding: 5px 5px 5px 20px;*/
+    margin-bottom: 9px; 
+    position: relative;
+    border: 2px solid #617588;
+    background: @gray;
+    box-shadow: 0 2px 0 0 #233240;
+    -webkit-box-shadow: 0 2px 0 0 #233240;
+
+    -o-transition: background .2s ease-in;
+    -ms-transition:background .2s ease-in;
+    -moz-transition:background .2s ease-in;
+    -webkit-transition:background .2s ease-in;
+    /* ...and now override with proper CSS property */
+    transition:background .2s ease-in;
+
+    /*&.selected{
+      background: @gray;
+      color: @white;
+    }*/
+
+    .name{
+      top: 8px;
+      position: absolute;
+      right: 63px;
+      left: 17px;
+      overflow: auto;
+      letter-spacing: 0.1px;
+      white-space: nowrap;
+    }
+    .icon{
+      float: right;
+      position: relative;
+      top: 5px;
+      display: none;
+      -webkit-transform: scale(0.8);
+    }
+    &:hover{
+      background: @gray;
+      .icon{
+        display: block;
+      }
+    }
+    &.selected{
+      background: @blue;
+      border: 2px solid #6399cf;
+    }
+    &.delete{
+      background: #d86a65;
+      border: 2px solid #dc7975;
+    }
   }
   #add-page{
     border-radius: 5px;
-    height: 34px;
-    width: 150px;
+    height: 36px;
+    width: 171px;
+    box-sizing: border-box;
     line-height: 34px;
     color: @white;
     background: @gray;
-    padding: 5px 5px 5px 20px;
+    /*padding: 5px 5px 5px 20px;*/
     margin-bottom: 9px; 
     text-transform: uppercase;
     background: transparent;
-    border:1px solid @gray;
+    border: 2px solid @gray;
     position: relative;
     .icon{
       float: right;
       position: relative;
       top: 5px;
+      -webkit-transform: scale(0.8);
     }
     .input{
       border: transparent;
       background: transparent;
       color: @white;
-      font-size: 14px;
+      font-size: 13px;
       width: 75%;
-      text-transform: uppercase;
       position: absolute;
-      left: 15px;
-      top: 13px;
+      left: 17px;
+      top: 8px;
+      padding: 0;
+
+      &::-webkit-input-placeholder { 
+        color: #4f657b;
+        text-transform: uppercase;
+      }
+      &::-moz-placeholder { 
+        color: #4f657b;
+        text-transform: uppercase;
+      }
+      &:-ms-input-placeholder { 
+        color: #4f657b;
+        text-transform: uppercase;
+      }
+      &:-moz-placeholder { 
+        color: #4f657b;
+        text-transform: uppercase;
+      }
     }
   }
 }
 #elements .content{
   height: 100%;
-  background: #21313f;
+  /*background: #21313f;*/
   .sidebar-element {
-    width: 85px;
+    width: 116px;
     background: #34485c;
-    height: 85px;
+    height: 108px;
+    box-sizing: border-box;
     border: none;
     float: left;
     position: relative;
     padding: 15px;
-    margin: 2px;
+    /*margin: 2px;*/
     border-top: none;
 
+    &:nth-child(1){
+      border-right: 1px solid #21313f;
+      border-bottom: 1px solid #21313f;
+    }
+    &:nth-child(2){
+      border-left: 1px solid #21313f;
+      border-bottom: 1px solid #21313f;
+    }
+    &:nth-child(3){
+      border-right: 1px solid #21313f;
+      border-top: 1px solid #21313f;
+    }
+    &:nth-child(4){
+      border-top: 1px solid #21313f;
+      border-left: 1px solid #21313f;
+    }
+
     &:hover{
-      background: #3a4f64;
+      background: #3e5367;
       cursor: move;
     }
-  }
-  .sidebar-element:nth-child(even){
-    margin-right: 0;
-  }
-  .sidebar-element:nth-child(odd){
-    margin-left: 0;
   }
   .element {
     width: 48px;
@@ -147,6 +247,7 @@ body{
     .label{
       width: 48px;
       padding: 10px 0 0 0;
+      font-size: 13px;
       color: @gray;
       text-transform: uppercase;
       text-align: center;
@@ -182,58 +283,6 @@ body{
         background-position: -276px -225px;
       }
     }
-  }
-}
-#templates .page{
-  border-radius: 5px;
-  height: 34px;
-  width: 150px;
-  line-height: 34px;
-  color: @white;
-  padding: 5px 5px 5px 20px;
-  margin-bottom: 9px; 
-  text-transform: uppercase;
-  position: relative;
-  border: 1px solid @gray;
-  background: @gray;
-
-  -o-transition: background .2s ease-in;
-  -ms-transition:background .2s ease-in;
-  -moz-transition:background .2s ease-in;
-  -webkit-transition:background .2s ease-in;
-  /* ...and now override with proper CSS property */
-  transition:background .2s ease-in;
-
-  /*&.selected{
-    background: @gray;
-    color: @white;
-  }*/
-
-  .name{
-    position: absolute;
-    right: 63px;
-    left: 15px;
-    overflow: auto;
-    letter-spacing: 0.1px;
-    white-space: nowrap;
-  }
-  .icon{
-    float: right;
-    position: relative;
-    top: 5px;
-    display: none;
-  }
-  &:hover{
-    background: @gray;
-    .icon{
-      display: block;
-    }
-  }
-  &.selected{
-    background: @blue;
-  }
-  &.delete{
-    background: #d86a65;
   }
 }
 #editor{
@@ -473,7 +522,7 @@ body{
     }
   }
   &.edit{
-    right: 10px;
+    right: 5px;
     background-position: -39px;
   }
   &.delete{
