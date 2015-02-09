@@ -45,6 +45,7 @@ body{
   border-bottom: 1px solid #404040;
   box-shadow: 0 1px 1px 0 #404040;
   -webkit-box-shadow: 0 1px 1px 0 #404040;
+  -moz-box-shadow: 0 1px 1px 0 #404040;
   z-index: 5;
   #logomark{
     position: absolute;
@@ -76,8 +77,6 @@ body{
       font-size: 13px;
       border-top: 2px solid #1a2733;
       border-bottom: 2px solid #1a2733;
-      /*box-shadow: 0 2px 0 0 #1a2733;
-      -webkit-box-shadow: 0 2px 0 0 #1a2733;*/
     }
   }
   .item:last-child{
@@ -107,20 +106,16 @@ body{
     position: relative;
     border: 2px solid #617588;
     background: @gray;
+
     box-shadow: 0 2px 0 0 #233240;
     -webkit-box-shadow: 0 2px 0 0 #233240;
+    -moz-box-shadow: 0 2px 0 0 #233240;
 
     -o-transition: background .2s ease-in;
     -ms-transition:background .2s ease-in;
     -moz-transition:background .2s ease-in;
     -webkit-transition:background .2s ease-in;
-    /* ...and now override with proper CSS property */
     transition:background .2s ease-in;
-
-    /*&.selected{
-      background: @gray;
-      color: @white;
-    }*/
 
     .name{
       top: 8px;
@@ -452,8 +447,8 @@ body{
     .delete{
       background: url('../img/Delete-Element.png');
       position: absolute;
-      right: -4px;
-      top: -4px;
+      right: -5px;
+      top: -5px;
       width: 44px;
       height: 43px;
       background-position: -7px -6px;
@@ -544,22 +539,27 @@ body{
 */
 .image{
   z-index: 100;
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   background: url('../img/Element-Icons.png');
   background-size: 200px;
 }
 .title-icon{
-  background-position: -6px -6px;
+  background-position: -7px -7px;
 }
 .text-icon{
-  background-position: -53px -6px;
+  background-position: -54px -7px;
 }
 .img-icon{
-  background-position: -99px -6px;
+  background-position: -100px -7px;
 }
 .nav-icon{
-  background-position: -146px -6px;
+  background-position: -147px -7px;
+}
+.image-moving{
+  box-shadow: 1px 6px 20px -6px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 1px 6px 20px -6px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 1px 6px 20px -6px rgba(0, 0, 0, 0.5);
 }
 .icon{
   background: url('../img/Add-Delete-Edit-Icons.png');

@@ -203,7 +203,8 @@ var SideBarElements = React.createClass({
     $('#elements .element .image').draggable({
       connectToSortable: ".sort",
       helper: function(){
-        return React.renderToString(React.createElement('div', {className: $(this).attr('class')}, null));
+        var className = $(this).attr('class') + ' image-moving';
+        return React.renderToString(React.createElement('div', {className: className}, null));
       },
       revert: "invalid",
       revertDuration: 200,
