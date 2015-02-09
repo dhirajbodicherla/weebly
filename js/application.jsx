@@ -342,7 +342,7 @@ var TitleElement = React.createClass({
                                   onClick={this.deleteOnClick}></div>
         </div>
         <textarea type="text" className="input"
-                placeholder="Start typing here" 
+                placeholder="Add title here" 
                 defaultValue={this.state.el.props.content}
                 onKeyUp={this.saveContent}>
         </textarea>
@@ -757,6 +757,7 @@ var Application = React.createClass({
 
   componentDidMount: function() {
     window.addEventListener('resize', this.handleResize);
+    this.handleResize();
   },
 
   componentWillUnmount: function() {

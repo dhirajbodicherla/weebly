@@ -145,26 +145,15 @@ body{
     }
     &:hover{
       background: @gray;
-
-      -webkit-box-shadow: 0 2px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
-      -moz-box-shadow: 0 2px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
-      box-shadow: 0 2px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
       .icon{
         display: block;
       }
     }
     &.selected{
       background: @blue;
-
-      -webkit-box-shadow: 0 2px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
-      -moz-box-shadow: 0 2px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
-      box-shadow: 0 2px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
     }
     &.delete{
       background: #d86a65;
-      -webkit-box-shadow: 0 2px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
-      -moz-box-shadow: 0 2px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
-      box-shadow: 0 2px rgba(0,0,0,.2), inset 0 0 0 1px rgba(255,255,255,.1);
       .icon.edit{
         display: none;
       }
@@ -303,25 +292,19 @@ body{
   background: @white;
   border-radius: 4px;
   padding: 42px 52px 72px 42px;
-  /*height: 100%;*/
   overflow-y: scroll;
   box-shadow: -3px 0px 7px 0px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: -3px 0px 7px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: -3px 0px 7px 0px rgba(0, 0, 0, 0.3);
 
-  -webkit-transition: all 0.7s ease-out;
-       -moz-transition: all 0.7s ease-out;
-        -ms-transition: all 0.7s ease-out;
-         -o-transition: all 0.7s ease-out;
-            transition: all 0.7s ease-out;
+  -webkit-transition: all 0.5s ease-in-out;
+       -moz-transition: all 0.5s ease-in-out;
+        -ms-transition: all 0.5s ease-in-out;
+         -o-transition: all 0.5s ease-in-out;
+            transition: all 0.5s ease-in-out;
 
   &.editor-content-overlap{
     left: 50px;
-    -webkit-transition: all 0.7s ease-out;
-       -moz-transition: all 0.7s ease-out;
-        -ms-transition: all 0.7s ease-out;
-         -o-transition: all 0.7s ease-out;
-            transition: all 0.7s ease-out;
   }
 
   #page-navigation {
@@ -510,11 +493,17 @@ body{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;    
     box-sizing: border-box;
-    font-size: 20px;
+    font-size: 30px;
     line-height: 45px;
     border: transparent;
     color: @gray;
     font-family: 'ProximaNova-Sbold';
+
+    &::-webkit-input-placeholder { color: @gray; }
+    &::-moz-placeholder { color: @gray; }
+    &:-ms-input-placeholder { color: @gray; }
+    &:-moz-placeholder { color: @gray; }
+
   }
 }
 .editor-element-image{
