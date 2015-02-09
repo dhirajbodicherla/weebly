@@ -1,10 +1,7 @@
 @import 'sprites.css';
 @font-face {
   font-family: ProximaNova;
-  src: url("../../../fonts/ProximaNova-Reg.otf") format("opentype");
-  font-family: 'ProximaNova';
-  src: url('../../../fonts/ProximaNova-Reg.eot');
-  src: local('Graublau Web Regular'), local('Graublau Web'), url('../../../fonts/ProximaNova-Reg.otf') format('opentype');
+  src: url("../fonts/ProximaNova-Reg.otf") format("opentype");
 }
 body {
   font-family: 'ProximaNova', serif;
@@ -28,11 +25,10 @@ body {
 #header .bg {
   height: 100%;
   width: 100%;
-  background: red;
+  background: #518dca;
 }
 #header #logomark {
   position: absolute;
-  background: url('../img/Weebly-Logo.png');
   left: 30px;
   top: 7px;
   height: 39px;
@@ -123,19 +119,19 @@ body {
   cursor: move;
 }
 #elements .content .sidebar-element:nth-child(even) {
-  margin-right: 0px;
+  margin-right: 0;
 }
 #elements .content .sidebar-element:nth-child(odd) {
-  margin-left: 0px;
+  margin-left: 0;
 }
 #elements .content .element {
   width: 48px;
   height: 68px;
-  padding: 10px 0px 0px 17px;
+  padding: 10px 0 0 17px;
 }
 #elements .content .element .label {
   width: 48px;
-  padding: 10px 0px 0px 0px;
+  padding: 10px 0 0 0;
   color: #4f657b;
   text-transform: uppercase;
   text-align: center;
@@ -148,7 +144,7 @@ body {
   color: #4f657b;
   text-transform: uppercase;
   line-height: 54px;
-  padding: 0px 32px;
+  padding: 0 32px;
 }
 #settings .content .settings-item .label {
   /*color: @gray;
@@ -156,20 +152,18 @@ body {
       line-height: 54px;*/
 }
 #settings .content .settings-item .checkbox {
-  background: url('../img/Toggle-Switch.png');
   width: 62px;
-  height: 30px;
-  background-size: 62px 94px;
-  background-position: 0px 63px;
+  height: 29px;
+  background-position: -276px -175px;
   float: right;
   margin-top: 10px;
 }
 #settings .content .settings-item .checkbox:hover {
-  /*background-position: 0px -3px;*/
+  background-position: -276px -200px;
   cursor: pointer;
 }
 #settings .content .settings-item .checkbox.checked {
-  background-position: 0px 36px;
+  background-position: -276px -225px;
 }
 #templates .page {
   border-radius: 5px;
@@ -215,7 +209,7 @@ body {
   display: block;
 }
 #templates .page.selected {
-  background: red;
+  background: #518dca;
 }
 #templates .page.delete {
   background: #d86a65;
@@ -224,13 +218,22 @@ body {
   position: absolute;
   left: 235px;
   top: 50px;
-  right: 0px;
-  /*bottom: 0px;*/
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  min-height: 250px;
   background: #ffffff;
   /*overflow: scroll;*/
   border-radius: 4px;
   padding: 10px 50px;
+  /*min-width: 600px;*/
+}
+#editor.overlap {
+  left: 50px;
+  -webkit-transition: all 0.7s ease-out;
+  -moz-transition: all 0.7s ease-out;
+  -ms-transition: all 0.7s ease-out;
+  -o-transition: all 0.7s ease-out;
+  transition: all 0.7s ease-out;
 }
 #editor #page-navigation {
   margin-top: 30px;
@@ -242,7 +245,7 @@ body {
 }
 #editor #page-navigation .page-container {
   display: inline-block;
-  padding: 0px 10px;
+  padding: 0 10px;
 }
 #editor #page-navigation .page {
   border-radius: 5px;
@@ -277,17 +280,20 @@ body {
   position: relative;
 }
 #editor .page-content .vertical {
-  padding: 25px 0px !important;
+  padding: 25px 0 !important;
 }
 #editor .page-content .vertical > .sort-item {
   text-align: center;
-  /*padding: 5px 0px;*/
+  /*padding: 5px 0;*/
   margin: 5px 0;
+  border: 1px solid transparent;
 }
 #editor .page-content .horizontal > .sort-item {
   display: inline-block !important;
   vertical-align: top;
   height: 150px;
+  margin: 10px 0;
+  border: 1px solid transparent;
 }
 #editor .page-content .sort-item-moving {
   opacity: 0.4;
@@ -306,6 +312,8 @@ body {
   margin-top: 1px;
   height: 100%;
   transition: all 0.3s;
+  box-sizing: border-box;
+  padding: 2px;
 }
 .editor-element.delete {
   border: 1px solid #ef7a74 !important;
@@ -316,14 +324,18 @@ body {
 .editor-element .image-element {
   background: #eff2f5;
   text-align: center;
-  padding: 12px;
+  height: 100%;
+  box-sizing: border-box;
 }
-.editor-element .image-element .image {
-  background: url('../img/Image-Placeholder.png');
-  width: 106px;
-  height: 106px;
+.editor-element .image-element .image-placeholder {
+  /*background: url('../img/Image-Placeholder.png');
+      width: 106px;
+      height: 106px;*/
   margin: 0 auto;
-  background-position: -15px -15px;
+  background-position: -7px -440px;
+  width: 125px;
+  height: 125px;
+  /*background-position: -15px -15px;*/
 }
 .editor-element .image-element .label {
   text-transform: uppercase;
@@ -348,7 +360,7 @@ body {
   margin: auto;
   width: 16px;
   height: 47px;
-  background-position: 0px -2px;
+  background-position: 0 -2px;
 }
 .editor-element .controls .right-handle {
   background: url('../img/Resize-Bar.png');
@@ -359,7 +371,7 @@ body {
   margin: auto;
   width: 16px;
   height: 47px;
-  background-position: 0px -2px;
+  background-position: 0 -2px;
 }
 .editor-element .controls .bottom-handle {
   background: url('../img/Resize-Bar.png');
@@ -370,7 +382,7 @@ body {
   right: 0;
   width: 16px;
   height: 47px;
-  background-position: 0px -2px;
+  background-position: 0 -2px;
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
   -moz-tranform: rotate(90deg);
@@ -473,7 +485,7 @@ body {
   border-left: none;
   /*width: 100%;
   height: 1px;
-  margin: 2px 0px;*/
+  margin: 2px 0;*/
   position: absolute;
   left: 0;
   right: 0;
@@ -487,16 +499,56 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
-  margin: 0px 2px;
+  margin: 0 2px;
   display: inline-block;
 }
 .vertical > .editor-element-placeholder + .sort-item {
-  margin-top: 5px;
-  margin-bottom: 5px;
+  -moz-transition: all 0.3s ease-out;
+  /* FF4+ */
+  -o-transition: all 0.3s ease-out;
+  /* Opera 10.5+ */
+  -webkit-transition: all 0.3s ease-out;
+  /* Saf3.2+, Chrome */
+  -ms-transition: all 0.3s ease-out;
+  /* IE10 */
+  transition: all 0.3s ease-out;
+  margin-bottom: 10px !important;
+}
+.vertical > .sort-item + .editor-element-placeholder {
+  -moz-transition: all 0.3s ease-out;
+  /* FF4+ */
+  -o-transition: all 0.3s ease-out;
+  /* Opera 10.5+ */
+  -webkit-transition: all 0.3s ease-out;
+  /* Saf3.2+, Chrome */
+  -ms-transition: all 0.3s ease-out;
+  /* IE10 */
+  transition: all 0.3s ease-out;
+  margin-top: 10px !important;
 }
 .horizontal > .editor-element-placeholder + .sort-item {
-  margin-left: 5px;
-  margin-right: 5px;
+  -moz-transition: all 0.3s ease-out;
+  /* FF4+ */
+  -o-transition: all 0.3s ease-out;
+  /* Opera 10.5+ */
+  -webkit-transition: all 0.3s ease-out;
+  /* Saf3.2+, Chrome */
+  -ms-transition: all 0.3s ease-out;
+  /* IE10 */
+  transition: all 0.3s ease-out;
+  margin-left: 10px !important;
+}
+.horizontal > .sort-item + .editor-element-placeholder {
+  -moz-transition: all 0.3s ease-out;
+  /* FF4+ */
+  -o-transition: all 0.3s ease-out;
+  /* Opera 10.5+ */
+  -webkit-transition: all 0.3s ease-out;
+  /* Saf3.2+, Chrome */
+  -ms-transition: all 0.3s ease-out;
+  /* IE10 */
+  transition: all 0.3s ease-out;
+  margin-right: 10px !important;
 }
 /*
 Note: For empty editor canvas (Work in progress)

@@ -1,13 +1,29 @@
 @import 'sprites.css';
 @blue: #518dca;
 @gray: #4f657b;
-@lightgrayfordarkbg: #97aabc;
+@white: #ffffff;
+@lightgray: #97aabc;
 @font-face {
-  font-family: ProximaNova;
+  font-family: 'ProximaNova-Light';
+  src: url("../fonts/ProximaNova-Light.otf") format("opentype");
+}
+@font-face {
+  font-family: 'ProximaNova-LightIt';
+  src: url("../fonts/ProximaNova-LightIt.otf") format("opentype");
+}
+@font-face {
+  font-family: 'ProximaNova-Reg';
   src: url("../fonts/ProximaNova-Reg.otf") format("opentype");
 }
+@font-face {
+  font-family: 'ProximaNova-RegIt';
+  src: url("../fonts/ProximaNova-RegIt.otf") format("opentype");
+}
+@font-face {
+  font-family: 'ProximaNova-Sbold';
+  src: url("../fonts/ProximaNova-Sbold.otf") format("opentype");
+}
 body{
-  font-family: 'ProximaNova', serif;
   -webkit-user-select: none;
   -moz-user-select: none;
 }
@@ -19,16 +35,12 @@ body{
   bottom: 0;
 }
 #header{
-  height: 50px;
+  height: 41px;
   left: 0;
   right: 0;
   top: 0;
   position: absolute;
-  .bg{
-    height: 100%;
-    width: 100%;
-    background: @blue;
-  }
+  background: @blue;
   #logomark{
     position: absolute;
     left: 30px;
@@ -40,10 +52,11 @@ body{
 #sidebar{
   position: absolute;
   left: 0;
-  top: 50px;
+  top: 41px;
   bottom: 0;
   width: 252px;
   background: #4b5155;
+  font-family: 'ProximaNova-Sbold';
   .item{
     width: 235px;
     background: #2c3e50;
@@ -76,7 +89,7 @@ body{
     height: 34px;
     width: 150px;
     line-height: 34px;
-    color: white;
+    color: @white;
     background: @gray;
     padding: 5px 5px 5px 20px;
     margin-bottom: 9px; 
@@ -92,7 +105,7 @@ body{
     .input{
       border: transparent;
       background: transparent;
-      color: white;
+      color: @white;
       font-size: 14px;
       width: 75%;
       text-transform: uppercase;
@@ -176,7 +189,7 @@ body{
   height: 34px;
   width: 150px;
   line-height: 34px;
-  color: #ffffff;
+  color: @white;
   padding: 5px 5px 5px 20px;
   margin-bottom: 9px; 
   text-transform: uppercase;
@@ -193,7 +206,7 @@ body{
 
   /*&.selected{
     background: @gray;
-    color: white;
+    color: @white;
   }*/
 
   .name{
@@ -226,11 +239,11 @@ body{
 #editor{
   position: absolute;
   left: 235px;
-  top: 50px;
+  top: 41px;
   right: 0;
   bottom: 0;
   min-height: 250px;
-  background: #ffffff;
+  background: @white;
   /*overflow: scroll;*/
   border-radius: 4px;
   padding: 10px 50px;
@@ -247,6 +260,7 @@ body{
 
   #page-navigation {
     margin-top: 30px;
+    font-family: 'ProximaNova-Sbold';
     ul {
       padding: 0;
       margin: 0;
@@ -261,20 +275,21 @@ body{
       height: 34px;
       width: 150px;
       line-height: 34px;
-      color: @lightgrayfordarkbg;
+      color: @lightgray;
       padding: 5px 5px 5px 20px;
       margin-bottom: 9px; 
       text-transform: uppercase;
       position: relative;
-      background: @gray;
+      background: @white;
+      border: 1px solid #8498ac;
 
       &:hover{
         cursor: pointer;
       }
 
       &.selected{
-        background: #96a9bb;
-        color: white;
+        background: @gray;
+        color: @white;
       }
       .name{
         right: 15px;
@@ -479,6 +494,8 @@ body{
     font-size: 20px;
     line-height: 45px;
     border: transparent;
+    color: @gray;
+    font-family: 'ProximaNova-Reg';
   }
 }
 .editor-element-title{
@@ -493,6 +510,8 @@ body{
     font-size: 20px;
     line-height: 45px;
     border: transparent;
+    color: @gray;
+    font-family: 'ProximaNova-Reg';
   }
 }
 /* Dashed line placeholder */
